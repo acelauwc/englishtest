@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>English Test — Health & Medicine</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08080f;--surf:#0e1019;--card:#141720;--border:#1e2433;
+  --accent:#38bdf8;--a2:#e879f9;--a3:#fb923c;
+  --text:#e2e8f0;--muted:#64748b;
+  --ok:#4ade80;--err:#f87171;--warn:#fbbf24;
+  --mono:"Space Mono",monospace;--sans:"DM Sans",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(56,189,248,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.02) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:28px 16px 80px}
+#nameGate{position:fixed;inset:0;background:var(--bg);z-index:200;display:flex;align-items:center;justify-content:center}
+#nameGate::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(56,189,248,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.02) 1px,transparent 1px);background-size:40px 40px}
+.name-box{position:relative;background:var(--card);border:1px solid var(--accent);border-radius:16px;padding:44px 32px;max-width:420px;width:92%;text-align:center;box-shadow:0 0 60px rgba(56,189,248,.1)}
+.badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:3px;border:1px solid var(--accent);color:var(--accent);padding:3px 12px;border-radius:2px;margin-bottom:16px;text-transform:uppercase}
+.name-box h2{font-family:var(--mono);font-size:20px;color:#fff;margin-bottom:8px}
+.name-box p{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.7}
+input.big{width:100%;background:var(--surf);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:15px;padding:13px 16px;outline:none;text-align:center;margin-bottom:12px}
+input.big:focus{border-color:var(--accent)}
+.btn-primary{width:100%;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:1px;padding:14px;background:linear-gradient(135deg,var(--a2),var(--accent));color:#000;border:none;border-radius:8px;cursor:pointer;text-transform:uppercase}
+.err-msg{color:var(--err);font-size:12px;font-family:var(--mono);margin-top:6px;display:none}
+.hdr{text-align:center;padding-bottom:24px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.hdr h1{font-family:var(--mono);font-size:clamp(18px,4vw,30px);font-weight:700;color:#fff;margin-bottom:10px}
+.hdr h1 span{color:var(--accent)}
+.student-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);border-radius:6px;padding:6px 14px;margin-top:8px}
+.student-tag .lbl{font-size:11px;color:var(--muted);font-family:var(--mono)}
+.student-tag .nm{font-size:13px;color:var(--accent);font-family:var(--mono);font-weight:700}
+.dash{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
+.dash-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center}
+.dash-card .v{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--accent)}
+.dash-card .l{font-size:10px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:1px}
+.prog-wrap{margin-bottom:26px}
+.prog-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-family:var(--mono);margin-bottom:6px}
+.prog-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--a2),var(--accent));border-radius:2px;transition:width .5s ease}
+.section{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:18px;overflow:hidden}
+.sec-hdr{padding:14px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+.sec-tag{font-family:var(--mono);font-size:10px;font-weight:700;color:#000;background:var(--accent);padding:3px 8px;border-radius:2px;flex-shrink:0}
+.sec-title{font-weight:600;font-size:13px;flex:1}
+.sec-sub{font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:2px}
+.sec-arrow{color:var(--accent);font-size:13px;transition:transform .3s;flex-shrink:0}
+.sec-arrow.open{transform:rotate(180deg)}
+.sec-body{padding:18px;display:none;border-top:1px solid var(--border)}
+.sec-body.open{display:block}
+.qb{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.qb:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.qnum{font-family:var(--mono);font-size:10px;color:var(--a2);margin-bottom:5px;text-transform:uppercase;letter-spacing:1px}
+.qtext{font-size:13px;line-height:1.75;margin-bottom:10px}
+.qsub{font-size:11px;color:var(--a3);font-family:var(--mono);margin-bottom:8px}
+.qwords{font-family:var(--mono);color:var(--a2);font-size:12px}
+input.fill{width:100%;max-width:420px;background:var(--surf);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--sans);font-size:14px;padding:9px 12px;outline:none;-webkit-appearance:none}
+input.fill:focus{border-color:var(--accent)}
+input.fill.ok{border-color:var(--ok);background:rgba(74,222,128,.05)}
+input.fill.bad{border-color:var(--err);background:rgba(248,113,113,.05)}
+textarea.ta{width:100%;background:var(--surf);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:13px;line-height:1.75;padding:12px;resize:vertical;min-height:80px;outline:none;-webkit-appearance:none}
+textarea.ta:focus{border-color:var(--accent)}
+textarea.ta.ok{border-color:var(--ok)}
+textarea.ta.bad{border-color:var(--err)}
+.mcq-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.mcq-opt{background:var(--surf);border:1px solid var(--border);border-radius:6px;padding:10px 12px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:10px;-webkit-tap-highlight-color:transparent}
+.mcq-opt.sel{border-color:var(--a2);background:rgba(232,121,249,.1)}
+.mcq-opt.right{border-color:var(--ok);background:rgba(74,222,128,.08)}
+.mcq-opt.wrong{border-color:var(--err);background:rgba(248,113,113,.08)}
+.opt-l{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--muted);background:rgba(255,255,255,.05);width:22px;height:22px;border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mcq-opt.sel .opt-l{background:rgba(232,121,249,.25);color:var(--a2)}
+.fb-correct{margin-top:8px;padding:9px 12px;border-radius:6px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);font-size:12px;color:var(--ok);font-family:var(--mono);display:none}
+.fb-wrong{margin-top:8px;border-radius:8px;overflow:hidden;border:1px solid rgba(248,113,113,.3);display:none}
+.fb-wrong-top{padding:9px 12px;background:rgba(248,113,113,.08);font-size:12px;color:var(--err);font-family:var(--mono)}
+.fb-hint{padding:11px 14px;background:rgba(251,191,36,.05);border-top:1px solid rgba(251,191,36,.15)}
+.fb-hint .lbl{font-size:10px;color:var(--warn);font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.fb-hint .txt{font-size:12px;color:var(--text);line-height:1.65}
+.fb-rule{padding:11px 14px;background:rgba(56,189,248,.05);border-top:1px solid rgba(56,189,248,.15)}
+.fb-rule .lbl{font-size:10px;color:var(--accent);font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.fb-rule .txt{font-size:12px;color:var(--text);line-height:1.65}
+.btn-check{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:9px 18px;background:var(--accent);color:#000;border:none;border-radius:6px;cursor:pointer;text-transform:uppercase;margin-top:16px}
+.btn-submit{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:1px;padding:14px 44px;background:linear-gradient(135deg,var(--a2),var(--accent));color:#000;border:none;border-radius:8px;cursor:pointer;text-transform:uppercase;width:100%;max-width:340px}
+.btn-submit:disabled{opacity:.5}
+.autosave-bar{background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.15);border-radius:8px;padding:10px 16px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.autosave-bar .as-left{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-family:var(--mono)}
+.autosave-bar .as-dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background .3s}
+.autosave-bar .as-dot.saving{background:var(--warn);animation:pulse .8s infinite}
+.autosave-bar .as-dot.saved{background:var(--ok)}
+.autosave-bar .as-dot.error{background:var(--err)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.restore-banner{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.25);border-radius:8px;padding:12px 16px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.restore-banner p{font-size:13px;color:var(--warn);font-family:var(--mono)}
+.restore-banner button{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:7px 14px;background:var(--warn);color:#000;border:none;border-radius:5px;cursor:pointer;text-transform:uppercase;flex-shrink:0}
+.part-saved{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-family:var(--mono);color:var(--ok);margin-left:10px;opacity:0;transition:opacity .4s}
+.part-saved.show{opacity:1}
+.sec-hdr-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.save-part-btn{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1px;padding:5px 12px;background:transparent;color:var(--accent);border:1px solid rgba(56,189,248,.35);border-radius:5px;cursor:pointer;text-transform:uppercase;transition:all .2s;white-space:nowrap}
+.save-part-btn:hover{background:rgba(56,189,248,.1)}
+.save-part-btn.saving{opacity:.5;pointer-events:none}
+.submit-sec{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:30px;text-align:center;margin-top:16px}
+.submit-sec h3{font-family:var(--mono);font-size:15px;margin-bottom:8px}
+.submit-sec p{font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.65}
+#resultModal{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+#resultModal.open{display:flex}
+.res-box{background:var(--card);border:1px solid var(--accent);border-radius:16px;padding:36px 28px;max-width:460px;width:100%;text-align:center;box-shadow:0 0 80px rgba(56,189,248,.1)}
+.res-score{font-family:var(--mono);font-size:52px;font-weight:700;line-height:1}
+.res-label{font-size:12px;color:var(--muted);font-family:var(--mono);margin:8px 0 16px}
+.res-saved{border-radius:8px;padding:11px;margin-bottom:16px;font-size:12px;font-family:var(--mono)}
+.res-msg{font-size:13px;line-height:1.65;margin-bottom:22px}
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px}
+.res-item{background:var(--surf);border-radius:6px;padding:10px}
+.res-item .v{font-family:var(--mono);font-size:18px;font-weight:700}
+.res-item .l{font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:3px}
+.btn-close{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:10px 28px;background:var(--accent);color:#000;border:none;border-radius:6px;cursor:pointer;text-transform:uppercase}
+.example-box{background:rgba(56,189,248,.04);border:1px solid rgba(56,189,248,.15);border-radius:8px;padding:14px;margin-bottom:18px}
+.example-box .ex-lbl{font-size:10px;color:var(--accent);font-family:var(--mono);margin-bottom:6px}
+.example-box .ex-s{font-size:12px;color:var(--muted)}
+.example-box .ex-e{font-size:13px;color:var(--text);margin-top:5px;line-height:1.7}
+.topic-box{background:rgba(232,121,249,.06);border:1px solid rgba(232,121,249,.2);border-radius:10px;padding:18px;margin-bottom:18px}
+.topic-box .t-lbl{font-family:var(--mono);font-size:10px;color:var(--a2);letter-spacing:2px;margin-bottom:8px;text-transform:uppercase}
+.topic-box h4{font-size:15px;font-weight:600;margin-bottom:8px}
+.topic-box p{font-size:13px;color:var(--muted);line-height:1.75}
+.topic-box ul{padding-left:16px;font-size:13px;color:var(--muted);line-height:2.1;margin-top:8px}
+@media(max-width:500px){.mcq-grid{grid-template-columns:1fr}}
+.save-bar{position:fixed;top:0;left:0;right:0;z-index:150;height:3px;background:var(--border)}
+.save-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--a2),var(--accent));transition:width .4s ease}
+.save-indicator{position:fixed;bottom:16px;right:16px;z-index:160;font-family:var(--mono);font-size:11px;padding:8px 14px;border-radius:6px;display:none;align-items:center;gap:7px;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.save-indicator.saving{display:flex;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);color:var(--accent)}
+.save-indicator.saved{display:flex;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:var(--ok)}
+.save-indicator.error{display:flex;background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--err)}
+.btn-save-part{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:9px 18px;background:rgba(56,189,248,.1);color:var(--accent);border:1px solid rgba(56,189,248,.25);border-radius:6px;cursor:pointer;text-transform:uppercase;margin-top:10px;margin-left:8px}
+.part-saved-tag{display:none;font-family:var(--mono);font-size:10px;color:var(--ok);padding:4px 10px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:4px;margin-left:8px;vertical-align:middle}
+.part-saved-tag.show{display:inline}
+#resumeModal{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:250;display:none;align-items:center;justify-content:center;padding:20px}
+#resumeModal.open{display:flex}
+.resume-box{background:var(--card);border:1px solid var(--accent);border-radius:16px;padding:36px 28px;max-width:420px;width:100%;text-align:center}
+.resume-box h2{font-family:var(--mono);font-size:18px;color:#fff;margin-bottom:10px}
+.resume-box p{font-size:13px;color:var(--muted);margin-bottom:6px;line-height:1.65}
+.resume-parts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:16px 0 22px}
+.resume-part{background:var(--surf);border-radius:6px;padding:8px;font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center}
+.resume-part.done{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:var(--ok)}
+.btn-resume{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:1px;padding:12px 28px;background:linear-gradient(135deg,var(--a2),var(--accent));color:#000;border:none;border-radius:8px;cursor:pointer;text-transform:uppercase;width:100%;margin-bottom:10px}
+.btn-fresh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:10px 28px;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-transform:uppercase;width:100%}
+
+</style>
+</head>
+<body>
+
+
+<div class="save-bar"><div class="save-bar-fill" id="saveBarFill"></div></div>
+<div class="save-indicator" id="saveInd"></div>
+
+<div id="resumeModal">
+  <div class="resume-box">
+    <div class="badge">Progress Found</div>
+    <h2>Continue where you left off?</h2>
+    <p>We found a saved session for:</p>
+    <p style="font-family:var(--mono);font-size:15px;color:var(--accent);margin:8px 0 4px" id="resumeName"></p>
+    <p style="font-size:12px;color:var(--muted);font-family:var(--mono)" id="resumeTime"></p>
+    <div class="resume-parts" id="resumeParts"></div>
+    <button class="btn-resume" onclick="resumeSession()">Continue My Test &#8594;</button>
+    <button class="btn-fresh" onclick="startFresh()">Start Fresh Instead</button>
+  </div>
+</div>
+<div id="nameGate">
+  <div class="name-box">
+    <div class="badge">Health &amp; Medicine</div>
+    <h2>Advanced Level Test</h2>
+    <p>Enter your full name to begin. Your answers will be saved when you submit.</p>
+    <input class="big" id="nameInput" placeholder="Your full name..." maxlength="80" autocomplete="name">
+    <div class="err-msg" id="nameErr">Please enter your full name.</div>
+    <button class="btn-primary" onclick="startTest()">Begin Test &#8594;</button>
+  </div>
+</div>
+
+<div class="wrap" id="mainTest" style="display:none">
+  <div id="restoreBanner" style="display:none" class="restore-banner">
+    <p>&#128196; Saved progress found. Restore your answers?</p>
+    <button onclick="restoreProgress()">Restore Answers</button>
+  </div>
+  <div class="autosave-bar">
+    <div class="as-left"><div class="as-dot" id="asDot"></div><span id="asText">Progress saves after each part</span></div>
+    <span style="font-size:11px;color:var(--muted);font-family:var(--mono)" id="lastSaved"></span>
+  </div>
+  <div class="hdr">
+    <div class="badge">Advanced Level &middot; Health &amp; Medicine</div>
+    <h1>English Language <span>Assessment</span></h1>
+    <div class="student-tag"><span class="lbl">Student:</span><span class="nm" id="dispName">&mdash;</span></div>
+  </div>
+  <div class="dash">
+    <div class="dash-card"><div class="v" id="dScore">0</div><div class="l">Score</div></div>
+    <div class="dash-card"><div class="v" id="dAnswered">0</div><div class="l">Answered</div></div>
+    <div class="dash-card"><div class="v">70</div><div class="l">Total</div></div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-lbl"><span>Progress</span><span id="dPct">0%</span></div>
+    <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+  </div>
+
+  <!-- PART A -->
+  <div class="section">
+    <div class="sec-hdr" onclick="toggle('a')">
+      <span class="sec-tag">PART A</span>
+      <div><div class="sec-title">Verb Forms (Tenses)</div><div class="sec-sub">Fill in the correct form of the verb in brackets</div></div>
+      <span class="sec-arrow open" id="arr-a">&#9660;</span>
+    </div>
+    <div class="sec-body open" id="body-a">
+      <div class="qb"><div class="qnum">Question 1</div><div class="qtext">The research team ______ (conduct) a clinical trial on the new vaccine last year.</div><input class="fill" id="a1" placeholder="Type your answer..." data-ans="conducted" data-hint="This action happened and was completed at a specific time in the past." data-rule="Simple Past = base verb + -ed for regular verbs. 'Last year' signals a completed past action."></div>
+      <div class="qb"><div class="qnum">Question 2</div><div class="qtext">The hospital ______ (treat) thousands of patients since it was established in 2010.</div><input class="fill" id="a2" placeholder="Type your answer..." data-ans="has treated" data-hint="This action started in the past and the results are still relevant now. Which tense links past to present?" data-rule="Present Perfect = has/have + past participle. 'Since 2010' signals a connection from a specific past point to now."></div>
+      <div class="qb"><div class="qnum">Question 3</div><div class="qtext">By the time the ambulance arrived, the paramedics ______ (stabilise) the patient.</div><input class="fill" id="a3" placeholder="Type your answer..." data-ans="had stabilised" data-hint="This action was completed BEFORE another past action. You need a tense that goes further back." data-rule="Past Perfect = had + past participle. Use when one past action happened before another past event."></div>
+      <div class="qb"><div class="qnum">Question 4</div><div class="qtext">Scientists ______ (search) for a cure for Alzheimer's disease for several decades now.</div><input class="fill" id="a4" placeholder="Type your answer..." data-ans="have been searching" data-hint="This ongoing action started in the past and is still continuing right now. It emphasises the duration of effort." data-rule="Present Perfect Continuous = have/has + been + verb-ing. Shows ongoing action from the past until now."></div>
+      <div class="qb"><div class="qnum">Question 5</div><div class="qtext">The Ministry of Health ______ (launch) a nationwide vaccination campaign next month.</div><input class="fill" id="a5" placeholder="Type your answer..." data-ans="will launch" data-hint="This is a planned future event. Use the simple future tense." data-rule="Simple Future = will + base verb. Used for scheduled or planned future events."></div>
+      <div class="qb"><div class="qnum">Question 6</div><div class="qtext">While the surgeon ______ (perform) the operation, the power suddenly went out.</div><input class="fill" id="a6" placeholder="Type your answer..." data-ans="was performing" data-hint="An ongoing action was interrupted by a sudden event. What tense shows an action in progress in the past?" data-rule="Past Continuous = was/were + verb-ing. Shows an action in progress when another event interrupted it."></div>
+      <div class="qb"><div class="qnum">Question 7</div><div class="qtext">By 2030, medical researchers ______ (develop) more effective treatments for cancer.</div><input class="fill" id="a7" placeholder="Type your answer..." data-ans="will have developed" data-hint="This will be completed before a specific point in the future. Think future + perfect." data-rule="Future Perfect = will + have + past participle. For actions that will be completed before a future deadline."></div>
+      <div class="qb"><div class="qnum">Question 8</div><div class="qtext">The doctor ______ (monitor) the patient's recovery carefully since the operation.</div><input class="fill" id="a8" placeholder="Type your answer..." data-ans="has been monitoring" data-hint="This ongoing action started at a past point and continues now, emphasising the continuous nature." data-rule="Present Perfect Continuous = has/have + been + verb-ing. 'Since the operation' signals the start of the ongoing action."></div>
+      <div class="qb"><div class="qnum">Question 9</div><div class="qtext">The nurse ______ (administer) the medication when the patient suddenly collapsed.</div><input class="fill" id="a9" placeholder="Type your answer..." data-ans="was administering" data-hint="One action was in progress when another suddenly occurred. What tense shows the ongoing past action?" data-rule="Past Continuous = was/were + verb-ing. The ongoing action was interrupted by 'suddenly collapsed'."></div>
+      <div class="qb"><div class="qnum">Question 10</div><div class="qtext">Unless the symptoms ______ (improve) within 48 hours, the doctor will prescribe antibiotics.</div><input class="fill" id="a10" placeholder="Type your answer..." data-ans="improve" data-hint="This is a conditional clause. The 'unless' clause refers to a future possibility but uses which tense?" data-rule="In conditional sentences with 'unless', use Present Simple in the condition clause even when referring to the future."></div>
+      <button class="btn-check" onclick="checkFill('a',10)">Check Part A</button>
+      <button class="btn-save-part" onclick="saveProgress('a')">&#8593; Save Progress</button><span class="part-saved-tag" id="saved-a">&#10003; Saved</span>
+      <button class="save-part-btn" id="save-btn-a" onclick="savePart(\'a\')">&#8593; Save Part A</button>
+      <span class="part-saved-tag" id="part-saved-a">&#10003; Saved</span>
+    </div>
+  </div>
+
+  <!-- PART B -->
+  <div class="section">
+    <div class="sec-hdr" onclick="toggle('b')">
+      <span class="sec-tag">PART B</span>
+      <div><div class="sec-title">Word Forms</div><div class="sec-sub">Use the correct form of the word in brackets</div></div>
+      <span class="sec-arrow" id="arr-b">&#9660;</span>
+    </div>
+    <div class="sec-body" id="body-b">
+      <div class="qb"><div class="qnum">Q1</div><div class="qtext">The ______ of the new drug was approved after years of rigorous testing. (APPROVE)</div><input class="fill" id="b1" placeholder="Type your answer..." data-ans="approval" data-hint="A noun is needed as the subject. What noun form comes from 'approve'?" data-rule="APPROVE (verb) → APPROVAL (noun). The suffix '-al' creates a noun from a verb."></div>
+      <div class="qb"><div class="qnum">Q2</div><div class="qtext">The surgeon operated ______ to remove the tumour without damaging surrounding tissue. (PRECISION)</div><input class="fill" id="b2" placeholder="Type your answer..." data-ans="precisely" data-hint="The word modifies 'operated' — it needs to be an adverb. Build from PRECISION step by step." data-rule="PRECISION (noun) → PRECISE (adj) → PRECISELY (adverb). Add '-ly' to the adjective form."></div>
+      <div class="qb"><div class="qnum">Q3</div><div class="qtext">Early ______ of diseases such as cancer significantly increases survival rates. (DETECT)</div><input class="fill" id="b3" placeholder="Type your answer..." data-ans="detection" data-hint="A noun is needed as the subject of the sentence. What noun comes from 'detect'?" data-rule="DETECT (verb) → DETECTION (noun). The suffix '-ion' creates nouns from verbs."></div>
+      <div class="qb"><div class="qnum">Q4</div><div class="qtext">The ______ effects of prolonged stress on the human body are well-documented. (HARM)</div><input class="fill" id="b4" placeholder="Type your answer..." data-ans="harmful" data-hint="The word describes 'effects' — it needs to be an adjective. What adjective comes from 'harm'?" data-rule="HARM (noun/verb) → HARMFUL (adjective). The suffix '-ful' creates adjectives meaning 'full of' or 'causing'."></div>
+      <div class="qb"><div class="qnum">Q5</div><div class="qtext">The patient recovered ______ after undergoing the experimental treatment. (REMARK)</div><input class="fill" id="b5" placeholder="Type your answer..." data-ans="remarkably" data-hint="The word modifies 'recovered' — it needs to be an adverb. Build from REMARK." data-rule="REMARK (verb/noun) → REMARKABLE (adj) → REMARKABLY (adverb). Add '-ly' to the adjective."></div>
+      <div class="qb"><div class="qnum">Q6</div><div class="qtext">The ______ of hand washing cannot be overstated in preventing the spread of infection. (IMPORTANT)</div><input class="fill" id="b6" placeholder="Type your answer..." data-ans="importance" data-hint="A noun is needed after 'the'. What noun form comes from 'important'?" data-rule="IMPORTANT (adj) → IMPORTANCE (noun). The suffix '-ance' creates abstract nouns from adjectives."></div>
+      <div class="qb"><div class="qnum">Q7</div><div class="qtext">Doctors must act ______ when a patient shows signs of a stroke. (IMMEDIATE)</div><input class="fill" id="b7" placeholder="Type your answer..." data-ans="immediately" data-hint="The word modifies 'act' — it needs to be an adverb meaning 'without delay'." data-rule="IMMEDIATE (adj) → IMMEDIATELY (adverb). Simply add '-ly' to form the adverb."></div>
+      <div class="qb"><div class="qnum">Q8</div><div class="qtext">The ______ between mental and physical health is increasingly recognised by researchers. (CONNECT)</div><input class="fill" id="b8" placeholder="Type your answer..." data-ans="connection" data-hint="A noun is needed after 'the'. What noun form comes from 'connect'?" data-rule="CONNECT (verb) → CONNECTION (noun). The suffix '-ion' creates nouns from verbs."></div>
+      <div class="qb"><div class="qnum">Q9</div><div class="qtext">The new treatment proved highly ______ in reducing symptoms in clinical trials. (EFFECT)</div><input class="fill" id="b9" placeholder="Type your answer..." data-ans="effective" data-hint="The word comes after 'highly' as a predicate adjective. What adjective comes from 'effect'?" data-rule="EFFECT (noun) → EFFECTIVE (adjective). The suffix '-ive' creates adjectives from nouns."></div>
+      <div class="qb"><div class="qnum">Q10</div><div class="qtext">The government must ensure the ______ of affordable healthcare to all citizens. (ACCESSIBLE)</div><input class="fill" id="b10" placeholder="Type your answer..." data-ans="accessibility" data-hint="A noun is needed after 'the'. What noun form comes from 'accessible'?" data-rule="ACCESSIBLE (adj) → ACCESSIBILITY (noun). The suffix '-ity' creates abstract nouns from adjectives."></div>
+      <button class="btn-check" onclick="checkFill('b',10)">Check Part B</button>
+      <button class="btn-save-part" onclick="saveProgress('b')">&#8593; Save Progress</button><span class="part-saved-tag" id="saved-b">&#10003; Saved</span>
+      <button class="save-part-btn" id="save-btn-b" onclick="savePart(\'b\')">&#8593; Save Part B</button>
+      <span class="part-saved-tag" id="part-saved-b">&#10003; Saved</span>
+    </div>
+  </div>
+
+  <!-- PART C -->
+  <div class="section">
+    <div class="sec-hdr" onclick="toggle('c')">
+      <span class="sec-tag">PART C</span>
+      <div><div class="sec-title">Error Correction</div><div class="sec-sub">Each sentence has one error — rewrite it correctly</div></div>
+      <span class="sec-arrow" id="arr-c">&#9660;</span>
+    </div>
+    <div class="sec-body" id="body-c">
+      <div class="qb"><div class="qnum">Q1</div><div class="qtext"><em>The number of patients suffering from diabetes have risen sharply in recent years.</em></div><textarea class="ta" id="c1" placeholder="Rewrite the correct sentence..." data-ans="The number of patients suffering from diabetes has risen sharply in recent years." data-hint="Look carefully at the subject. Is 'the number' singular or plural?" data-rule="'The number of + plural noun' takes a SINGULAR verb (has). Compare: 'A number of patients HAVE risen' uses plural."></textarea></div>
+      <div class="qb"><div class="qnum">Q2</div><div class="qtext"><em>Despite of the side effects, the patient continued taking the prescribed medication.</em></div><textarea class="ta" id="c2" placeholder="Rewrite the correct sentence..." data-ans="Despite the side effects, the patient continued taking the prescribed medication." data-hint="'Despite' is a preposition that stands alone. What word must NOT follow it?" data-rule="Use 'despite + noun phrase' OR 'in spite of + noun phrase'. Never 'despite of' — that is always incorrect."></textarea></div>
+      <div class="qb"><div class="qnum">Q3</div><div class="qtext"><em>The patient should of informed the doctor about his allergies before surgery.</em></div><textarea class="ta" id="c3" placeholder="Rewrite the correct sentence..." data-ans="The patient should have informed the doctor about his allergies before surgery." data-hint="After a modal verb like 'should', what helping verb must follow? 'Of' is never a verb." data-rule="Modal + HAVE + past participle. 'Should of' is always wrong — it must be 'should HAVE'."></textarea></div>
+      <div class="qb"><div class="qnum">Q4</div><div class="qtext"><em>Neither the doctor nor the nurses was available when the emergency occurred.</em></div><textarea class="ta" id="c4" placeholder="Rewrite the correct sentence..." data-ans="Neither the doctor nor the nurses were available when the emergency occurred." data-hint="With 'neither...nor', which noun determines the verb — the one before or after 'nor'?" data-rule="With 'neither...nor', the verb agrees with the CLOSER subject. 'The nurses' is plural → 'were'."></textarea></div>
+      <div class="qb"><div class="qnum">Q5</div><div class="qtext"><em>The hospital, along with several clinics, were forced to close during the outbreak.</em></div><textarea class="ta" id="c5" placeholder="Rewrite the correct sentence..." data-ans="The hospital, along with several clinics, was forced to close during the outbreak." data-hint="What is the true subject? The phrase 'along with several clinics' adds information but does not change the subject." data-rule="Phrases like 'along with', 'as well as', 'together with' do NOT make the subject plural. Main subject = 'the hospital' (singular) → 'was'."></textarea></div>
+      <div class="qb"><div class="qnum">Q6</div><div class="qtext"><em>Researchers have been study the effects of sleep deprivation for many years.</em></div><textarea class="ta" id="c6" placeholder="Rewrite the correct sentence..." data-ans="Researchers have been studying the effects of sleep deprivation for many years." data-hint="Look at the verb form after 'have been'. What form must always follow 'been' in this tense?" data-rule="Present Perfect Continuous = have/has + been + VERB-ING. 'Study' must become 'studying'."></textarea></div>
+      <div class="qb"><div class="qnum">Q7</div><div class="qtext"><em>The clinic lacks of proper medical equipment to handle complex surgeries.</em></div><textarea class="ta" id="c7" placeholder="Rewrite the correct sentence..." data-ans="The clinic lacks proper medical equipment to handle complex surgeries." data-hint="'Lacks' is a transitive verb. Does it need a preposition before its object?" data-rule="'Lack' takes a direct object with NO preposition. Say 'lacks something', never 'lacks of something'."></textarea></div>
+      <div class="qb"><div class="qnum">Q8</div><div class="qtext"><em>If the doctors had diagnosed the illness earlier, the patient can have survived.</em></div><textarea class="ta" id="c8" placeholder="Rewrite the correct sentence..." data-ans="If the doctors had diagnosed the illness earlier, the patient could have survived." data-hint="This is a third conditional (past unreal). Check both clauses — do they match the correct third conditional pattern?" data-rule="Third conditional: If + had + past participle → would/could/might + have + past participle. Both clauses must match."></textarea></div>
+      <div class="qb"><div class="qnum">Q9</div><div class="qtext"><em>The medical report, which have been reviewed by three specialists, confirmed the diagnosis.</em></div><textarea class="ta" id="c9" placeholder="Rewrite the correct sentence..." data-ans="The medical report, which has been reviewed by three specialists, confirmed the diagnosis." data-hint="Look at the relative clause. What does 'which' refer to, and is it singular or plural?" data-rule="'Which' refers to 'the medical report' (singular). The relative clause verb must agree: 'which HAS been reviewed'."></textarea></div>
+      <div class="qb"><div class="qnum">Q10</div><div class="qtext"><em>More research on the long-term effects of this medication are needed urgently.</em></div><textarea class="ta" id="c10" placeholder="Rewrite the correct sentence..." data-ans="More research on the long-term effects of this medication is needed urgently." data-hint="'Research' is an uncountable noun. What verb form do uncountable nouns always take?" data-rule="'Research' is uncountable. Always use a singular verb: 'research IS', never 'research ARE'."></textarea></div>
+      <button class="btn-check" onclick="checkTA('c',10)">Check Part C</button>
+      <button class="btn-save-part" onclick="saveProgress('c')">&#8593; Save Progress</button><span class="part-saved-tag" id="saved-c">&#10003; Saved</span>
+      <button class="save-part-btn" id="save-btn-c" onclick="savePart(\'c\')">&#8593; Save Part C</button>
+      <span class="part-saved-tag" id="part-saved-c">&#10003; Saved</span>
+    </div>
+  </div>
+
+  <!-- PART D -->
+  <div class="section">
+    <div class="sec-hdr" onclick="toggle('d')">
+      <span class="sec-tag">PART D</span>
+      <div><div class="sec-title">Sentence Transformation</div><div class="sec-sub">Rewrite each sentence as instructed without changing its meaning</div></div>
+      <span class="sec-arrow" id="arr-d">&#9660;</span>
+    </div>
+    <div class="sec-body" id="body-d">
+      <div class="qb"><div class="qnum">Q1</div><div class="qtext">Scientists discovered a breakthrough treatment for the disease last year.<br><span class="qsub">(Change to Passive Voice)</span></div><textarea class="ta" id="d1" placeholder="Rewrite here..." data-ans="A breakthrough treatment for the disease was discovered by scientists last year." data-hint="The object ('a breakthrough treatment') becomes the new subject. Use was/were + past participle." data-rule="Passive: Object + was/were + past participle + by + agent. Past tense → 'was' for singular subjects."></textarea></div>
+      <div class="qb"><div class="qnum">Q2</div><div class="qtext">She is a dedicated nurse. She has worked in intensive care for ten years.<br><span class="qsub">(Join using: who)</span></div><textarea class="ta" id="d2" placeholder="Rewrite here..." data-ans="She is a dedicated nurse who has worked in intensive care for ten years." data-hint="Use 'who' to introduce a relative clause giving more information about the person." data-rule="Relative clause with 'who' is used for people. Place 'who + verb' directly after the noun it describes."></textarea></div>
+      <div class="qb"><div class="qnum">Q3</div><div class="qtext">The outbreak was very severe. Thousands of people were hospitalised.<br><span class="qsub">(Join using: so...that)</span></div><textarea class="ta" id="d3" placeholder="Rewrite here..." data-ans="The outbreak was so severe that thousands of people were hospitalised." data-hint="'So...that' shows cause and result. Place 'so' before the adjective and 'that' before the result clause." data-rule="So + adjective + that + result clause. This structure emphasises degree and consequence."></textarea></div>
+      <div class="qb"><div class="qnum">Q4</div><div class="qtext">The doctor said, "You must take this medication twice a day."<br><span class="qsub">(Change to Reported Speech)</span></div><textarea class="ta" id="d4" placeholder="Rewrite here..." data-ans="The doctor said that I had to take the medication twice a day." data-hint="Change pronouns, tense, and remove inverted commas. What does 'must' become in reported speech?" data-rule="Reported speech: 'must' → 'had to', 'you' → 'I', present → past. Remove quotes and add 'that'."></textarea></div>
+      <div class="qb"><div class="qnum">Q5</div><div class="qtext">The epidemic was so devastating that it overwhelmed the entire healthcare system.<br><span class="qsub">(Begin with: Such)</span></div><textarea class="ta" id="d5" placeholder="Rewrite here..." data-ans="Such was the devastation of the epidemic that it overwhelmed the entire healthcare system." data-hint="'Such' at the beginning requires inversion. What is the noun form of 'devastating'?" data-rule="Such + was/were + the + noun + that... Formal inversion for emphasis. 'devastating' → 'devastation'."></textarea></div>
+      <div class="qb"><div class="qnum">Q6</div><div class="qtext">Although the treatment was painful, the patient completed the full course.<br><span class="qsub">(Begin with: Despite)</span></div><textarea class="ta" id="d6" placeholder="Rewrite here..." data-ans="Despite the pain of the treatment, the patient completed the full course." data-hint="'Despite' must be followed by a noun phrase, not a clause. Convert the 'although' clause into a noun phrase." data-rule="'Despite' + noun phrase. 'the treatment was painful' → 'the pain of the treatment'."></textarea></div>
+      <div class="qb"><div class="qnum">Q7</div><div class="qtext">The nurse asked, "Have you taken your medication today?"<br><span class="qsub">(Change to Reported Speech)</span></div><textarea class="ta" id="d7" placeholder="Rewrite here..." data-ans="The nurse asked whether I had taken my medication that day." data-hint="This is a yes/no question in reported speech. Which word replaces the question structure?" data-rule="Reported yes/no questions use 'whether' or 'if'. Tense shifts: 'have taken' → 'had taken'. Word order becomes statement-like."></textarea></div>
+      <div class="qb"><div class="qnum">Q8</div><div class="qtext">It is vital that all medical staff wash their hands before treating patients.<br><span class="qsub">(Begin with: All medical staff)</span></div><textarea class="ta" id="d8" placeholder="Rewrite here..." data-ans="All medical staff must wash their hands before treating patients." data-hint="'It is vital that' expresses strong necessity. Replace the whole structure with a modal verb." data-rule="'It is vital that + subject + verb' → 'Subject + must + verb'. Both express strong obligation."></textarea></div>
+      <div class="qb"><div class="qnum">Q9</div><div class="qtext">The doctors completed the diagnosis. They informed the patient of the results.<br><span class="qsub">(Join using: having)</span></div><textarea class="ta" id="d9" placeholder="Rewrite here..." data-ans="Having completed the diagnosis, the doctors informed the patient of the results." data-hint="'Having + past participle' shows one action is completed before another. Which action comes first?" data-rule="'Having + past participle' = perfect participle clause. The first completed action uses this form; the second uses simple past."></textarea></div>
+      <div class="qb"><div class="qnum">Q10</div><div class="qtext">The virus has infected millions of people across the continent.<br><span class="qsub">(Change to Passive Voice)</span></div><textarea class="ta" id="d10" placeholder="Rewrite here..." data-ans="Millions of people across the continent have been infected by the virus." data-hint="The object becomes the subject. The tense is Present Perfect — what is the passive form?" data-rule="Present Perfect Passive: subject + have/has + been + past participle + by + agent. Plural subject → 'have been infected'."></textarea></div>
+      <button class="btn-check" onclick="checkTA('d',10)">Check Part D</button>
+      <button class="btn-save-part" onclick="saveProgress('d')">&#8593; Save Progress</button><span class="part-saved-tag" id="saved-d">&#10003; Saved</span>
+      <button class="save-part-btn" id="save-btn-d" onclick="savePart(\'d\')">&#8593; Save Part D</button>
+      <span class="part-saved-tag" id="part-saved-d">&#10003; Saved</span>
+    </div>
+  </div>
+
+  <!-- PART E -->
+  <div class="section">
+    <div class="sec-hdr" onclick="toggle('e')">
+      <span class="sec-tag">PART E</span>
+      <div><div class="sec-title">Sentence Building</div><div class="sec-sub">Rearrange the words to form a correct sentence</div></div>
+      <span class="sec-arrow" id="arr-e">&#9660;</span>
+    </div>
+    <div class="sec-body" id="body-e">
+      <div class="qb"><div class="qnum">Q1</div><div class="qtext qwords">the / is / health / one / of / greatest / challenges / mental / our / time</div><textarea class="ta" id="e1" placeholder="Write the sentence..." data-ans="Mental health is one of the greatest challenges of our time." data-hint="Start with 'Mental health' as the subject. Find the main verb and arrange the predicate." data-rule="Subject + verb + predicate. 'One of the greatest challenges of our time' is the predicate noun phrase."></textarea></div>
+      <div class="qb"><div class="qnum">Q2</div><div class="qtext qwords">despite / advances / medical / many / diseases / remain / incurable</div><textarea class="ta" id="e2" placeholder="Write the sentence..." data-ans="Despite many medical advances, many diseases remain incurable." data-hint="'Despite' introduces a concession. The main clause states the contrasting reality." data-rule="Despite + noun phrase, + main clause. 'Many medical advances' is the noun phrase after 'despite'."></textarea></div>
+      <div class="qb"><div class="qnum">Q3</div><div class="qtext qwords">the / have / doctors / pledged / quality / to / improve / healthcare / rural / in / areas</div><textarea class="ta" id="e3" placeholder="Write the sentence..." data-ans="The doctors have pledged to improve the quality of healthcare in rural areas." data-hint="Subject: 'The doctors'. The verb phrase is in Present Perfect and involves a pledge about a future action." data-rule="Subject + have/has + past participle + infinitive. 'Pledged to improve' = committed to improving."></textarea></div>
+      <div class="qb"><div class="qnum">Q4</div><div class="qtext qwords">only / disease / infectious / through / be / can / cooperation / controlled / international</div><textarea class="ta" id="e4" placeholder="Write the sentence..." data-ans="Infectious disease can only be controlled through international cooperation." data-hint="This is a passive sentence. 'Infectious disease' is the subject. 'Only' typically comes after the modal." data-rule="Subject + modal + only + be + past participle + through + noun phrase."></textarea></div>
+      <div class="qb"><div class="qnum">Q5</div><div class="qtext qwords">the / thousands / pandemic / has / of / lives / claimed / global</div><textarea class="ta" id="e5" placeholder="Write the sentence..." data-ans="The global pandemic has claimed thousands of lives." data-hint="Subject: 'The global pandemic'. Verb: Present Perfect active. Object: 'thousands of lives'." data-rule="Subject + has/have + past participle + object. 'Has claimed' = Present Perfect active."></textarea></div>
+      <div class="qb"><div class="qnum">Q6</div><div class="qtext qwords">it / all / that / is / hospitals / essential / are / adequately / staffed</div><textarea class="ta" id="e6" placeholder="Write the sentence..." data-ans="It is essential that all hospitals are adequately staffed." data-hint="This formal structure starts with 'It is + adjective + that'. Arrange the that-clause carefully." data-rule="It + is + adjective (essential) + that + subject (all hospitals) + verb (are adequately staffed)."></textarea></div>
+      <div class="qb"><div class="qnum">Q7</div><div class="qtext qwords">the / praised / organisation / medical / workers / frontline / for / dedication / their</div><textarea class="ta" id="e7" placeholder="Write the sentence..." data-ans="The organisation praised the medical workers for their frontline dedication." data-hint="Find who is doing the praising (subject) and who is being praised (object). 'For' introduces the reason." data-rule="Subject + verb + object + for + noun phrase. 'Praised...for' shows the reason for the praise."></textarea></div>
+      <div class="qb"><div class="qnum">Q8</div><div class="qtext qwords">had / the / received / patient / treatment / before / the / proper / condition / worsened</div><textarea class="ta" id="e8" placeholder="Write the sentence..." data-ans="The patient had received proper treatment before the condition worsened." data-hint="One action happened before another in the past. Which action uses Past Perfect and which uses Simple Past?" data-rule="Past Perfect (had + past participle) for the earlier action; Simple Past for the later action."></textarea></div>
+      <div class="qb"><div class="qnum">Q9</div><div class="qtext qwords">being / of / the / addressed / causes / poor / are / root / health / poverty / and</div><textarea class="ta" id="e9" placeholder="Write the sentence..." data-ans="The root causes of poor health, poverty and inequality, are being addressed." data-hint="Subject: 'The root causes of poor health'. The verb is passive and continuous. 'Poverty and inequality' are examples." data-rule="Subject + are + being + past participle. The appositive in commas elaborates on 'root causes'."></textarea></div>
+      <div class="qb"><div class="qnum">Q10</div><div class="qtext qwords">no / will / thrive / society / without / access / healthcare / to / quality</div><textarea class="ta" id="e10" placeholder="Write the sentence..." data-ans="No society will thrive without access to quality healthcare." data-hint="Start with 'No' to create a negative subject. The main verb is future simple followed by a 'without' phrase." data-rule="No + noun + will + verb + without + noun phrase. 'Without access to quality healthcare' is a prepositional phrase."></textarea></div>
+      <button class="btn-check" onclick="checkTA('e',10)">Check Part E</button>
+      <button class="btn-save-part" onclick="saveProgress('e')">&#8593; Save Progress</button><span class="part-saved-tag" id="saved-e">&#10003; Saved</span>
+      <button class="save-part-btn" id="save-btn-e" onclick="savePart(\'e\')">&#8593; Save Part E</button>
+      <span class="part-saved-tag" id="part-saved-e">&#10003; Saved</span>
+    </div>
+  </div>
+
+  <!-- PART F -->
+  <div class="section">
+    <div class="sec-hdr" onclick="toggle('f')">
+      <span class="sec-tag">PART F</span>
+      <div><div class="sec-title">Vocabulary &#8212; Choose the Best Word</div><div class="sec-sub">Select the most appropriate option</div></div>
+      <span class="sec-arrow" id="arr-f">&#9660;</span>
+    </div>
+    <div class="sec-body" id="body-f">
+      <div id="mcq-container"></div>
+      <button class="btn-check" onclick="checkMCQ()">Check Part F</button>
+      <button class="btn-save-part" onclick="saveProgress('f')">&#8593; Save Progress</button><span class="part-saved-tag" id="saved-f">&#10003; Saved</span>
+      <button class="save-part-btn" id="save-btn-f" onclick="savePart(\'f\')">&#8593; Save Part F</button>
+      <span class="part-saved-tag" id="part-saved-f">&#10003; Saved</span>
+    </div>
+  </div>
+
+  <!-- PART G -->
+  <div class="section">
+    <div class="sec-hdr" onclick="toggle('g')">
+      <span class="sec-tag">PART G</span>
+      <div><div class="sec-title">Sentence Expansion</div><div class="sec-sub">Expand each simple sentence into a complex, descriptive sentence</div></div>
+      <span class="sec-arrow" id="arr-g">&#9660;</span>
+    </div>
+    <div class="sec-body" id="body-g">
+      <div class="example-box">
+        <div class="ex-lbl">EXAMPLE</div>
+        <div class="ex-s">The doctor examined the patient.</div>
+        <div class="ex-e">&#8594; With careful precision, the experienced doctor thoroughly examined the critically ill patient, noting every symptom before making a diagnosis.</div>
+      </div>
+      <div class="qb"><div class="qnum">Q1</div><div class="qtext">The nurse administered the medicine.</div><textarea class="ta" id="g1" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
+      <div class="qb"><div class="qnum">Q2</div><div class="qtext">The outbreak spread rapidly.</div><textarea class="ta" id="g2" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
+      <div class="qb"><div class="qnum">Q3</div><div class="qtext">Scientists announced the discovery.</div><textarea class="ta" id="g3" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
+      <div class="qb"><div class="qnum">Q4</div><div class="qtext">The patient recovered slowly.</div><textarea class="ta" id="g4" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
+      <div class="qb"><div class="qnum">Q5</div><div class="qtext">The hospital was overwhelmed.</div><textarea class="ta" id="g5" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
+      <div class="qb"><div class="qnum">Q6</div><div class="qtext">The vaccine was approved.</div><textarea class="ta" id="g6" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
+      <div class="qb"><div class="qnum">Q7</div><div class="qtext">Mental health matters.</div><textarea class="ta" id="g7" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
+      <div class="qb"><div class="qnum">Q8</div><div class="qtext">The surgeon performed the operation.</div><textarea class="ta" id="g8" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
+      <div class="qb"><div class="qnum">Q9</div><div class="qtext">The government invested in healthcare.</div><textarea class="ta" id="g9" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
+      <div class="qb"><div class="qnum">Q10</div><div class="qtext">The epidemic claimed many lives.</div><textarea class="ta" id="g10" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap">
+      <button class="save-part-btn" id="save-btn-g" onclick="saveProgress('g')">&#8593; Save Part G</button>
+      <span class="part-saved-tag" id="saved-g">&#10003; Saved</span>
+      <p style="font-size:11px;color:var(--muted);font-family:var(--mono)">* Open-ended &#8212; teacher-marked.</p>
+    </div>
+    </div>
+  </div>
+
+  <!-- PART H -->
+  <div class="section">
+    <div class="sec-hdr" onclick="toggle('h')">
+      <span class="sec-tag">PART H</span>
+      <div><div class="sec-title">Composition Sentence Practice</div><div class="sec-sub">Rewrite each sentence to be more vivid, formal and impactful</div></div>
+      <span class="sec-arrow" id="arr-h">&#9660;</span>
+    </div>
+    <div class="sec-body" id="body-h">
+      <div class="qb"><div class="qnum">Q1</div><div class="qtext">Many people are sick.</div><textarea class="ta" id="h1" placeholder="Rewrite more descriptively..."></textarea></div>
+      <div class="qb"><div class="qnum">Q2</div><div class="qtext">The medicine helped the patient.</div><textarea class="ta" id="h2" placeholder="Rewrite more descriptively..."></textarea></div>
+      <div class="qb"><div class="qnum">Q3</div><div class="qtext">Doctors worked hard during the crisis.</div><textarea class="ta" id="h3" placeholder="Rewrite more descriptively..."></textarea></div>
+      <div class="qb"><div class="qnum">Q4</div><div class="qtext">The disease spread quickly.</div><textarea class="ta" id="h4" placeholder="Rewrite more descriptively..."></textarea></div>
+      <div class="qb"><div class="qnum">Q5</div><div class="qtext">The hospital did not have enough supplies.</div><textarea class="ta" id="h5" placeholder="Rewrite more descriptively..."></textarea></div>
+      <div class="qb"><div class="qnum">Q6</div><div class="qtext">The government made new health rules.</div><textarea class="ta" id="h6" placeholder="Rewrite more descriptively..."></textarea></div>
+      <div class="qb"><div class="qnum">Q7</div><div class="qtext">The patient felt better after the treatment.</div><textarea class="ta" id="h7" placeholder="Rewrite more descriptively..."></textarea></div>
+      <div class="qb"><div class="qnum">Q8</div><div class="qtext">Scientists found a new drug.</div><textarea class="ta" id="h8" placeholder="Rewrite more descriptively..."></textarea></div>
+      <div class="qb"><div class="qnum">Q9</div><div class="qtext">Mental health is a big problem.</div><textarea class="ta" id="h9" placeholder="Rewrite more descriptively..."></textarea></div>
+      <div class="qb"><div class="qnum">Q10</div><div class="qtext">The nurse helped many people.</div><textarea class="ta" id="h10" placeholder="Rewrite more descriptively..."></textarea></div>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap">
+      <button class="save-part-btn" id="save-btn-h" onclick="saveProgress('h')">&#8593; Save Part H</button>
+      <span class="part-saved-tag" id="saved-h">&#10003; Saved</span>
+      <p style="font-size:11px;color:var(--muted);font-family:var(--mono)">* Open-ended &#8212; teacher-marked.</p>
+    </div>
+    </div>
+  </div>
+
+  <!-- PART I -->
+  <div class="section">
+    <div class="sec-hdr" onclick="toggle('i')">
+      <span class="sec-tag">PART I</span>
+      <div><div class="sec-title">Paragraph Writing</div><div class="sec-sub">Write 6&#8211;8 sentences &middot; Target: 100&#8211;140 words</div></div>
+      <span class="sec-arrow" id="arr-i">&#9660;</span>
+    </div>
+    <div class="sec-body" id="body-i">
+      <div class="topic-box">
+        <div class="t-lbl">Writing Topic</div>
+        <h4>The Most Critical Health Challenge Facing Society Today</h4>
+        <p>Write a well-structured paragraph about what you believe is the most urgent health issue in the world today (e.g. mental health, infectious diseases, obesity, ageing population, or healthcare inequality).</p>
+        <ul>
+          <li>Clearly identify the health issue and explain why it is urgent</li>
+          <li>Support your view with evidence or real-world examples</li>
+          <li>Discuss its impact on individuals and communities</li>
+          <li>Suggest what governments, doctors, or individuals can do</li>
+        </ul>
+      </div>
+      <textarea class="ta" id="i1" style="min-height:190px" placeholder="Write your paragraph here..."></textarea>
+      <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--muted);font-family:var(--mono)">
+        <span id="wc">Words: 0</span><span>Target: 100&#8211;140 words</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:12px">
+        <button class="save-part-btn" id="save-btn-i" onclick="saveProgress('i')">&#8593; Save Part I</button>
+        <span class="part-saved-tag" id="saved-i">&#10003; Saved</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="submit-sec">
+    <h3>Submit Your Test</h3>
+    <p>Your answers and results will be saved. Your teacher will be able to review everything in the dashboard.</p>
+    <button class="btn-submit" id="submitBtn" onclick="submitAll()">Submit &amp; Save Results</button>
+  </div>
+</div>
+
+<div id="resultModal">
+  <div class="res-box">
+    <div style="font-family:var(--mono);font-size:10px;color:var(--a2);letter-spacing:3px;margin-bottom:12px">FINAL RESULT</div>
+    <div class="res-score" id="resScore">0</div>
+    <div class="res-label">out of 60 auto-marked questions (Parts A&#8211;F)</div>
+    <div class="res-saved" id="resSaved"></div>
+    <div class="res-msg" id="resMsg"></div>
+    <div class="res-grid" id="resGrid"></div>
+    <button class="btn-close" onclick="closeResult()">Done</button>
+  </div>
+</div>
+
+<script>
+const BIN_ID="69babf10b7ec241ddc7d652f";
+const MASTER_KEY="$2a$10$GeOyXKViWuf6OsSoiA9eT.bifbFDXJ/AsilT9KSjMz.2Ibg5mPDGS";
+const API="https://api.jsonbin.io/v3";
+const LS_KEY="hm_test_progress";
+
+const MCQ=[
+  {q:"The ______ of the new antibiotic helped control the spread of the drug-resistant bacteria.",opts:["administration","admiration","admonition","adaptation"],ans:0,hint:"Which word means 'giving or applying' a medicine or treatment?",rule:"ADMINISTRATION = the process of giving or applying medication. Not 'admiration' (respect) or 'adaptation' (adjustment)."},
+  {q:"The surgeon performed the procedure with extraordinary ______, leaving no complications.",opts:["precision","decision","provision","division"],ans:0,hint:"This word means extreme accuracy and care. It is commonly used in medical and scientific contexts.",rule:"PRECISION = the quality of being exact and accurate. Key vocabulary in medical and scientific writing."},
+  {q:"Access to mental health support is considered a fundamental human ______.",opts:["rite","right","might","plight"],ans:1,hint:"This is a legal or moral entitlement that every person deserves.",rule:"RIGHT (noun) = a moral or legal entitlement. 'Rite' = a ceremony; 'might' = power; 'plight' = a difficult situation."},
+  {q:"The committee reached a ______ agreement to fund the new children's hospital.",opts:["ambiguous","contentious","unanimous","unilateral"],ans:2,hint:"All members agreed on this decision. Which word means 'agreed upon by everyone'?",rule:"UNANIMOUS = agreed upon by all. 'Ambiguous' = unclear; 'contentious' = causing disagreement; 'unilateral' = one-sided."},
+  {q:"The ______ of clean water and sanitation remains a leading cause of preventable disease.",opts:["surplus","scarcity","clarity","disparity"],ans:1,hint:"This word means there is not enough of something. Think of 'scarce'.",rule:"SCARCITY = a severe shortage. 'Surplus' = excess; 'clarity' = clearness; 'disparity' = inequality."},
+  {q:"Health authorities urged the public to ______ unhealthy habits such as smoking and poor diet.",opts:["diminish","abolish","abandon","admonish"],ans:2,hint:"The public is being asked to give up or stop these habits completely.",rule:"ABANDON = to give up completely. 'Abolish' = to formally end a system; 'abandon' = to stop or give up a habit."},
+  {q:"The new policy aims to ______ the burden on overstretched public hospitals.",opts:["aggravate","alleviate","alienate","allocate"],ans:1,hint:"The policy is trying to make the burden lighter. Which word means to reduce suffering?",rule:"ALLEVIATE = to make a problem less severe. 'Aggravate' = worsen; 'alienate' = isolate; 'allocate' = distribute."},
+  {q:"The health minister's speech was highly ______, motivating thousands to get vaccinated.",opts:["redundant","divisive","persuasive","ambivalent"],ans:2,hint:"The speech convinced people to take action. Which word means 'able to convince'?",rule:"PERSUASIVE = able to persuade or convince. 'Redundant' = unnecessary; 'divisive' = causing disagreement."},
+  {q:"The new treatment was ______ by health authorities after extensive safety trials.",opts:["notified","justified","ratified","approved"],ans:3,hint:"Health authorities gave their official agreement that the treatment is safe to use.",rule:"APPROVED = officially agreed to be acceptable or safe. 'Ratified' is for treaties; 'approved' for medical treatments."},
+  {q:"The medical team's ______ efforts during the crisis saved hundreds of patients.",opts:["reckless","restless","relentless","helpless"],ans:2,hint:"The team worked continuously and never gave up despite exhaustion. Which word captures this?",rule:"RELENTLESS = constant and determined, never stopping. 'Reckless' = careless; 'restless' = unable to rest."}
+];
+
+const sectionScores={a:0,b:0,c:0,d:0,e:0,f:0};
+const mcqSel={};
+let studentName="",startTime=null,autoSaveTimer=null;
+
+function norm(s){return(s||"").toLowerCase().replace(/[^a-z0-9 ',]/g,"").replace(/\s+/g," ").trim()}
+function sc(pct){return pct>=80?"#4ade80":pct>=60?"#fbbf24":"#f87171"}
+
+function collectAnswers(){
+  const data={};
+  "abcde".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);data[p+i]=el?el.value.trim():""}});
+  for(let i=1;i<=10;i++)data["f"+i]=mcqSel[i]!==undefined?"ABCD"[mcqSel[i]]:"";
+  "gh".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);data[p+i]=el?el.value.trim():""}});
+  const i1=document.getElementById("i1");data.i1=i1?i1.value.trim():"";
+  return data;
+}
+
+function saveToLocal(){
+  try{
+    localStorage.setItem(LS_KEY,JSON.stringify({
+      name:studentName,
+      savedAt:new Date().toLocaleString("en-MY",{dateStyle:"medium",timeStyle:"short"}),
+      startTime:startTime?startTime.toISOString():null,
+      answers:collectAnswers(),
+      mcqSel:{...mcqSel},
+      sectionScores:{...sectionScores}
+    }));
+  }catch(e){}
+}
+
+function loadFromLocal(){
+  try{const r=localStorage.getItem(LS_KEY);return r?JSON.parse(r):null;}catch(e){return null;}
+}
+function clearLocal(){try{localStorage.removeItem(LS_KEY);}catch(e){}}
+
+function restoreAnswers(state){
+  const ans=state.answers||{};
+  "abcde".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);if(el&&ans[p+i])el.value=ans[p+i];}});
+  "gh".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);if(el&&ans[p+i])el.value=ans[p+i];}});
+  const i1=document.getElementById("i1");if(i1&&ans.i1)i1.value=ans.i1;
+  if(state.mcqSel){
+    Object.entries(state.mcqSel).forEach(([qn,ji])=>{
+      mcqSel[parseInt(qn)]=ji;
+      const opt=document.getElementById("opt-"+qn+"-"+ji);
+      if(opt){document.querySelectorAll("#mcq-"+qn+" .mcq-opt").forEach(o=>o.classList.remove("sel"));opt.classList.add("sel");}
+    });
+  }
+  if(state.sectionScores)Object.entries(state.sectionScores).forEach(([k,v])=>{sectionScores[k]=v;});
+  updateDash();
+}
+
+async function saveProgress(part){
+  saveToLocal();
+  const tag=document.getElementById("saved-"+part);
+  if(tag){tag.classList.add("show");setTimeout(()=>tag.classList.remove("show"),3000);}
+  showInd("saving","&#9650; Saving...");
+  let ok=false;
+  try{
+    const getRes=await fetch(API+"/b/"+BIN_ID+"/latest",{headers:{"X-Master-Key":MASTER_KEY,"X-Bin-Meta":"false"}});
+    const existing=await getRes.json();
+    let subs=Array.isArray(existing.submissions)?existing.submissions:[];
+    const draft={name:studentName,submittedAt:null,savedAt:new Date().toLocaleString("en-MY",{dateStyle:"medium",timeStyle:"short"}),duration:startTime?Math.round((new Date()-startTime)/60000)+" min":"N/A",score:Object.values(sectionScores).reduce((a,b)=>a+b,0),pct:Math.round((Object.values(sectionScores).reduce((a,b)=>a+b,0)/60)*100),sectionScores:{...sectionScores},answers:collectAnswers(),isDraft:true};
+    const idx=subs.findIndex(s=>s.name===studentName&&s.isDraft);
+    if(idx>=0)subs[idx]=draft;else subs.push(draft);
+    const putRes=await fetch(API+"/b/"+BIN_ID,{method:"PUT",headers:{"Content-Type":"application/json","X-Master-Key":MASTER_KEY},body:JSON.stringify({submissions:subs})});
+    ok=putRes.ok;
+  }catch(e){}
+  showInd(ok?"saved":"error",ok?"&#10003; Progress saved":"&#9888; Saved locally only");
+}
+
+function showInd(type,msg){
+  const el=document.getElementById("saveInd");
+  el.className="save-indicator "+type;el.innerHTML=msg;
+  clearTimeout(el._t);el._t=setTimeout(()=>{el.className="save-indicator";},3000);
+}
+
+function startAutoSave(){
+  autoSaveTimer=setInterval(()=>{
+    saveToLocal();
+    (async()=>{
+      try{
+        const g=await fetch(API+"/b/"+BIN_ID+"/latest",{headers:{"X-Master-Key":MASTER_KEY,"X-Bin-Meta":"false"}});
+        const ex=await g.json();
+        let subs=Array.isArray(ex.submissions)?ex.submissions:[];
+        const d={name:studentName,submittedAt:null,savedAt:new Date().toLocaleString("en-MY",{dateStyle:"medium",timeStyle:"short"}),duration:startTime?Math.round((new Date()-startTime)/60000)+" min":"N/A",score:Object.values(sectionScores).reduce((a,b)=>a+b,0),pct:Math.round((Object.values(sectionScores).reduce((a,b)=>a+b,0)/60)*100),sectionScores:{...sectionScores},answers:collectAnswers(),isDraft:true};
+        const idx=subs.findIndex(s=>s.name===studentName&&s.isDraft);
+        if(idx>=0)subs[idx]=d;else subs.push(d);
+        await fetch(API+"/b/"+BIN_ID,{method:"PUT",headers:{"Content-Type":"application/json","X-Master-Key":MASTER_KEY},body:JSON.stringify({submissions:subs})});
+      }catch(e){}
+    })();
+  },60000);
+}
+
+function startTest(){
+  const val=document.getElementById("nameInput").value.trim();
+  if(val.length<2){document.getElementById("nameErr").style.display="block";return;}
+  studentName=val;
+  const saved=loadFromLocal();
+  if(saved&&saved.name===studentName){
+    document.getElementById("nameGate").style.display="none";
+    document.getElementById("resumeName").textContent=saved.name;
+    document.getElementById("resumeTime").textContent="Last saved: "+saved.savedAt;
+    const ans=saved.answers||{};
+    const parts=["A","B","C","D","E","F","G","H","I"];
+    document.getElementById("resumeParts").innerHTML=parts.map(p=>{
+      const pfx=p.toLowerCase();
+      let has=pfx==="i"?!!(ans.i1):Array.from({length:10},(_,i)=>ans[pfx+(i+1)]).some(v=>v);
+      return '<div class="resume-part'+(has?" done":"")+'">'+(has?"&#10003; ":"")+"Part "+p+"</div>";
+    }).join("");
+    document.getElementById("resumeModal").classList.add("open");
+  }else{
+    launchTest(loadFromLocal());
+  }
+}
+
+function resumeSession(){
+  document.getElementById("resumeModal").classList.remove("open");
+  launchTest(loadFromLocal());
+}
+
+function startFresh(){
+  clearLocal();
+  document.getElementById("resumeModal").classList.remove("open");
+  launchTest(null);
+}
+
+function launchTest(savedState){
+  document.getElementById("nameGate").style.display="none";
+  startTime=savedState&&savedState.startTime?new Date(savedState.startTime):new Date();
+  document.getElementById("mainTest").style.display="block";
+  document.getElementById("dispName").textContent=studentName;
+  if(savedState)setTimeout(()=>restoreAnswers(savedState),120);
+  startAutoSave();
+  updateProgress();
+}
+
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&document.getElementById("nameGate").style.display!=="none")startTest();});
+
+function buildMCQ(){
+  const c=document.getElementById("mcq-container");
+  MCQ.forEach((q,i)=>{
+    const div=document.createElement("div");div.className="qb";
+    div.innerHTML='<div class="qnum">Q'+(i+1)+'</div><div class="qtext">'+q.q+'</div>'
+    +'<div class="mcq-grid" id="mcq-'+(i+1)+'">'+q.opts.map((o,j)=>'<div class="mcq-opt" id="opt-'+(i+1)+'-'+j+'" onclick="selMCQ('+(i+1)+','+j+')"><div class="opt-l">'+"ABCD"[j]+'</div>'+o+'</div>').join('')+'</div>'
+    +'<div class="fb-correct" id="fb-ok-f'+(i+1)+'">&#10003; Correct! Well done.</div>'
+    +'<div class="fb-wrong" id="fb-bad-f'+(i+1)+'"><div class="fb-wrong-top">&#10007; Not quite &#8212; read the hints.</div><div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">'+q.hint+'</div></div><div class="fb-rule"><div class="lbl">&#128216; Vocabulary Rule</div><div class="txt">'+q.rule+'</div></div></div>';
+    c.appendChild(div);
+  });
+}
+
+function selMCQ(qn,ji){
+  if(document.querySelector("#mcq-"+qn+" .mcq-opt.right"))return;
+  document.querySelectorAll("#mcq-"+qn+" .mcq-opt").forEach(o=>o.classList.remove("sel"));
+  document.getElementById("opt-"+qn+"-"+ji).classList.add("sel");
+  mcqSel[qn]=ji;updateProgress();saveToLocal();
+}
+
+function toggle(id){
+  document.getElementById("body-"+id).classList.toggle("open");
+  document.getElementById("arr-"+id).classList.toggle("open");
+}
+
+function addFeedback(el){
+  const id=el.id,parent=el.closest(".qb");
+  if(parent.querySelector("#fb-ok-"+id))return;
+  const ok=document.createElement("div");ok.className="fb-correct";ok.id="fb-ok-"+id;ok.innerHTML="&#10003; Correct! Well done.";
+  const bad=document.createElement("div");bad.className="fb-wrong";bad.id="fb-bad-"+id;
+  bad.innerHTML='<div class="fb-wrong-top">&#10007; Not quite &#8212; read the hints.</div><div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">'+(el.dataset.hint||"")+'</div></div><div class="fb-rule"><div class="lbl">&#128216; Grammar Rule</div><div class="txt">'+(el.dataset.rule||"")+'</div></div>';
+  parent.appendChild(ok);parent.appendChild(bad);
+}
+
+function showFb(id,correct){
+  const ok=document.getElementById("fb-ok-"+id),bad=document.getElementById("fb-bad-"+id);
+  if(!ok||!bad)return;
+  if(correct){ok.style.display="block";bad.style.display="none";}
+  else{ok.style.display="none";bad.style.display="block";}
+}
+
+function checkFill(pfx,n){
+  let score=0;
+  for(let i=1;i<=n;i++){
+    const el=document.getElementById(pfx+i);if(!el)continue;
+    addFeedback(el);
+    const val=el.value.trim();
+    if(!val){el.classList.remove("ok","bad");document.getElementById("fb-ok-"+pfx+i).style.display="none";document.getElementById("fb-bad-"+pfx+i).style.display="none";continue;}
+    const correct=norm(val)===norm(el.dataset.ans);
+    el.classList.remove("ok","bad");el.classList.add(correct?"ok":"bad");
+    showFb(pfx+i,correct);if(correct)score++;
+  }
+  sectionScores[pfx]=score;updateDash();saveToLocal();
+}
+
+function checkTA(pfx,n){
+  let score=0;
+  for(let i=1;i<=n;i++){
+    const el=document.getElementById(pfx+i);if(!el)continue;
+    addFeedback(el);
+    const val=el.value.trim();
+    if(!val){document.getElementById("fb-ok-"+pfx+i).style.display="none";document.getElementById("fb-bad-"+pfx+i).style.display="none";continue;}
+    const correct=norm(val)===norm(el.dataset.ans);
+    el.classList.remove("ok","bad");el.classList.add(correct?"ok":"bad");
+    showFb(pfx+i,correct);if(correct)score++;
+  }
+  sectionScores[pfx]=score;updateDash();saveToLocal();
+}
+
+function checkMCQ(){
+  let score=0;
+  MCQ.forEach((q,i)=>{
+    const qn=i+1,sel=mcqSel[qn];
+    const okEl=document.getElementById("fb-ok-f"+qn),badEl=document.getElementById("fb-bad-f"+qn);
+    if(sel===undefined){okEl.style.display="none";badEl.style.display="none";return;}
+    document.querySelectorAll("#mcq-"+qn+" .mcq-opt").forEach((o,j)=>{
+      o.classList.remove("sel","right","wrong");
+      if(j===q.ans)o.classList.add("right");
+      else if(j===sel)o.classList.add("wrong");
+    });
+    const correct=sel===q.ans;
+    if(correct){okEl.style.display="block";badEl.style.display="none";score++;}
+    else{okEl.style.display="none";badEl.style.display="block";}
+  });
+  sectionScores.f=score;updateDash();saveToLocal();
+}
+
+function updateProgress(){
+  let ans=0;
+  "abcde".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);if(el&&el.value.trim())ans++;}});
+  ans+=Object.keys(mcqSel).length;
+  "gh".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);if(el&&el.value.trim())ans++;}});
+  const i1=document.getElementById("i1");if(i1&&i1.value.trim())ans++;
+  document.getElementById("dAnswered").textContent=ans;
+  const pct=Math.round((ans/70)*100);
+  document.getElementById("dPct").textContent=pct+"%";
+  document.getElementById("progFill").style.width=pct+"%";
+  document.getElementById("saveBarFill").style.width=pct+"%";
+}
+
+function updateDash(){
+  document.getElementById("dScore").textContent=Object.values(sectionScores).reduce((a,b)=>a+b,0);
+  updateProgress();
+}
+
+async function submitAll(){
+  const btn=document.getElementById("submitBtn");
+  btn.disabled=true;btn.textContent="Saving...";
+  checkFill("a",10);checkFill("b",10);checkTA("c",10);checkTA("d",10);checkTA("e",10);checkMCQ();
+  const score=Object.values(sectionScores).reduce((a,b)=>a+b,0);
+  const pct=Math.round((score/60)*100);
+  const duration=startTime?Math.round((new Date()-startTime)/60000)+" min":"N/A";
+  const submission={name:studentName,submittedAt:new Date().toLocaleString("en-MY",{dateStyle:"medium",timeStyle:"short"}),duration,score,pct,sectionScores:{...sectionScores},answers:collectAnswers(),isDraft:false};
+  let saved=false;
+  try{
+    const getRes=await fetch(API+"/b/"+BIN_ID+"/latest",{headers:{"X-Master-Key":MASTER_KEY,"X-Bin-Meta":"false"}});
+    const existing=await getRes.json();
+    let subs=Array.isArray(existing.submissions)?existing.submissions:[];
+    subs=subs.filter(s=>!(s.name===studentName&&s.isDraft));
+    subs.push(submission);
+    const putRes=await fetch(API+"/b/"+BIN_ID,{method:"PUT",headers:{"Content-Type":"application/json","X-Master-Key":MASTER_KEY},body:JSON.stringify({submissions:subs})});
+    if(putRes.ok){saved=true;clearLocal();clearInterval(autoSaveTimer);}
+  }catch(e){}
+  const col=sc(pct);
+  document.getElementById("resScore").textContent=score+"/60";
+  document.getElementById("resScore").style.color=col;
+  document.getElementById("resSaved").style.cssText="background:"+(saved?"rgba(74,222,128,.08)":"rgba(251,191,36,.08)")+";border:1px solid "+(saved?"rgba(74,222,128,.25)":"rgba(251,191,36,.25)")+";color:"+(saved?"#4ade80":"#fbbf24");
+  document.getElementById("resSaved").textContent=saved?"&#10003; Submitted! Your teacher will see your results.":"&#9888; Could not save. Please tell your teacher.";
+  const msg=pct>=85?"Excellent work! Your understanding of medical English is impressive.":pct>=70?"Well done! Strong grammar skills with room to improve.":pct>=55?"Good effort! Focus on verb tenses and sentence structure.":"Keep going! Review the grammar rules carefully.";
+  document.getElementById("resMsg").textContent=msg;
+  document.getElementById("resGrid").innerHTML=["a","b","c","d","e","f"].map(p=>'<div class="res-item"><div class="v" style="color:'+sc((sectionScores[p]||0)*10)+'">'+(sectionScores[p]||0)+'/10</div><div class="l">Part '+p.toUpperCase()+'</div></div>').join("");
+  document.getElementById("resultModal").classList.add("open");
+  btn.disabled=false;btn.textContent="Submit & Save Results";
+}
+
+function closeResult(){document.getElementById("resultModal").classList.remove("open");}
+
+window.addEventListener("load",()=>{
+  buildMCQ();
+  const i1=document.getElementById("i1");
+  if(i1)i1.addEventListener("input",function(){
+    document.getElementById("wc").textContent="Words: "+this.value.trim().split(/\s+/).filter(w=>w).length;
+    updateProgress();saveToLocal();
+  });
+  document.querySelectorAll("input.fill,textarea.ta").forEach(el=>el.addEventListener("input",()=>{updateProgress();saveToLocal();}));
+});
+</script>
+</body>
+</html>
