@@ -94,6 +94,33 @@ textarea.ta.bad{border-color:var(--err)}
 
 .btn-submit{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:1px;padding:14px 44px;background:linear-gradient(135deg,var(--a2),var(--accent));color:#000;border:none;border-radius:8px;cursor:pointer;text-transform:uppercase;width:100%;max-width:340px}
 .btn-submit:disabled{opacity:.5}
+.ai-fb{margin-top:10px;border-radius:8px;overflow:hidden;border:1px solid var(--border);display:none}
+.ai-fb.show{display:block}
+.ai-fb.loading .ai-top{background:rgba(96,165,250,.08);border-bottom:1px solid rgba(96,165,250,.15)}
+.ai-fb.correct .ai-top{background:rgba(52,211,153,.08);border-bottom:1px solid rgba(52,211,153,.2)}
+.ai-fb.partial .ai-top{background:rgba(251,191,36,.08);border-bottom:1px solid rgba(251,191,36,.2)}
+.ai-fb.incorrect .ai-top{background:rgba(248,113,113,.08);border-bottom:1px solid rgba(248,113,113,.2)}
+.ai-top{padding:9px 13px;font-size:12px;font-family:var(--mono);display:flex;align-items:center;gap:8px}
+.ai-fb.loading .ai-top{color:var(--a3)}
+.ai-fb.correct .ai-top{color:var(--ok)}
+.ai-fb.partial .ai-top{color:var(--warn)}
+.ai-fb.incorrect .ai-top{color:var(--err)}
+.ai-body{padding:12px 14px;font-size:13px;line-height:1.7;color:var(--text)}
+.ai-body strong{color:var(--a2)}
+.ai-body em{color:var(--a3);font-style:normal}
+.ai-spinner{display:inline-block;width:10px;height:10px;border:2px solid rgba(96,165,250,.3);border-top-color:var(--a3);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.check-ai-btn{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:9px 18px;background:linear-gradient(135deg,rgba(96,165,250,.15),rgba(52,211,153,.15));color:var(--text);border:1px solid rgba(96,165,250,.3);border-radius:6px;cursor:pointer;text-transform:uppercase;margin-top:14px;transition:all .2s;display:flex;align-items:center;gap:7px}
+.check-ai-btn:hover{background:linear-gradient(135deg,rgba(96,165,250,.25),rgba(52,211,153,.25));border-color:rgba(96,165,250,.5)}
+.check-ai-btn:disabled{opacity:.5;pointer-events:none}
+.check-all-btn{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:10px 22px;background:linear-gradient(135deg,var(--a3),var(--accent));color:#000;border:none;border-radius:6px;cursor:pointer;text-transform:uppercase;margin-top:16px;transition:all .2s}
+.check-all-btn:disabled{opacity:.5}
+.para-ai-fb{margin-top:14px;border-radius:10px;overflow:hidden;border:1px solid var(--border);display:none}
+.para-ai-fb.show{display:block}
+.para-ai-top{padding:12px 16px;font-size:12px;font-family:var(--mono);border-bottom:1px solid var(--border)}
+.para-ai-section{padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px;line-height:1.75}
+.para-ai-section:last-child{border-bottom:none}
+.para-ai-label{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
 .submit-sec{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:30px;text-align:center;margin-top:16px}
 .submit-sec h3{font-family:var(--mono);font-size:15px;margin-bottom:8px}
 .submit-sec p{font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.65}
@@ -264,17 +291,40 @@ textarea.ta.bad{border-color:var(--err)}
     <div class="sec-hdr" onclick="toggle('g')"><span class="sec-tag">PART G</span><div><div class="sec-title">Sentence Expansion</div><div class="sec-sub">Expand each simple sentence into a complex, descriptive sentence</div></div><span class="sec-arrow" id="arr-g">&#9660;</span></div>
     <div class="sec-body" id="body-g">
       <div class="example-box"><div class="ex-lbl">EXAMPLE</div><div class="ex-s">The forest burned.</div><div class="ex-e">&#8594; Driven by months of drought and record-breaking heat, the ancient forest burned uncontrollably for weeks, releasing vast amounts of carbon dioxide into an already fragile atmosphere.</div></div>
-      <div class="qb"><div class="qnum">Q1</div><div class="qtext">The iceberg melted.</div><textarea class="ta" id="g1" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
-      <div class="qb"><div class="qnum">Q2</div><div class="qtext">Sea levels rose.</div><textarea class="ta" id="g2" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
-      <div class="qb"><div class="qnum">Q3</div><div class="qtext">Scientists warned governments.</div><textarea class="ta" id="g3" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
-      <div class="qb"><div class="qnum">Q4</div><div class="qtext">The coral reef died.</div><textarea class="ta" id="g4" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
-      <div class="qb"><div class="qnum">Q5</div><div class="qtext">The flood devastated the village.</div><textarea class="ta" id="g5" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
-      <div class="qb"><div class="qnum">Q6</div><div class="qtext">Nations disagreed at the summit.</div><textarea class="ta" id="g6" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
-      <div class="qb"><div class="qnum">Q7</div><div class="qtext">Renewable energy expanded.</div><textarea class="ta" id="g7" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
-      <div class="qb"><div class="qnum">Q8</div><div class="qtext">The activist protested.</div><textarea class="ta" id="g8" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
-      <div class="qb"><div class="qnum">Q9</div><div class="qtext">Wildlife habitats disappeared.</div><textarea class="ta" id="g9" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
-      <div class="qb"><div class="qnum">Q10</div><div class="qtext">The agreement was reached.</div><textarea class="ta" id="g10" placeholder="Expand into a complex descriptive sentence..."></textarea></div>
-      <p style="font-size:11px;color:var(--muted);font-family:var(--mono)">* Open-ended &mdash; teacher-marked.</p>
+      <div class="qb"><div class="qnum">Q1</div><div class="qtext">The iceberg melted.</div><textarea class="ta" id="g1" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g1" onclick="checkAI('g',1)"><span class="ai-spinner" id="ai-spin-g1" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g1"><div class="ai-top" id="ai-top-g1"></div><div class="ai-body" id="ai-body-g1"></div></div></div>
+      <div class="qb"><div class="qnum">Q2</div><div class="qtext">Sea levels rose.</div><textarea class="ta" id="g2" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g2" onclick="checkAI('g',2)"><span class="ai-spinner" id="ai-spin-g2" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g2"><div class="ai-top" id="ai-top-g2"></div><div class="ai-body" id="ai-body-g2"></div></div></div>
+      <div class="qb"><div class="qnum">Q3</div><div class="qtext">Scientists warned governments.</div><textarea class="ta" id="g3" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g3" onclick="checkAI('g',3)"><span class="ai-spinner" id="ai-spin-g3" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g3"><div class="ai-top" id="ai-top-g3"></div><div class="ai-body" id="ai-body-g3"></div></div></div>
+      <div class="qb"><div class="qnum">Q4</div><div class="qtext">The coral reef died.</div><textarea class="ta" id="g4" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g4" onclick="checkAI('g',4)"><span class="ai-spinner" id="ai-spin-g4" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g4"><div class="ai-top" id="ai-top-g4"></div><div class="ai-body" id="ai-body-g4"></div></div></div>
+      <div class="qb"><div class="qnum">Q5</div><div class="qtext">The flood devastated the village.</div><textarea class="ta" id="g5" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g5" onclick="checkAI('g',5)"><span class="ai-spinner" id="ai-spin-g5" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g5"><div class="ai-top" id="ai-top-g5"></div><div class="ai-body" id="ai-body-g5"></div></div></div>
+      <div class="qb"><div class="qnum">Q6</div><div class="qtext">Nations disagreed at the summit.</div><textarea class="ta" id="g6" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g6" onclick="checkAI('g',6)"><span class="ai-spinner" id="ai-spin-g6" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g6"><div class="ai-top" id="ai-top-g6"></div><div class="ai-body" id="ai-body-g6"></div></div></div>
+      <div class="qb"><div class="qnum">Q7</div><div class="qtext">Renewable energy expanded.</div><textarea class="ta" id="g7" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g7" onclick="checkAI('g',7)"><span class="ai-spinner" id="ai-spin-g7" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g7"><div class="ai-top" id="ai-top-g7"></div><div class="ai-body" id="ai-body-g7"></div></div></div>
+      <div class="qb"><div class="qnum">Q8</div><div class="qtext">The activist protested.</div><textarea class="ta" id="g8" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g8" onclick="checkAI('g',8)"><span class="ai-spinner" id="ai-spin-g8" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g8"><div class="ai-top" id="ai-top-g8"></div><div class="ai-body" id="ai-body-g8"></div></div></div>
+      <div class="qb"><div class="qnum">Q9</div><div class="qtext">Wildlife habitats disappeared.</div><textarea class="ta" id="g9" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g9" onclick="checkAI('g',9)"><span class="ai-spinner" id="ai-spin-g9" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g9"><div class="ai-top" id="ai-top-g9"></div><div class="ai-body" id="ai-body-g9"></div></div></div>
+      <div class="qb"><div class="qnum">Q10</div><div class="qtext">The agreement was reached.</div><textarea class="ta" id="g10" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g10" onclick="checkAI('g',10)"><span class="ai-spinner" id="ai-spin-g10" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g10"><div class="ai-top" id="ai-top-g10"></div><div class="ai-body" id="ai-body-g10"></div></div></div>
+      <div style="margin-top:6px">
+        <button class="check-all-btn" id="check-all-g" onclick="checkAllAI('g')">&#129302; Check All Part G with AI</button>
+        <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:8px">AI will check grammar, vocabulary and give suggestions</div>
+      </div>
     </div>
   </div>
 
@@ -282,17 +332,40 @@ textarea.ta.bad{border-color:var(--err)}
   <div class="section">
     <div class="sec-hdr" onclick="toggle('h')"><span class="sec-tag">PART H</span><div><div class="sec-title">Composition Sentence Practice</div><div class="sec-sub">Rewrite each sentence to be more vivid, formal and impactful</div></div><span class="sec-arrow" id="arr-h">&#9660;</span></div>
     <div class="sec-body" id="body-h">
-      <div class="qb"><div class="qnum">Q1</div><div class="qtext">The weather is getting worse.</div><textarea class="ta" id="h1" placeholder="Rewrite more descriptively..."></textarea></div>
-      <div class="qb"><div class="qnum">Q2</div><div class="qtext">Many animals are dying.</div><textarea class="ta" id="h2" placeholder="Rewrite more descriptively..."></textarea></div>
-      <div class="qb"><div class="qnum">Q3</div><div class="qtext">The air in the city is bad.</div><textarea class="ta" id="h3" placeholder="Rewrite more descriptively..."></textarea></div>
-      <div class="qb"><div class="qnum">Q4</div><div class="qtext">People wasted a lot of energy.</div><textarea class="ta" id="h4" placeholder="Rewrite more descriptively..."></textarea></div>
-      <div class="qb"><div class="qnum">Q5</div><div class="qtext">The government made new environment rules.</div><textarea class="ta" id="h5" placeholder="Rewrite more descriptively..."></textarea></div>
-      <div class="qb"><div class="qnum">Q6</div><div class="qtext">Plastic is a big problem in the ocean.</div><textarea class="ta" id="h6" placeholder="Rewrite more descriptively..."></textarea></div>
-      <div class="qb"><div class="qnum">Q7</div><div class="qtext">Scientists found worrying results.</div><textarea class="ta" id="h7" placeholder="Rewrite more descriptively..."></textarea></div>
-      <div class="qb"><div class="qnum">Q8</div><div class="qtext">Young people started caring about the environment.</div><textarea class="ta" id="h8" placeholder="Rewrite more descriptively..."></textarea></div>
-      <div class="qb"><div class="qnum">Q9</div><div class="qtext">Trees were cut down in the forest.</div><textarea class="ta" id="h9" placeholder="Rewrite more descriptively..."></textarea></div>
-      <div class="qb"><div class="qnum">Q10</div><div class="qtext">The temperature went up every year.</div><textarea class="ta" id="h10" placeholder="Rewrite more descriptively..."></textarea></div>
-      <p style="font-size:11px;color:var(--muted);font-family:var(--mono)">* Open-ended &mdash; teacher-marked.</p>
+      <div class="qb"><div class="qnum">Q1</div><div class="qtext">The weather is getting worse.</div><textarea class="ta" id="h1" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h1" onclick="checkAI('h',1)"><span class="ai-spinner" id="ai-spin-h1" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h1"><div class="ai-top" id="ai-top-h1"></div><div class="ai-body" id="ai-body-h1"></div></div></div>
+      <div class="qb"><div class="qnum">Q2</div><div class="qtext">Many animals are dying.</div><textarea class="ta" id="h2" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h2" onclick="checkAI('h',2)"><span class="ai-spinner" id="ai-spin-h2" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h2"><div class="ai-top" id="ai-top-h2"></div><div class="ai-body" id="ai-body-h2"></div></div></div>
+      <div class="qb"><div class="qnum">Q3</div><div class="qtext">The air in the city is bad.</div><textarea class="ta" id="h3" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h3" onclick="checkAI('h',3)"><span class="ai-spinner" id="ai-spin-h3" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h3"><div class="ai-top" id="ai-top-h3"></div><div class="ai-body" id="ai-body-h3"></div></div></div>
+      <div class="qb"><div class="qnum">Q4</div><div class="qtext">People wasted a lot of energy.</div><textarea class="ta" id="h4" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h4" onclick="checkAI('h',4)"><span class="ai-spinner" id="ai-spin-h4" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h4"><div class="ai-top" id="ai-top-h4"></div><div class="ai-body" id="ai-body-h4"></div></div></div>
+      <div class="qb"><div class="qnum">Q5</div><div class="qtext">The government made new environment rules.</div><textarea class="ta" id="h5" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h5" onclick="checkAI('h',5)"><span class="ai-spinner" id="ai-spin-h5" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h5"><div class="ai-top" id="ai-top-h5"></div><div class="ai-body" id="ai-body-h5"></div></div></div>
+      <div class="qb"><div class="qnum">Q6</div><div class="qtext">Plastic is a big problem in the ocean.</div><textarea class="ta" id="h6" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h6" onclick="checkAI('h',6)"><span class="ai-spinner" id="ai-spin-h6" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h6"><div class="ai-top" id="ai-top-h6"></div><div class="ai-body" id="ai-body-h6"></div></div></div>
+      <div class="qb"><div class="qnum">Q7</div><div class="qtext">Scientists found worrying results.</div><textarea class="ta" id="h7" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h7" onclick="checkAI('h',7)"><span class="ai-spinner" id="ai-spin-h7" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h7"><div class="ai-top" id="ai-top-h7"></div><div class="ai-body" id="ai-body-h7"></div></div></div>
+      <div class="qb"><div class="qnum">Q8</div><div class="qtext">Young people started caring about the environment.</div><textarea class="ta" id="h8" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h8" onclick="checkAI('h',8)"><span class="ai-spinner" id="ai-spin-h8" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h8"><div class="ai-top" id="ai-top-h8"></div><div class="ai-body" id="ai-body-h8"></div></div></div>
+      <div class="qb"><div class="qnum">Q9</div><div class="qtext">Trees were cut down in the forest.</div><textarea class="ta" id="h9" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h9" onclick="checkAI('h',9)"><span class="ai-spinner" id="ai-spin-h9" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h9"><div class="ai-top" id="ai-top-h9"></div><div class="ai-body" id="ai-body-h9"></div></div></div>
+      <div class="qb"><div class="qnum">Q10</div><div class="qtext">The temperature went up every year.</div><textarea class="ta" id="h10" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h10" onclick="checkAI('h',10)"><span class="ai-spinner" id="ai-spin-h10" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h10"><div class="ai-top" id="ai-top-h10"></div><div class="ai-body" id="ai-body-h10"></div></div></div>
+      <div style="margin-top:6px">
+        <button class="check-all-btn" id="check-all-h" onclick="checkAllAI('h')">&#129302; Check All Part H with AI</button>
+        <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:8px">AI will check grammar, vocabulary and give suggestions</div>
+      </div>
     </div>
   </div>
 
@@ -315,7 +388,16 @@ textarea.ta.bad{border-color:var(--err)}
       <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--muted);font-family:var(--mono)">
         <span id="wc">Words: 0</span><span>Target: 100&ndash;140 words</span>
       </div>
-      
+      <div style="margin-top:14px">
+        <button class="check-all-btn" id="check-para-btn" onclick="checkParaAI()">&#129302; Check My Paragraph with AI</button>
+      </div>
+      <div class="para-ai-fb" id="para-ai-fb">
+        <div class="para-ai-top" id="para-ai-top"></div>
+        <div class="para-ai-section" id="para-ai-grammar"></div>
+        <div class="para-ai-section" id="para-ai-vocab"></div>
+        <div class="para-ai-section" id="para-ai-structure"></div>
+        <div class="para-ai-section" id="para-ai-suggestion"></div>
+      </div>
     </div>
   </div>
 
@@ -565,6 +647,153 @@ async function submitAll(){
   btn.disabled=false;btn.textContent="Submit & Save Results";
 }
 function closeResult(){document.getElementById("resultModal").classList.remove("open");}
+// ── AI CHECKING FOR PARTS G, H, I ─────────────────────────────────────────
+const G_QUESTIONS = ['The iceberg melted.', 'Sea levels rose.', 'Scientists warned governments.', 'The coral reef died.', 'The flood devastated the village.', 'Nations disagreed at the summit.', 'Renewable energy expanded.', 'The activist protested.', 'Wildlife habitats disappeared.', 'The agreement was reached.'];
+const H_QUESTIONS = ['The weather is getting worse.', 'Many animals are dying.', 'The air in the city is bad.', 'People wasted a lot of energy.', 'The government made new environment rules.', 'Plastic is a big problem in the ocean.', 'Scientists found worrying results.', 'Young people started caring about the environment.', 'Trees were cut down in the forest.', 'The temperature went up every year.'];
+
+async function checkAI(part, qnum) {
+  const val = document.getElementById(part+qnum).value.trim();
+  if(!val) { alert("Please write your answer first."); return; }
+
+  const btn = document.getElementById("ai-btn-"+part+qnum);
+  const spin = document.getElementById("ai-spin-"+part+qnum);
+  const fb = document.getElementById("ai-fb-"+part+qnum);
+  const top = document.getElementById("ai-top-"+part+qnum);
+  const body = document.getElementById("ai-body-"+part+qnum);
+
+  btn.disabled = true;
+  if(spin) spin.style.display = "inline-block";
+  fb.className = "ai-fb show loading";
+  top.innerHTML = '<span class="ai-spinner"></span> AI is checking your answer...';
+  body.innerHTML = "";
+
+  const questions = part === "g" ? G_QUESTIONS : H_QUESTIONS;
+  const context = part === "g" ? "Part G (Sentence Expansion): The student must expand a simple sentence into a complex, descriptive sentence using adjectives, adverbs, or clauses related to environment and climate change." : "Part H (Composition Practice): The student must rewrite a simple sentence to make it more vivid, formal, and impactful, using sophisticated vocabulary and structure.";
+  const originalSentence = questions[qnum-1];
+
+  const prompt = `You are an English language teacher marking a student's answer. 
+
+Context: Part G (Sentence Expansion): The student must expand a simple sentence into a complex, descriptive sentence using adjectives, adverbs, or clauses related to environment and climate change.
+Original simple sentence: "${originalSentence}"
+Student's answer: "${val}"
+
+Evaluate the student's answer on:
+1. Grammar correctness
+2. Vocabulary richness and appropriateness  
+3. Whether it successfully expands/improves the original sentence
+4. Whether the meaning relates to environment/climate change
+
+Respond in this EXACT JSON format (no markdown, no extra text):
+{"verdict":"correct|partial|incorrect","summary":"One sentence verdict","grammar":"Grammar feedback in 1-2 sentences. If correct say so. If wrong, explain the error and the rule.","vocabulary":"Vocabulary feedback. Praise good word choices. Suggest better words if needed.","suggestion":"If not fully correct, provide ONE improved example sentence. If correct, write CORRECT."}`;
+
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 500,
+        messages: [{role:"user", content: prompt}]
+      })
+    });
+    const data = await res.json();
+    const text = data.content.map(c=>c.text||"").join("");
+    let result;
+    try { result = JSON.parse(text.replace(/```json|```/g,"").trim()); }
+    catch(e) { result = {verdict:"partial", summary:text, grammar:"", vocabulary:"", suggestion:""}; }
+
+    fb.className = "ai-fb show " + (result.verdict||"partial");
+    const icon = result.verdict==="correct"?"✓":result.verdict==="partial"?"~":"✗";
+    top.innerHTML = icon + " " + (result.summary||"");
+    
+    let bodyHtml = "";
+    if(result.grammar) bodyHtml += `<div style="margin-bottom:10px"><strong>Grammar:</strong> ${result.grammar}</div>`;
+    if(result.vocabulary) bodyHtml += `<div style="margin-bottom:10px"><strong>Vocabulary:</strong> ${result.vocabulary}</div>`;
+    if(result.suggestion && result.suggestion !== "CORRECT") {
+      bodyHtml += `<div style="background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.2);border-radius:6px;padding:10px 13px;margin-top:4px"><em style="display:block;margin-bottom:4px;font-size:11px;font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;color:var(--a3)">Suggested improvement:</em>${result.suggestion}</div>`;
+    }
+    body.innerHTML = bodyHtml;
+
+    // Auto-save progress after AI check
+    autoSave(part);
+
+  } catch(e) {
+    fb.className = "ai-fb show incorrect";
+    top.innerHTML = "✗ Could not connect to AI. Check your internet connection.";
+    body.innerHTML = "";
+  }
+
+  btn.disabled = false;
+  if(spin) spin.style.display = "none";
+}
+
+async function checkAllAI(part) {
+  const btn = document.getElementById("check-all-"+part);
+  btn.disabled = true;
+  btn.textContent = "Checking all...";
+  for(let i=1; i<=10; i++) {
+    const val = document.getElementById(part+i).value.trim();
+    if(val) await checkAI(part, i);
+  }
+  btn.disabled = false;
+  btn.innerHTML = "&#129302; Check All Part " + part.toUpperCase() + " with AI";
+  autoSave(part);
+}
+
+async function checkParaAI() {
+  const val = document.getElementById("i1").value.trim();
+  if(!val) { alert("Please write your paragraph first."); return; }
+
+  const btn = document.getElementById("check-para-btn");
+  const fb = document.getElementById("para-ai-fb");
+  btn.disabled = true;
+  btn.textContent = "AI is reading your paragraph...";
+  fb.className = "para-ai-fb show";
+  document.getElementById("para-ai-top").innerHTML = '<span style="font-family:var(--mono);font-size:12px;color:var(--a3)">&#9679; Analysing your paragraph...</span>';
+  ["para-ai-grammar","para-ai-vocab","para-ai-structure","para-ai-suggestion"].forEach(id=>document.getElementById(id).innerHTML="");
+
+  const prompt = `You are an English language teacher. A student has written a paragraph on the topic: "The Most Urgent Environmental Challenge Facing the World Today."
+
+Student's paragraph:
+"${val}"
+
+Evaluate this paragraph carefully. Respond in EXACT JSON format (no markdown):
+{"overall":"excellent|good|fair|needs_work","overallComment":"2 sentences overall assessment","grammar":{"score":"X/10","feedback":"Specific grammar feedback. List any errors found and explain the rule. If no errors, say so."},"vocabulary":{"score":"X/10","feedback":"Assess the vocabulary range. Praise strong word choices. Suggest 2-3 better alternatives for weak words."},"structure":{"score":"X/10","feedback":"Comment on paragraph structure: topic sentence, supporting details, conclusion. Is it well-organised?"},"suggestion":"Write one specific actionable tip to most improve this paragraph."}`;
+
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 800,
+        messages: [{role:"user", content: prompt}]
+      })
+    });
+    const data = await res.json();
+    const text = data.content.map(c=>c.text||"").join("");
+    let r;
+    try { r = JSON.parse(text.replace(/```json|```/g,"").trim()); }
+    catch(e) { r = {overall:"fair", overallComment:text, grammar:{score:"?",feedback:""}, vocabulary:{score:"?",feedback:""}, structure:{score:"?",feedback:""}, suggestion:""}; }
+
+    const colours = {excellent:"var(--ok)", good:"var(--ok)", fair:"var(--warn)", needs_work:"var(--err)"};
+    const col = colours[r.overall]||"var(--warn)";
+    document.getElementById("para-ai-top").innerHTML = `<span style="font-family:var(--mono);font-size:13px;font-weight:700;color:${col}">${(r.overall||"").toUpperCase().replace("_"," ")}</span><span style="font-size:13px;margin-left:10px">${r.overallComment||""}</span>`;
+
+    document.getElementById("para-ai-grammar").innerHTML = `<div style="font-family:var(--mono);font-size:10px;color:var(--a3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Grammar — ${r.grammar?.score||""}</div><div>${r.grammar?.feedback||""}</div>`;
+    document.getElementById("para-ai-vocab").innerHTML = `<div style="font-family:var(--mono);font-size:10px;color:var(--a2);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Vocabulary — ${r.vocabulary?.score||""}</div><div>${r.vocabulary?.feedback||""}</div>`;
+    document.getElementById("para-ai-structure").innerHTML = `<div style="font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Structure — ${r.structure?.score||""}</div><div>${r.structure?.feedback||""}</div>`;
+    if(r.suggestion) document.getElementById("para-ai-suggestion").innerHTML = `<div style="background:rgba(249,115,22,.07);border-left:3px solid var(--a2);padding:10px 13px;border-radius:0 6px 6px 0"><div style="font-family:var(--mono);font-size:10px;color:var(--a2);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px">&#128161; Key Tip to Improve</div><div style="font-size:13px">${r.suggestion}</div></div>`;
+
+    autoSave('i');
+  } catch(e) {
+    document.getElementById("para-ai-top").innerHTML = '<span style="color:var(--err);font-family:var(--mono);font-size:12px">✗ Could not connect to AI. Check your internet connection.</span>';
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = "&#129302; Check My Paragraph with AI";
+}
+
 
 window.addEventListener("load",()=>{
   buildMCQ();
@@ -574,14 +803,7 @@ window.addEventListener("load",()=>{
   });
   document.querySelectorAll("input.fill,textarea.ta").forEach(el=>el.addEventListener("input",updateProgress));
 
-  // Auto-save open-ended parts G, H, I when user stops typing (blur)
-  ["g","h"].forEach(p=>{
-    for(let i=1;i<=10;i++){
-      const el=document.getElementById(p+i);
-      if(el) el.addEventListener("blur",()=>autoSave(p));
-    }
-  });
-  document.getElementById("i1").addEventListener("blur",()=>autoSave("i"));
+  // Open-ended parts G, H, I saved via explicit Save buttons
 });
 </script>
 </body>
