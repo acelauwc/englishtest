@@ -653,6 +653,9 @@ const H_QUESTIONS=['The weather is getting worse.','Many animals are dying.','Th
 
 const LT_API = "https://api.languagetool.org/v2/check";
 
+// Track which example sentences have been revealed to the student
+const shownExamples = {};  // e.g. { "g1": "The enormous iceberg...", "h3": "..." }
+
 // Check sentence length & complexity
 function analyseComplexity(text, part) {
   const words = text.trim().split(/\s+/).length;
@@ -677,6 +680,31 @@ function analyseComplexity(text, part) {
 async function checkAI(part, qnum) {
   const val = document.getElementById(part+qnum).value.trim();
   if (!val) { alert("Please write your answer first."); return; }
+
+  // ── COPY DETECTION ───────────────────────────────────────────
+  const normVal = val.toLowerCase().replace(/[^a-z0-9 ]/g,"").replace(/\s+/g," ").trim();
+  if (shownExamples[part+qnum]) {
+    const example = shownExamples[part+qnum];
+    // Check similarity — if >80% of words match, flag as copied
+    const valWords = new Set(normVal.split(" "));
+    const exWords = example.split(" ");
+    const matchCount = exWords.filter(w => valWords.has(w)).length;
+    const similarity = matchCount / exWords.length;
+    if (similarity > 0.75) {
+      const btn2 = document.getElementById("ai-btn-"+part+qnum);
+      const fb2 = document.getElementById("ai-fb-"+part+qnum);
+      const top2 = document.getElementById("ai-top-"+part+qnum);
+      const body2 = document.getElementById("ai-body-"+part+qnum);
+      fb2.className = "ai-fb show incorrect";
+      top2.innerHTML = "&#128680; This appears to be copied from the example.";
+      body2.innerHTML = `<div style="background:rgba(248,113,113,.08);border-left:3px solid var(--err);padding:10px 13px;border-radius:0 6px 6px 0;font-size:13px;line-height:1.7">
+        The example sentence is there to <strong>guide your thinking</strong>, not to be copied. 
+        Please write your own original sentence using your own words and ideas.<br><br>
+        <span style="color:var(--warn)">Tip: Think about what you know about the topic. Use the example's <em>structure</em> as inspiration but choose different words and details.</span>
+      </div>`;
+      return;
+    }
+  }
 
   const btn = document.getElementById("ai-btn-"+part+qnum);
   const spin = document.getElementById("ai-spin-"+part+qnum);
@@ -751,15 +779,18 @@ async function checkAI(part, qnum) {
     });
   }
 
-  // Show example if incorrect
+  // Show example if incorrect — and record it so copy detection works
   if (verdict !== "correct") {
     const questions = part === 'g' ? G_QUESTIONS : H_QUESTIONS;
     const original = questions[qnum-1];
+    const exampleText = getExample(part, qnum);
+    shownExamples[part+qnum] = exampleText.toLowerCase().replace(/[^a-z0-9 ]/g,"").replace(/\s+/g," ").trim();
     bodyHtml += `<div style="background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.2);border-radius:6px;padding:10px 13px;margin-top:8px;font-size:12px">
       <div style="font-family:var(--mono);font-size:10px;color:var(--a3);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px">Original sentence to expand</div>
       <div style="color:var(--muted)">${original}</div>
       <div style="font-family:var(--mono);font-size:10px;color:var(--a3);letter-spacing:1px;text-transform:uppercase;margin:8px 0 5px">Example of a good expansion</div>
-      <div>${getExample(part, qnum)}</div>
+      <div>${exampleText}</div>
+      <div style="margin-top:8px;font-size:11px;color:var(--warn);font-family:var(--mono)">&#9888; Use this as inspiration only — write your own sentence in your own words.</div>
     </div>`;
   }
 
