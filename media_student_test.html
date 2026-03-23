@@ -150,6 +150,17 @@ textarea.ta.bad{border-color:var(--err)}
 </style>
 </head>
 <body>
+<script>
+// Hide name gate immediately if name param exists — prevents flash of login screen
+if(new URLSearchParams(window.location.search).get("name")){
+  document.addEventListener("DOMContentLoaded",function(){
+    var g=document.getElementById("nameGate");
+    if(g) g.style.display="none";
+    var m=document.getElementById("mainTest");
+    if(m) m.style.display="block";
+  });
+}
+</script>
 
 <div id="nameGate">
   <div class="name-box">
@@ -954,13 +965,19 @@ function startTest(){
 document.addEventListener("keydown",e=>{if(e.key==="Enter"&&document.getElementById("nameGate").style.display!=="none")startTest();});
 
 // Auto-start from URL param
-window.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded",()=>{
   const params = new URLSearchParams(window.location.search);
   const urlName = params.get("name");
-  const restore = params.get("restore")==="1";
   if(urlName){
-    document.getElementById("nameInput").value = urlName;
-    beginTest(urlName, restore);
+    // Hide gate immediately
+    const gate = document.getElementById("nameGate");
+    if(gate) gate.style.display="none";
+    const main = document.getElementById("mainTest");
+    if(main) main.style.display="block";
+    // Fill input and start
+    const inp = document.getElementById("nameInput");
+    if(inp) inp.value = urlName;
+    beginTest(urlName);
   }
 });
 
