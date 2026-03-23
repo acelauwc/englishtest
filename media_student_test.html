@@ -609,7 +609,12 @@ function getProfile(name){
   if(!name) return null;
   const key = name.trim().toLowerCase().replace(/\s+/g,"");
   for(const [k,v] of Object.entries(NAME_MAP)){
-    if(key===k || key.includes(k)) return STUDENT_PROFILES[
+    if(key===k || key.includes(k)) return STUDENT_PROFILES[v];
+  }
+  return null;
+}
+
+
 
 const BIN_ID="69babf10b7ec241ddc7d652f";
 const MASTER_KEY="$2a$10$GeOyXKViWuf6OsSoiA9eT.bifbFDXJ/AsilT9KSjMz.2Ibg5mPDGS";
