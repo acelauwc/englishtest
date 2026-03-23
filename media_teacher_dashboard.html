@@ -364,7 +364,15 @@ async function loadData(){
       });
       if(!res.ok) throw new Error("HTTP "+res.status);
       const data=await res.json();
-      allSubs=Array.isArray(data.submissions)?data.submissions:[];
+      const rawSubs=Array.isArray(data.submissions)?data.submissions:[];
+      // Deduplicate — keep only the most recent entry per student+theme
+      const seen={};
+      allSubs=[];
+      [...rawSubs].reverse().forEach(s=>{
+        const key=(s.name||"")+"__"+(s.testTheme||"");
+        if(!seen[key]){seen[key]=true;allSubs.push(s);}
+      });
+      allSubs.reverse();
       renderAll();
       const finals=allSubs;
       
@@ -397,13 +405,19 @@ function scoreStudent(sub){
     let s=0;
     // Get correct answers for this student's level
     const levelAnswers = AK[p] && AK[p][grade] ? AK[p][grade] : (Array.isArray(AK[p]) ? AK[p] : []);
-    for(let i=1;i<=10;i++){if(norm(ans[p+i])===norm((levelAnswers)[i-1]||""))s++;}
+    for(let i=1;i<=10;i++){
+      const given=(ans[p+i]||"").trim();
+      const expected=(levelAnswers[i-1]||"").trim();
+      if(given.length>0 && norm(given)===norm(expected))s++;
+    }
     ss[p]=s;
   });
   // Part F — level-aware
   let sf=0;
   const fAnswers = AK.f && AK.f[grade] ? AK.f[grade] : (Array.isArray(AK.f) ? AK.f : []);
-  for(let i=1;i<=10;i++){if(ans["f"+i]===fAnswers[i-1])sf++;}
+  for(let i=1;i<=10;i++){
+    if(ans["f"+i] && ans["f"+i]===fAnswers[i-1])sf++;
+  }
   ss.f=sf;
   return ss;
 }

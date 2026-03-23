@@ -690,15 +690,13 @@ async function pushToServer(data, retries=3){
       const existing = await getRes.json();
       let subs = Array.isArray(existing.submissions) ? existing.submissions : [];
 
-      // Step 2: Upsert — replace any existing entry for same student+theme today
-      const today = new Date().toLocaleDateString("en-MY");
+      // Step 2: Upsert — one entry per student per theme (always replace)
       const existingIdx = subs.findIndex(s=>
         s.name===data.name &&
-        s.testTheme===data.testTheme &&
-        (s.submittedAt||"").includes(today)
+        s.testTheme===data.testTheme
       );
       if(existingIdx >= 0){
-        subs[existingIdx] = data; // Update existing
+        subs[existingIdx] = data; // Replace existing
       } else {
         subs.push(data); // Add new
       }
