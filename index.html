@@ -9,80 +9,93 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#08080f;color:#e2e8f0;font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(56,189,248,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
-.wrap{position:relative;z-index:1;max-width:560px;width:100%;text-align:center}
+.wrap{position:relative;z-index:1;max-width:520px;width:100%;text-align:center}
 .badge{display:inline-block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;border:1px solid #38bdf8;color:#38bdf8;padding:3px 14px;border-radius:2px;margin-bottom:20px;text-transform:uppercase}
 h1{font-family:'Space Mono',monospace;font-size:clamp(22px,5vw,36px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:10px}
 h1 span{color:#38bdf8}
-.sub{font-size:14px;color:#64748b;margin-bottom:40px;line-height:1.6}
-.tests{display:flex;flex-direction:column;gap:14px;margin-bottom:40px}
-.test-card{background:#141720;border:1px solid #1e2433;border-radius:12px;overflow:hidden;text-decoration:none;transition:border-color .2s,transform .2s}
-.test-card:hover{border-color:#38bdf8;transform:translateY(-2px)}
-.test-card-inner{padding:20px 22px;display:flex;align-items:center;gap:16px}
+.sub{font-size:14px;color:#64748b;margin-bottom:36px;line-height:1.6}
+
+/* NAME GATE */
+.name-gate{background:#141720;border:1px solid #1e2433;border-radius:14px;padding:32px 28px;margin-bottom:24px}
+.name-gate h2{font-family:'Space Mono',monospace;font-size:16px;color:#fff;margin-bottom:8px}
+.name-gate p{font-size:13px;color:#64748b;margin-bottom:20px;line-height:1.65}
+.name-row{display:flex;gap:10px}
+.name-input{flex:1;background:#0d1117;border:1px solid #1e2433;border-radius:8px;color:#e2e8f0;font-family:'DM Sans',sans-serif;font-size:15px;padding:12px 16px;outline:none;transition:border-color .2s}
+.name-input:focus{border-color:#38bdf8}
+.btn-go{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:1px;padding:12px 22px;background:linear-gradient(135deg,#7c3aed,#38bdf8);color:#fff;border:none;border-radius:8px;cursor:pointer;text-transform:uppercase;white-space:nowrap;transition:opacity .2s}
+.btn-go:hover{opacity:.88}
+.err-msg{color:#f87171;font-size:12px;font-family:'Space Mono',monospace;margin-top:8px;display:none;text-align:left}
+
+/* PROFILE PREVIEW */
+.profile-preview{display:none;margin-top:14px;padding:12px 16px;border-radius:8px;font-size:13px;font-family:'Space Mono',monospace;border:1px solid #1e2433;text-align:left;transition:all .3s}
+.profile-preview.show{display:block}
+
+/* TEST CARDS */
+.tests{display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
+.test-card{background:#141720;border:1px solid #1e2433;border-radius:12px;overflow:hidden;text-decoration:none;transition:border-color .2s,transform .15s;display:block}
+.test-card:hover{transform:translateY(-2px)}
+.test-card-inner{padding:18px 22px;display:flex;align-items:center;gap:16px}
 .test-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
 .test-info{flex:1;text-align:left}
 .test-title{font-weight:600;font-size:15px;color:#fff;margin-bottom:3px}
 .test-meta{font-size:12px;color:#64748b;font-family:'Space Mono',monospace}
 .test-arrow{color:#38bdf8;font-size:18px;flex-shrink:0}
 
+.card-media .test-icon{background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.2)}
+.card-media:hover{border-color:#38bdf8}
+.card-locked{opacity:.4;pointer-events:none;cursor:not-allowed}
+.card-locked .test-arrow{display:none}
+.locked-badge{font-family:'Space Mono',monospace;font-size:9px;color:#64748b;background:#1e2433;border-radius:3px;padding:2px 7px;margin-left:8px;letter-spacing:1px}
 
-.card-green .test-icon{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2)}.card-green:hover{border-color:#34d399}.card-purple .test-icon{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2)}.card-purple:hover{border-color:#a855f7}.card-purple .test-icon{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2)}.card-purple:hover{border-color:#a78bfa}
-
-.divider{display:flex;align-items:center;gap:12px;margin:28px 0 20px;font-size:11px;color:#334155;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:2px}
+/* TEACHER */
+.divider{display:flex;align-items:center;gap:12px;margin:28px 0 18px;font-size:11px;color:#334155;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:2px}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:#1e2433}
 .teacher-links{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.t-link{background:#0f1318;border:1px solid #1e2433;border-radius:8px;padding:14px 16px;text-decoration:none;transition:border-color .2s}
+.t-link{background:#0d1117;border:1px solid #1e2433;border-radius:8px;padding:14px 16px;text-decoration:none;transition:border-color .2s}
 .t-link:hover{border-color:#64748b}
 .t-link .tl-label{font-size:10px;color:#64748b;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
 .t-link .tl-title{font-size:13px;color:#94a3b8;font-weight:500}
-.footer{font-size:11px;color:#334155;font-family:'Space Mono',monospace;margin-top:32px}
+.footer{font-size:11px;color:#334155;font-family:'Space Mono',monospace;margin-top:28px}
+
+/* RESTORE BANNER */
+.restore-banner{display:none;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.25);border-radius:8px;padding:12px 16px;margin-bottom:12px;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.restore-banner.show{display:flex}
+.restore-banner p{font-size:13px;color:#fbbf24;font-family:'Space Mono',monospace}
+.restore-banner button{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:1px;padding:7px 14px;background:#fbbf24;color:#000;border:none;border-radius:5px;cursor:pointer;text-transform:uppercase;flex-shrink:0}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="badge">English Assessment Portal</div>
   <h1>Choose Your <span>Test</span></h1>
-  <p class="sub">Select the test assigned by your teacher. Enter your name and submit when done — your results are saved automatically.</p>
+  <p class="sub">Enter your name — the system will load the right test for you automatically.</p>
 
-  <div class="tests">
+  <!-- NAME GATE -->
+  <div class="name-gate">
+    <h2>Who are you?</h2>
+    <p>Type your name below. Your personalised test and saved progress will load automatically.</p>
+    <div class="name-row">
+      <input class="name-input" id="nameInput" placeholder="Enter your name..." maxlength="40" autocomplete="name">
+      <button class="btn-go" onclick="goToTest()">Go →</button>
+    </div>
+    <div class="err-msg" id="nameErr">Please enter your name to continue.</div>
+    <div class="profile-preview" id="profilePreview"></div>
+    <div class="restore-banner" id="restoreBanner">
+      <p id="restoreMsg">&#128196; Saved progress found!</p>
+      <button onclick="goToTestWithRestore()">Restore &amp; Continue →</button>
+    </div>
+  </div>
 
-    <a href="./env_student_test.html" class="test-card card-green">
-      <div class="test-card-inner">
-        <div class="test-icon">🌿</div>
-        <div class="test-info">
-          <div class="test-title">Environment &amp; Climate Change</div>
-          <div class="test-meta">Advanced Level &nbsp;&middot;&nbsp; Parts A&ndash;I &nbsp;&middot;&nbsp; 70 Questions</div>
-        </div>
-        <div class="test-arrow">&#8594;</div>
-      </div>
-    </a>
-    <a href="./media_student_test.html" class="test-card card-purple">
+  <!-- TODAY'S TEST CARDS (shown after name entered) -->
+  <div class="tests" id="testCards" style="display:none">
+    <a href="#" class="test-card card-media" id="card-media">
       <div class="test-card-inner">
         <div class="test-icon">📱</div>
         <div class="test-info">
           <div class="test-title">Media &amp; Communication</div>
-          <div class="test-meta">Advanced Level &nbsp;&middot;&nbsp; Parts A&ndash;I &nbsp;&middot;&nbsp; 70 Questions</div>
+          <div class="test-meta" id="meta-media">S2 / S1 / P6 &nbsp;·&nbsp; Parts A–I &nbsp;·&nbsp; Personalised</div>
         </div>
-        <div class="test-arrow">&#8594;</div>
-      </div>
-    </a>
-    <a href="./media_student_test.html" class="test-card card-purple">
-      <div class="test-card-inner">
-        <div class="test-icon">&#128248;</div>
-        <div class="test-info">
-          <div class="test-title">Media &amp; Communication</div>
-          <div class="test-meta">Advanced Level &nbsp;&middot;&nbsp; Parts A&ndash;I &nbsp;&middot;&nbsp; 3 Student Levels</div>
-        </div>
-        <div class="test-arrow">&#8594;</div>
-      </div>
-    </a>
-    <a href="./media_student_test.html" class="test-card card-purple">
-      <div class="test-card-inner">
-        <div class="test-icon">📱</div>
-        <div class="test-info">
-          <div class="test-title">Media &amp; Communication</div>
-          <div class="test-meta">S2 / S1 / P6 &nbsp;·&nbsp; Parts A–I &nbsp;·&nbsp; Personalised</div>
-        </div>
-        <div class="test-arrow">&#8594;</div>
+        <div class="test-arrow">→</div>
       </div>
     </a>
   </div>
@@ -97,18 +110,122 @@ h1 span{color:#38bdf8}
       <div class="tl-label">Dashboard</div>
       <div class="tl-title">Media &amp; Communication</div>
     </a>
-    <a href="./media_teacher_dashboard.html" class="t-link">
-      <div class="tl-label">Dashboard</div>
-      <div class="tl-title">Media &amp; Communication</div>
-    </a>
-    <a href="./media_teacher_dashboard.html" class="t-link">
-      <div class="tl-label">Dashboard</div>
-      <div class="tl-title">Media &amp; Communication</div>
-    </a>
-
   </div>
-
-  <div class="footer">Results are saved securely · Open in Chrome or Safari</div>
+  <div class="footer">Answers save automatically &nbsp;·&nbsp; Open in Chrome or Safari</div>
 </div>
+
+<script>
+const KNOWN_STUDENTS = {
+  "zenv": {name:"ZenV", level:"Secondary 2", colour:"#34d399", grade:"S2"},
+  "zenz": {name:"ZenZ", level:"Secondary 1", colour:"#60a5fa", grade:"S1"},
+  "zene": {name:"ZenE", level:"Primary 6",   colour:"#f97316", grade:"P6"}
+};
+const STORAGE_KEYS = {media:"mc_progress"};
+
+let currentName = "";
+let pendingUrl = "";
+
+function getStudent(name){
+  const key = (name||"").trim().toLowerCase().replace(/\s+/g,"");
+  for(const [k,v] of Object.entries(KNOWN_STUDENTS)){
+    if(key===k || key.includes(k)) return v;
+  }
+  return null;
+}
+
+function checkSavedProgress(name){
+  // Check both test types for saved progress
+  const saved = {};
+  for(const [theme, skey] of Object.entries(STORAGE_KEYS)){
+    try{
+      const d = localStorage.getItem(skey);
+      if(d){
+        const parsed = JSON.parse(d);
+        if(parsed && parsed.name && parsed.name.toLowerCase().replace(/\s+/g,"") === name.toLowerCase().replace(/\s+/g,"")){
+          saved[theme] = parsed;
+        }
+      }
+    }catch(e){}
+  }
+  return saved;
+}
+
+document.getElementById("nameInput").addEventListener("input", function(){
+  const val = this.value.trim();
+  const student = getStudent(val);
+  const preview = document.getElementById("profilePreview");
+  const cards = document.getElementById("testCards");
+  const banner = document.getElementById("restoreBanner");
+  const err = document.getElementById("nameErr");
+  err.style.display = "none";
+
+  if(student && val.length >= 3){
+    // Show profile preview
+    preview.className = "profile-preview show";
+    preview.style.borderColor = student.colour;
+    preview.style.color = student.colour;
+    preview.innerHTML = `👋 ${student.name} &mdash; ${student.level}`;
+
+    // Show test cards with their level
+    cards.style.display = "flex";
+
+    document.getElementById("meta-media").textContent = `${student.level} · Parts A–I · Personalised`;
+
+    // Set links with name param
+
+    document.getElementById("card-media").href = `./media_student_test.html?name=${encodeURIComponent(student.name)}`;
+
+    // Check for saved progress
+    const saved = checkSavedProgress(student.name);
+    const themes = Object.keys(saved);
+    if(themes.length > 0){
+      const latestTheme = themes[themes.length-1];
+      const latestData = saved[latestTheme];
+      const answered = Object.values(latestData.answers||{}).filter(v=>String(v).trim()).length;
+      banner.className = "restore-banner show";
+      document.getElementById("restoreMsg").textContent =
+        `📄 ${answered} answers saved from your last Media test`;
+      // Set restore target
+      pendingUrl = `./media_student_test.html?name=${encodeURIComponent(student.name)}&restore=1`;
+    } else {
+      banner.className = "restore-banner";
+    }
+    currentName = student.name;
+  } else {
+    preview.className = "profile-preview";
+    cards.style.display = "none";
+    banner.className = "restore-banner";
+    currentName = "";
+  }
+});
+
+document.getElementById("nameInput").addEventListener("keydown", e=>{
+  if(e.key==="Enter") goToTest();
+});
+
+function goToTest(){
+  const val = document.getElementById("nameInput").value.trim();
+  const student = getStudent(val);
+  if(!student){
+    document.getElementById("nameErr").style.display="block";
+    document.getElementById("nameErr").textContent = val.length<2
+      ? "Please enter your name."
+      : "Name not recognised. Please check with your teacher.";
+    return;
+  }
+  // Navigate to most recent unfinished test, or let them pick
+  const saved = checkSavedProgress(student.name);
+  const themes = Object.keys(saved);
+  if(themes.length > 0){
+    const latestTheme = themes[themes.length-1];
+    pendingUrl = `./media_student_test.html?name=${encodeURIComponent(student.name)}&restore=1`;
+    document.getElementById("restoreBanner").className = "restore-banner show";
+  }
+}
+
+function goToTestWithRestore(){
+  if(pendingUrl) window.location.href = pendingUrl;
+}
+</script>
 </body>
 </html>

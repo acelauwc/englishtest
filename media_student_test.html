@@ -788,13 +788,16 @@ function restoreProgress(){
   const data=loadLocal();
   if(!data||!data.answers)return;
   document.getElementById("restoreBanner").style.display="none";
+  // Wait for dynamic parts to be rendered
+  setTimeout(()=>{
   const ans=data.answers;
   "abcde".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);if(el&&ans[p+i])el.value=ans[p+i];}});
   for(let i=1;i<=10;i++){const key="f"+i;if(ans[key]){const ji="ABCD".indexOf(ans[key]);if(ji>=0){document.querySelectorAll(`#mcq-${i} .mcq-opt`).forEach(o=>o.classList.remove("sel"));const opt=document.getElementById(`opt-${i}-${ji}`);if(opt){opt.classList.add("sel");mcqSel[i]=ji;}}}}
   "gh".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);if(el&&ans[p+i])el.value=ans[p+i];}});
   const i1=document.getElementById("i1");if(i1&&ans.i1)i1.value=ans.i1;
   if(data.sectionScores)Object.assign(sectionScores,data.sectionScores);
-  updateDash();setStatus("saved","Progress restored");setLastSaved();
+  updateDash();setStatus("saved","Progress restored ✓");setLastSaved();
+  },250); // end setTimeout
 }
 
 // ── MCQ ───────────────────────────────────────────────
@@ -926,15 +929,27 @@ document.addEventListener("DOMContentLoaded", ()=>{
 function startTest(){
   const val=document.getElementById("nameInput").value.trim();
   if(val.length<2){document.getElementById("nameErr").style.display="block";return;}
+  beginTest(val);
+}
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&document.getElementById("nameGate").style.display!=="none")startTest();});
+
+// Auto-start from URL param
+window.addEventListener("DOMContentLoaded",()=>{
+  const params = new URLSearchParams(window.location.search);
+  const urlName = params.get("name");
+  const restore = params.get("restore")==="1";
+  if(urlName){
+    document.getElementById("nameInput").value = urlName;
+    beginTest(urlName, restore);
+  }
+});
+
+function beginTest(val, autoRestore=false){
   studentName=val; startTime=new Date();
-  
-  // Detect profile
   currentProfile = getProfile(val);
-  
   document.getElementById("nameGate").style.display="none";
   document.getElementById("mainTest").style.display="block";
   document.getElementById("dispName").textContent=studentName;
-  
   if(currentProfile){
     document.getElementById("levelBadge").textContent = currentProfile.level + " · Media & Communication";
     document.getElementById("levelBadge").style.borderColor = currentProfile.colour;
@@ -943,14 +958,18 @@ function startTest(){
     document.getElementById("dispLevel").textContent = currentProfile.level;
     document.getElementById("dispLevel").style.color = currentProfile.colour;
   }
-  
-  // Render dynamic parts A-F based on profile
   renderDynamicParts();
-  
+  // Auto-restore saved answers
   const saved=loadLocal();
-  if(saved&&saved.name===studentName&&saved.answers)document.getElementById("restoreBanner").style.display="flex";
+  if(saved&&saved.name&&saved.name.toLowerCase().replace(/\s+/g,"")===studentName.toLowerCase().replace(/\s+/g,"")&&saved.answers){
+    if(autoRestore){
+      // Restore immediately without prompting
+      setTimeout(()=>{ restoreProgress(); setStatus("saved","Progress restored ✓"); }, 300);
+    } else {
+      document.getElementById("restoreBanner").style.display="flex";
+    }
+  }
 }
-document.addEventListener("keydown",e=>{if(e.key==="Enter"&&document.getElementById("nameGate").style.display!=="none")startTest();});
 
 // ── DYNAMIC PART RENDERING ────────────────────────────────────────────────
 function renderDynamicParts(){
