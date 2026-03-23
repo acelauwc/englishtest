@@ -150,14 +150,6 @@ textarea.ta.bad{border-color:var(--err)}
 </style>
 </head>
 <body>
-<script>
-// Runs before body renders — hide gate immediately if name in URL
-(function(){
-  if(new URLSearchParams(window.location.search).get('name')){
-    document.write('<style>#nameGate{display:none!important}</style>');
-  }
-})();
-</script>
 
 <div id="nameGate">
   <div class="name-box">
@@ -313,6 +305,7 @@ textarea.ta.bad{border-color:var(--err)}
     </div>
   </div>
 
+</div>
 
 <div id="resultModal">
   <div class="res-box">
@@ -327,7 +320,7 @@ textarea.ta.bad{border-color:var(--err)}
 </div>
 
 <script>
-// ── STUDENT PROFILES ────────────────────────────────────────────────────────
+───────────────────────
 const STUDENT_PROFILES = {
 
   // ══════════════════════════════════════════════════════════════════
@@ -604,12 +597,8 @@ function getProfile(name){
   if(!name) return null;
   const key = name.trim().toLowerCase().replace(/\s+/g,"");
   for(const [k,v] of Object.entries(NAME_MAP)){
-    if(key===k || key.includes(k)) return STUDENT_PROFILES[v];
-  }
-  return null;
-}
+    if(key===k || key.includes(k)) return STUDENT_PROFILES[
 
-// ── CORE VARIABLES ──────────────────────────────────────────────────────────
 const BIN_ID="69babf10b7ec241ddc7d652f";
 const MASTER_KEY="$2a$10$GeOyXKViWuf6OsSoiA9eT.bifbFDXJ/AsilT9KSjMz.2Ibg5mPDGS";
 const API="https://api.jsonbin.io/v3";
@@ -618,79 +607,21 @@ const sectionScores={a:0,b:0,c:0,d:0,e:0,f:0};
 const sectionChecked={a:false,b:false,c:false,d:false,e:false,f:false};
 const mcqSel={};
 let studentName="",startTime=null,currentProfile=null;
-
-// ── CORE FUNCTIONS ───────────────────────────────────────────────────────────
-const BIN_ID="69babf10b7ec241ddc7d652f";
-const MASTER_KEY="$2a$10$GeOyXKViWuf6OsSoiA9eT.bifbFDXJ/AsilT9KSjMz.2Ibg5mPDGS";
-const API="https://api.jsonbin.io/v3";
-const STORAGE_KEY="mc_progress";
-
-const sectionScores={a:0,b:0,c:0,d:0,e:0,f:0};
-const sectionChecked={a:false,b:false,c:false,d:false,e:false,f:false};
-const mcqSel={};
-let studentName="",startTime=null,currentProfile=null;
-
-
-
-const BIN_ID="69babf10b7ec241ddc7d652f";
-const MASTER_KEY="$2a$10$GeOyXKViWuf6OsSoiA9eT.bifbFDXJ/AsilT9KSjMz.2Ibg5mPDGS";
-const API="https://api.jsonbin.io/v3";
-const STORAGE_KEY="mc_progress";
-
-const MCQ=[
-  {q:"The ______ of greenhouse gases into the atmosphere is the primary driver of global warming.",opts:["emission","omission","commission","permission"],ans:0,hint:"Which word specifically means the release of gases such as CO2 into the atmosphere?",rule:"EMISSION = the production and release of a substance into the environment. Key environmental vocabulary."},
-  {q:"The government implemented ______ measures to protect the endangered rainforest from further destruction.",opts:["stringent","lenient","ambiguous","redundant"],ans:0,hint:"These measures were strict and demanding. Which word means 'very strict and precise'?",rule:"STRINGENT = strict, precise, and exacting. The opposite is 'lenient' (not strict). Key word in policy discussions."},
-  {q:"Access to clean water and air is considered a fundamental environmental ______.",opts:["rite","right","might","plight"],ans:1,hint:"This is a legal or moral entitlement that every person deserves.",rule:"RIGHT (noun) = a moral or legal entitlement. 'Rite' = a ceremony; 'plight' = a difficult situation."},
-  {q:"The conference reached a ______ decision to phase out coal-powered energy by 2035.",opts:["ambiguous","contentious","unilateral","unanimous"],ans:3,hint:"All participating nations agreed on this decision. Which word means 'agreed upon by everyone'?",rule:"UNANIMOUS = agreed upon by all. 'Contentious' = causing disagreement; 'unilateral' = one-sided."},
-  {q:"The ______ of freshwater resources is one of the most serious consequences of climate change.",opts:["surplus","clarity","scarcity","disparity"],ans:2,hint:"There is not enough freshwater — supplies are running out. Which word means 'a severe shortage'?",rule:"SCARCITY = a severe shortage of something. 'Surplus' = excess; 'disparity' = inequality."},
-  {q:"Environmental groups urged the government to ______ all subsidies for fossil fuel companies.",opts:["diminish","admonish","abandon","abolish"],ans:3,hint:"They want to completely and permanently end these subsidies, not just reduce them.",rule:"ABOLISH = to formally and completely put an end to something. 'Diminish' = reduce gradually."},
-  {q:"The new policy aims to ______ the damage caused by decades of industrial pollution.",opts:["aggravate","alleviate","alienate","allocate"],ans:1,hint:"The policy is trying to make the damage less severe. Which word means to reduce suffering or harm?",rule:"ALLEVIATE = to make a problem less severe. 'Aggravate' = worsen; 'allocate' = distribute."},
-  {q:"The activist's documentary was highly ______, convincing millions to change their consumption habits.",opts:["redundant","divisive","ambivalent","persuasive"],ans:3,hint:"The documentary convinced millions of people to act. Which word means 'able to convince'?",rule:"PERSUASIVE = able to persuade or convince. 'Redundant' = unnecessary; 'divisive' = causing disagreement."},
-  {q:"The international climate treaty was formally ______ by all member nations at the summit.",opts:["clarified","justified","notified","ratified"],ans:3,hint:"All nations gave their official formal approval to make the treaty legally binding.",rule:"RATIFY = to give formal consent to a treaty or agreement, making it officially valid."},
-  {q:"The conservation team's ______ efforts over three decades helped bring the species back from extinction.",opts:["reckless","restless","helpless","relentless"],ans:3,hint:"The team worked persistently for decades without giving up. Which word captures this determination?",rule:"RELENTLESS = constant and determined, never stopping or weakening. 'Reckless' = careless; 'restless' = unable to rest."}
-];
-
-const sectionScores={a:0,b:0,c:0,d:0,e:0,f:0};
-const sectionChecked={a:false,b:false,c:false,d:false,e:false,f:false};
-const mcqSel={};
-let studentName="",startTime=null;
 
 function norm(s){return(s||"").toLowerCase().replace(/[^a-z0-9 ',]/g,"").replace(/\s+/g," ").trim()}
+
 function sc(pct){return pct>=80?"#34d399":pct>=60?"#fbbf24":"#f87171"}
 
-// ── FETCH AND RESTORE FROM SERVER ────────────────────────
-async function fetchAndRestore(){
-  if(!studentName) return;
-  try{
-    const res = await fetch(`${API}/b/${BIN_ID}/latest`,{
-      headers:{"X-Master-Key":MASTER_KEY,"X-Bin-Meta":"false"},
-      cache:"no-store"
-    });
-    if(!res.ok) return;
-    const data = await res.json();
-    const subs = Array.isArray(data.submissions) ? data.submissions : [];
-    const theme = document.title.includes("Media") ? "Media & Communication" : "Environment & Climate Change";
-    const mine = subs.filter(s=>
-      (s.name||"").toLowerCase().replace(/\s+/g,"") === studentName.toLowerCase().replace(/\s+/g,"") &&
-      s.testTheme === theme
-    ).pop();
-    if(mine && mine.answers){
-      saveLocal({...mine, name:studentName});
-      restoreProgress(mine);
-    }
-  }catch(e){}
-}
-
-/ ── LOCAL STORAGE ─────────────────────────────────────
-function saveLocal(data){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data));}catch(e){}}
-function loadLocal(){try{const d=localStorage.getItem(STORAGE_KEY);return d?JSON.parse(d):null;}catch(e){return null;}}
-function clearLocal(){try{localStorage.removeItem(STORAGE_KEY);}catch(e){}}
-
-// ── STATUS ────────────────────────────────────────────
 function setStatus(state,msg){const dot=document.getElementById("asDot"),txt=document.getElementById("asText");if(!dot||!txt)return;dot.className="as-dot "+state;txt.textContent=msg;}
+
 function setLastSaved(){const el=document.getElementById("lastSaved");if(el)el.textContent="Saved: "+new Date().toLocaleTimeString("en-MY",{hour:"2-digit",minute:"2-digit"});}
 
-// ── BUILD SUBMISSION ──────────────────────────────────
+function saveLocal(data){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data));}catch(e){}}
+
+function loadLocal(){try{const d=localStorage.getItem(STORAGE_KEY);return d?JSON.parse(d):null;}catch(e){return null;}}
+
+function clearLocal(){try{localStorage.removeItem(STORAGE_KEY);}catch(e){}}
+
 function buildSubmission(isFinal){
   const score=Object.values(sectionScores).reduce((a,b)=>a+b,0);
   const pct=Math.round((score/60)*100);
@@ -709,22 +640,6 @@ function buildSubmission(isFinal){
   return{name:studentName,submittedAt:new Date().toLocaleString("en-MY",{dateStyle:"medium",timeStyle:"short"}),duration,score,pct,sectionScores:{...sectionScores},answers:ans,isDraft:false,testTheme:"Media & Communication",studentLevel:currentProfile?currentProfile.level:"Unknown",studentGrade:currentProfile?currentProfile.grade:"?",duplicateFlags};
 }
 
-// ── ROBUST SAVE WITH RETRY ────────────────────────────────
-async function autoSave(part){
-  setStatus("saving","Saving Part "+part.toUpperCase()+"...");
-  const localData = buildSubmission(false);
-  saveLocal(localData); // Always save locally first
-  const ok = await pushToServer(localData);
-  if(ok){ setStatus("saved","Part "+part.toUpperCase()+" saved ✓"); setLastSaved(); }
-  else{
-    setStatus("error","Save failed — tap button again to retry");
-    // Show a persistent retry notice
-    const ls = document.getElementById("lastSaved");
-    if(ls) ls.innerHTML = `<button onclick="retrySave()" style="font-family:var(--mono);font-size:10px;padding:4px 10px;background:var(--err);color:#fff;border:none;border-radius:4px;cursor:pointer">↻ Retry Save</button>`;
-  }
-}
-
-// ── CORE SERVER PUSH — with 3 retries and exponential backoff ────────────────
 async function pushToServer(data, retries=3){
   for(let attempt=1; attempt<=retries; attempt++){
     try{
@@ -767,7 +682,21 @@ async function pushToServer(data, retries=3){
   }
   return false; // All retries failed
 }
-// ── RETRY SAVE — called from error button ────────────────────────────────────
+
+async function autoSave(part){
+  setStatus("saving","Saving Part "+part.toUpperCase()+"...");
+  const localData = buildSubmission(false);
+  saveLocal(localData); // Always save locally first
+  const ok = await pushToServer(localData);
+  if(ok){ setStatus("saved","Part "+part.toUpperCase()+" saved ✓"); setLastSaved(); }
+  else{
+    setStatus("error","Save failed — tap button again to retry");
+    // Show a persistent retry notice
+    const ls = document.getElementById("lastSaved");
+    if(ls) ls.innerHTML = `<button onclick="retrySave()" style="font-family:var(--mono);font-size:10px;padding:4px 10px;background:var(--err);color:#fff;border:none;border-radius:4px;cursor:pointer">↻ Retry Save</button>`;
+  }
+}
+
 async function retrySave(){
   setStatus("saving","Retrying save...");
   const localData = loadLocal();
@@ -777,57 +706,28 @@ async function retrySave(){
   else{ setStatus("error","Still failing — check internet connection"); }
 }
 
-
-// ── CHECK & SUBMIT — called by each part's button ─────────────────────────
-async function checkAndSubmit(part, type){
-  // Run the appropriate check first
-  if(type==="fill") checkFill(part,10);
-  else if(type==="ta") checkTA(part,10);
-  else if(type==="mcq") checkMCQ();
-  // Save to server
-  await autoSave(part);
-  // Check if all parts done
-  checkIfComplete();
-}
-
-async function checkAndSubmitPara(){
-  await checkParaAI();
-  await autoSave("i");
-  checkIfComplete();
-}
-
-function checkIfComplete(){
-  // Count how many parts have been checked
-  const checkedParts = Object.values(sectionScores).filter(s=>s>0).length;
-  const hasAnswers = ["a","b","c","d","e","f"].every(p=>{
-    for(let i=1;i<=10;i++){
-      const el = document.getElementById(p+i);
-      if(el && el.value.trim()) return true;
+async function fetchAndRestore(){
+  if(!studentName) return;
+  try{
+    const res = await fetch(`${API}/b/${BIN_ID}/latest`,{
+      headers:{"X-Master-Key":MASTER_KEY,"X-Bin-Meta":"false"},
+      cache:"no-store"
+    });
+    if(!res.ok) return;
+    const data = await res.json();
+    const subs = Array.isArray(data.submissions) ? data.submissions : [];
+    const theme = document.title.includes("Media") ? "Media & Communication" : "Environment & Climate Change";
+    const mine = subs.filter(s=>
+      (s.name||"").toLowerCase().replace(/\s+/g,"") === studentName.toLowerCase().replace(/\s+/g,"") &&
+      s.testTheme === theme
+    ).pop();
+    if(mine && mine.answers){
+      saveLocal({...mine, name:studentName});
+      restoreProgress(mine);
     }
-    return false;
-  });
-  // Show final result modal if all 6 auto-checked parts have been submitted
-  if(["a","b","c","d","e","f"].every(p=>sectionScores[p]!==undefined)){
-    const allChecked = ["a","b","c","d","e","f"].every(p=>sectionChecked[p]);
-    if(allChecked) showFinalResult();
-  }
+  }catch(e){}
 }
 
-function showFinalResult(){
-  const score=Object.values(sectionScores).reduce((a,b)=>a+b,0);
-  const pct=Math.round((score/60)*100);
-  const col=sc(pct);
-  document.getElementById("resScore").textContent=score+"/60";
-  document.getElementById("resScore").style.color=col;
-  document.getElementById("resSaved").style.cssText=`background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.25);color:#34d399`;
-  document.getElementById("resSaved").textContent="✓ All parts saved! Your teacher can see your full results.";
-  const msg=pct>=85?"Excellent work! Your command of environmental English is impressive.":pct>=70?"Well done! Strong grammar skills with room to grow further.":pct>=55?"Good effort! Focus on verb tenses and sentence structure.":"Keep going! Review the grammar rules in the hints carefully.";
-  document.getElementById("resMsg").textContent=msg;
-  document.getElementById("resGrid").innerHTML=["a","b","c","d","e","f"].map(p=>`<div class="res-item"><div class="v" style="color:${sc((sectionScores[p]||0)*10)}">${sectionScores[p]||0}/10</div><div class="l">Part ${p.toUpperCase()}</div></div>`).join("");
-  document.getElementById("resultModal").classList.add("open");
-}
-
-// ── RESTORE ───────────────────────────────────────────
 function restoreProgress(data){
   if(!data) data=loadLocal();
   if(!data||!data.answers)return;
@@ -843,30 +743,34 @@ function restoreProgress(data){
   updateDash();setStatus("saved","Progress restored ✓");setLastSaved();
 }
 
-// ── MCQ ───────────────────────────────────────────────
-function buildMCQ(){
-  const c=document.getElementById("mcq-container");
-  MCQ.forEach((q,i)=>{
-    const div=document.createElement("div");div.className="qb";
-    div.innerHTML=`<div class="qnum">Q${i+1}</div><div class="qtext">${q.q}</div>
-    <div class="mcq-grid" id="mcq-${i+1}">${q.opts.map((o,j)=>`<div class="mcq-opt" id="opt-${i+1}-${j}" onclick="selMCQ(${i+1},${j})"><div class="opt-l">${"ABCD"[j]}</div>${o}</div>`).join("")}</div>
-    <div class="fb-correct" id="fb-ok-f${i+1}">&#10003; Correct! Well done.</div>
-    <div class="fb-wrong" id="fb-bad-f${i+1}"><div class="fb-wrong-top">&#10007; Not quite &mdash; read the hints and try again.</div><div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">${q.hint}</div></div><div class="fb-rule"><div class="lbl">&#128216; Vocabulary Rule</div><div class="txt">${q.rule}</div></div></div>`;
-    c.appendChild(div);
-  });
+function collectAnswers(){
+  const data={};
+  "abcde".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);data[p+i]=el?el.value.trim():""}});
+  for(let i=1;i<=10;i++)data["f"+i]=mcqSel[i]!==undefined?"ABCD"[mcqSel[i]]:"";
+  "gh".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);data[p+i]=el?el.value.trim():""}});
+  data.i1=document.getElementById("i1").value.trim();
+  return data;
 }
 
-function selMCQ(qn,ji){
-  if(document.querySelector(`#mcq-${qn} .mcq-opt.right`))return;
-  document.querySelectorAll(`#mcq-${qn} .mcq-opt`).forEach(o=>o.classList.remove("sel"));
-  document.getElementById(`opt-${qn}-${ji}`).classList.add("sel");
-  mcqSel[qn]=ji;updateProgress();
+function updateProgress(){
+  let ans=0;
+  "abcde".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);if(el&&el.value.trim())ans++;}});
+  ans+=Object.keys(mcqSel).length;
+  "gh".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);if(el&&el.value.trim())ans++;}});
+  if(document.getElementById("i1").value.trim())ans++;
+  document.getElementById("dAnswered").textContent=ans;
+  const pct=Math.round((ans/70)*100);
+  document.getElementById("dPct").textContent=pct+"%";
+  document.getElementById("progFill").style.width=pct+"%";
 }
 
-// ── TOGGLE ────────────────────────────────────────────
+function updateDash(){
+  document.getElementById("dScore").textContent=Object.values(sectionScores).reduce((a,b)=>a+b,0);
+  updateProgress();
+}
+
 function toggle(id){document.getElementById("body-"+id).classList.toggle("open");document.getElementById("arr-"+id).classList.toggle("open");}
 
-// ── FEEDBACK ──────────────────────────────────────────
 function addFeedback(el){
   const id=el.id,parent=el.closest(".qb");
   if(parent.querySelector("#fb-ok-"+id))return;
@@ -875,13 +779,13 @@ function addFeedback(el){
   bad.innerHTML=`<div class="fb-wrong-top">&#10007; Not quite &mdash; read the hints and try again.</div><div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">${el.dataset.hint||""}</div></div><div class="fb-rule"><div class="lbl">&#128216; Grammar Rule</div><div class="txt">${el.dataset.rule||""}</div></div>`;
   parent.appendChild(ok);parent.appendChild(bad);
 }
+
 function showFb(id,correct){
   const ok=document.getElementById("fb-ok-"+id),bad=document.getElementById("fb-bad-"+id);
   if(!ok||!bad)return;
   if(correct){ok.style.display="block";bad.style.display="none";}else{ok.style.display="none";bad.style.display="block";}
 }
 
-// ── CHECK ─────────────────────────────────────────────
 function checkFill(pfx,n){
   let score=0;
   for(let i=1;i<=n;i++){
@@ -894,6 +798,7 @@ function checkFill(pfx,n){
   }
   sectionScores[pfx]=score;sectionChecked[pfx]=true;updateDash();
 }
+
 function checkTA(pfx,n){
   let score=0;
   for(let i=1;i<=n;i++){
@@ -906,6 +811,7 @@ function checkTA(pfx,n){
   }
   sectionScores[pfx]=score;sectionChecked[pfx]=true;updateDash();
 }
+
 function checkMCQ(){
   let score=0;
   const mcqData = (currentProfile && currentProfile.parts && currentProfile.parts.F)
@@ -922,93 +828,13 @@ function checkMCQ(){
   sectionScores.f=score;sectionChecked.f=true;updateDash();
 }
 
-// ── PROGRESS ──────────────────────────────────────────
-function updateProgress(){
-  let ans=0;
-  "abcde".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);if(el&&el.value.trim())ans++;}});
-  ans+=Object.keys(mcqSel).length;
-  "gh".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);if(el&&el.value.trim())ans++;}});
-  if(document.getElementById("i1").value.trim())ans++;
-  document.getElementById("dAnswered").textContent=ans;
-  const pct=Math.round((ans/70)*100);
-  document.getElementById("dPct").textContent=pct+"%";
-  document.getElementById("progFill").style.width=pct+"%";
-}
-function updateDash(){
-  document.getElementById("dScore").textContent=Object.values(sectionScores).reduce((a,b)=>a+b,0);
-  updateProgress();
+function selMCQ(qn,ji){
+  if(document.querySelector(`#mcq-${qn} .mcq-opt.right`))return;
+  document.querySelectorAll(`#mcq-${qn} .mcq-opt`).forEach(o=>o.classList.remove("sel"));
+  document.getElementById(`opt-${qn}-${ji}`).classList.add("sel");
+  mcqSel[qn]=ji;updateProgress();
 }
 
-// ── COLLECT ───────────────────────────────────────────
-function collectAnswers(){
-  const data={};
-  "abcde".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);data[p+i]=el?el.value.trim():""}});
-  for(let i=1;i<=10;i++)data["f"+i]=mcqSel[i]!==undefined?"ABCD"[mcqSel[i]]:"";
-  "gh".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);data[p+i]=el?el.value.trim():""}});
-  data.i1=document.getElementById("i1").value.trim();
-  return data;
-}
-
-// ── START ─────────────────────────────────────────────
-let currentProfile = null;
-
-// Show profile preview as they type name
-
-});
-
-function startTest(){
-  const val=document.getElementById("nameInput").value.trim();
-  if(val.length<2){document.getElementById("nameErr").style.display="block";return;}
-  beginTest(val);
-}
-document.addEventListener("keydown",e=>{if(e.key==="Enter"&&document.getElementById("nameGate").style.display!=="none")startTest();});
-
-// Auto-start from URL param
-
-
-function beginTest(val, autoRestore=false){
-  studentName=val; startTime=new Date();
-  currentProfile = getProfile(val);
-  document.getElementById("nameGate").style.display="none";
-  document.getElementById("mainTest").style.display="block";
-  document.getElementById("dispName").textContent=studentName;
-  if(currentProfile){
-    document.getElementById("levelBadge").textContent = currentProfile.level + " · Media & Communication";
-    document.getElementById("levelBadge").style.borderColor = currentProfile.colour;
-    document.getElementById("levelBadge").style.color = currentProfile.colour;
-    document.getElementById("levelTag").style.display="inline-flex";
-    document.getElementById("dispLevel").textContent = currentProfile.level;
-    document.getElementById("dispLevel").style.color = currentProfile.colour;
-  }
-  renderDynamicParts();
-  // Wire up Part I word counter
-  const i1el = document.getElementById("i1");
-  if(i1el) i1el.addEventListener("input",function(){
-    const wc = document.getElementById("wc");
-    if(wc) wc.textContent="Words: "+this.value.trim().split(/\s+/).filter(w=>w).length;
-    updateProgress();
-  });
-  // Wire up input listeners for G/H open-ended textareas
-  ["g","h"].forEach(p=>{
-    for(let i=1;i<=10;i++){
-      const el=document.getElementById(p+i);
-      if(el) el.addEventListener("input",updateProgress);
-    }
-  });
-  // Always auto-restore saved answers silently — no prompt needed
-  const saved=loadLocal();
-  if(saved && saved.answers){
-    const savedName=(saved.name||"").toLowerCase().replace(/\s+/g,"");
-    const currentName=studentName.toLowerCase().replace(/\s+/g,"");
-    if(savedName===currentName){
-      restoreProgress();
-    }
-  }
-  // Also try to fetch latest from server in background
-  fetchAndRestore();
-}
-
-// ── DYNAMIC PART RENDERING ────────────────────────────────────────────────
 function renderDynamicParts(){
   const container = document.getElementById("dynamicParts");
   if(!container) return;
@@ -1119,33 +945,230 @@ function renderMCQSection(fd){
 
 function escAttr(s){ return (s||"").replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
 
-// ── SUBMIT ────────────────────────────────────────────
-async function submitAll(){
-  const btn=document.getElementById("submitBtn");
-  btn.disabled=true;btn.textContent="Saving...";
-  checkFill("a",10);checkFill("b",10);checkTA("c",10);checkTA("d",10);checkTA("e",10);checkMCQ();
-  const submission = buildSubmission(true);
-  const saved = await pushToServer(submission);
-  if(saved) clearLocal();
+function startTest(){
+  const val=document.getElementById("nameInput").value.trim();
+  if(val.length<2){document.getElementById("nameErr").style.display="block";return;}
+  beginTest(val);
+}
+
+function beginTest(val, autoRestore=false){
+  studentName=val; startTime=new Date();
+  currentProfile = getProfile(val);
+  document.getElementById("nameGate").style.display="none";
+  document.getElementById("mainTest").style.display="block";
+  document.getElementById("dispName").textContent=studentName;
+  if(currentProfile){
+    document.getElementById("levelBadge").textContent = currentProfile.level + " · Media & Communication";
+    document.getElementById("levelBadge").style.borderColor = currentProfile.colour;
+    document.getElementById("levelBadge").style.color = currentProfile.colour;
+    document.getElementById("levelTag").style.display="inline-flex";
+    document.getElementById("dispLevel").textContent = currentProfile.level;
+    document.getElementById("dispLevel").style.color = currentProfile.colour;
+  }
+  renderDynamicParts();
+  // Wire up Part I word counter
+  const i1el = document.getElementById("i1");
+  if(i1el) i1el.addEventListener("input",function(){
+    const wc = document.getElementById("wc");
+    if(wc) wc.textContent="Words: "+this.value.trim().split(/\s+/).filter(w=>w).length;
+    updateProgress();
+  });
+  // Wire up input listeners for G/H open-ended textareas
+  ["g","h"].forEach(p=>{
+    for(let i=1;i<=10;i++){
+      const el=document.getElementById(p+i);
+      if(el) el.addEventListener("input",updateProgress);
+    }
+  });
+  // Always auto-restore saved answers silently — no prompt needed
+  const saved=loadLocal();
+  if(saved && saved.answers){
+    const savedName=(saved.name||"").toLowerCase().replace(/\s+/g,"");
+    const currentName=studentName.toLowerCase().replace(/\s+/g,"");
+    if(savedName===currentName){
+      restoreProgress();
+    }
+  }
+  // Also try to fetch latest from server in background
+  fetchAndRestore();
+}
+
+async function checkAndSubmit(part, type){
+  // Run the appropriate check first
+  if(type==="fill") checkFill(part,10);
+  else if(type==="ta") checkTA(part,10);
+  else if(type==="mcq") checkMCQ();
+  // Save to server
+  await autoSave(part);
+  // Check if all parts done
+  checkIfComplete();
+}
+
+async function checkAndSubmitPara(){
+  await checkParaAI();
+  await autoSave("i");
+  checkIfComplete();
+}
+
+async function checkAllAndSubmit(part) {
+  await checkAllAI(part);
+  await autoSave(part);
+}
+
+async function checkAllAI(part) {
+  const btn = document.getElementById("check-all-"+part);
+
+  // ── PRE-FLIGHT: detect duplicate answers before checking ─────
+  const answers = [];
+  for(let i=1; i<=10; i++){
+    const val = (document.getElementById(part+i)||{}).value||"";
+    answers.push(val.trim().toLowerCase().replace(/\s+/g," "));
+  }
+  const filledAnswers = answers.filter(a=>a.length>0);
+
+  // Check 1: Are all filled answers identical?
+  const uniqueAnswers = new Set(filledAnswers);
+  if(filledAnswers.length >= 5 && uniqueAnswers.size <= 2){
+    showDuplicateWarning(part, "identical");
+    return;
+  }
+
+  // Check 2: Are >60% of answers suspiciously similar (same first 8 words)?
+  const prefixes = filledAnswers.map(a=>a.split(" ").slice(0,8).join(" "));
+  const uniquePrefixes = new Set(prefixes);
+  if(filledAnswers.length >= 5 && uniquePrefixes.size <= 2){
+    showDuplicateWarning(part, "similar");
+    return;
+  }
+
+  // Check 3: Are any answers too short (under 5 words)?
+  const tooShort = answers.map((a,i)=>a.length>0&&a.split(" ").length<5 ? i+1 : null).filter(Boolean);
+  if(tooShort.length >= 5){
+    showQualityWarning(part, tooShort);
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = "Checking... please wait";
+  for (let i=1; i<=10; i++) {
+    const val = document.getElementById(part+i).value.trim();
+    if (val) { await checkAI(part, i); await new Promise(r=>setTimeout(r,600)); }
+  }
+  btn.disabled = false;
+  btn.innerHTML = "&#129302; Check &amp; Submit Part " + part.toUpperCase();
+  autoSave(part);
+}
+
+function checkIfComplete(){
+  // Count how many parts have been checked
+  const checkedParts = Object.values(sectionScores).filter(s=>s>0).length;
+  const hasAnswers = ["a","b","c","d","e","f"].every(p=>{
+    for(let i=1;i<=10;i++){
+      const el = document.getElementById(p+i);
+      if(el && el.value.trim()) return true;
+    }
+    return false;
+  });
+  // Show final result modal if all 6 auto-checked parts have been submitted
+  if(["a","b","c","d","e","f"].every(p=>sectionScores[p]!==undefined)){
+    const allChecked = ["a","b","c","d","e","f"].every(p=>sectionChecked[p]);
+    if(allChecked) showFinalResult();
+  }
+}
+
+function showFinalResult(){
   const score=Object.values(sectionScores).reduce((a,b)=>a+b,0);
   const pct=Math.round((score/60)*100);
   const col=sc(pct);
   document.getElementById("resScore").textContent=score+"/60";
   document.getElementById("resScore").style.color=col;
-  document.getElementById("resSaved").style.cssText=`background:${saved?"rgba(52,211,153,.08)":"rgba(251,191,36,.08)"};border:1px solid ${saved?"rgba(52,211,153,.25)":"rgba(251,191,36,.25)"};color:${saved?"#34d399":"#fbbf24"}`;
-  d
-
-// ── GRAMMAR CHECKER ──────────────────────────────────────────────────────────
-ocument.getElementById("resSaved").textContent=saved?"&#10003; Saved! Your teacher will see your results.":"&#9888; Could not save. Please tell your teacher.";
+  document.getElementById("resSaved").style.cssText=`background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.25);color:#34d399`;
+  document.getElementById("resSaved").textContent="✓ All parts saved! Your teacher can see your full results.";
   const msg=pct>=85?"Excellent work! Your command of environmental English is impressive.":pct>=70?"Well done! Strong grammar skills with room to grow further.":pct>=55?"Good effort! Focus on verb tenses and sentence structure.":"Keep going! Review the grammar rules in the hints carefully.";
   document.getElementById("resMsg").textContent=msg;
   document.getElementById("resGrid").innerHTML=["a","b","c","d","e","f"].map(p=>`<div class="res-item"><div class="v" style="color:${sc((sectionScores[p]||0)*10)}">${sectionScores[p]||0}/10</div><div class="l">Part ${p.toUpperCase()}</div></div>`).join("");
   document.getElementById("resultModal").classList.add("open");
-  btn.disabled=false;btn.textContent="Submit & Save Results";
 }
+
 function closeResult(){document.getElementById("resultModal").classList.remove("open");}
 
-// ── GRAMMAR CHECKER (LanguageTool Free API) ───────────────────────────────
+function showDuplicateWarning(part, type){
+  // Show a prominent warning in the section
+  const bodyEl = document.getElementById("body-"+part);
+  const existingWarn = document.getElementById("dup-warn-"+part);
+  if(existingWarn) existingWarn.remove();
+
+  const warn = document.createElement("div");
+  warn.id = "dup-warn-"+part;
+  warn.style.cssText = "background:rgba(248,113,113,.1);border:2px solid var(--err);border-radius:10px;padding:18px 20px;margin-bottom:16px;";
+  warn.innerHTML = `
+    <div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--err);margin-bottom:10px">
+      &#9888;&#65039; Duplicate Answers Detected
+    </div>
+    <div style="font-size:13px;line-height:1.75;color:var(--text);margin-bottom:12px">
+      ${type==="identical"
+        ? "You have written the <strong>same sentence for every question</strong>. This is not acceptable."
+        : "Your answers are <strong>too similar to each other</strong>. Each question requires a different, original sentence."}
+    </div>
+    <div style="font-size:13px;line-height:1.75;color:var(--text);margin-bottom:12px">
+      Each question has a <strong>different original sentence</strong> that you need to expand or rewrite. 
+      Read each one carefully and write a unique sentence that relates specifically to that sentence.
+    </div>
+    <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--warn)">
+      &#128161; <strong>Tip:</strong> Look at each question's original sentence. Ask yourself: <em>Who? What? When? Where? Why? How?</em> 
+      Use descriptive words (adjectives and adverbs) and add a clause with words like <em>"because", "although", "which", "when"</em>.
+    </div>
+    <button onclick="dismissWarning('${part}')" style="margin-top:12px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:8px 18px;background:var(--accent);color:#000;border:none;border-radius:6px;cursor:pointer;text-transform:uppercase">
+      I Understand — Let Me Redo My Answers
+    </button>`;
+  bodyEl.insertBefore(warn, bodyEl.firstChild);
+  warn.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function showQualityWarning(part, shortQnums){
+  const bodyEl = document.getElementById("body-"+part);
+  const existingWarn = document.getElementById("dup-warn-"+part);
+  if(existingWarn) existingWarn.remove();
+
+  const warn = document.createElement("div");
+  warn.id = "dup-warn-"+part;
+  warn.style.cssText = "background:rgba(245,158,11,.08);border:2px solid var(--warn);border-radius:10px;padding:18px 20px;margin-bottom:16px;";
+  warn.innerHTML = `
+    <div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--warn);margin-bottom:10px">
+      &#9888;&#65039; Answers Too Short
+    </div>
+    <div style="font-size:13px;line-height:1.75;color:var(--text);margin-bottom:12px">
+      Questions <strong>${shortQnums.join(", ")}</strong> have answers that are too short (fewer than 5 words). 
+      These questions require a <strong>complete, expanded sentence</strong> — not a phrase.
+    </div>
+    <div style="background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--a3)">
+      &#128216; <strong>Reminder:</strong> Each answer should be at least 12–15 words. 
+      Add adjectives, adverbs, and a clause to expand the original sentence properly.
+    </div>
+    <button onclick="dismissWarning('${part}')" style="margin-top:12px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:8px 18px;background:var(--accent);color:#000;border:none;border-radius:6px;cursor:pointer;text-transform:uppercase">
+      I Understand — Let Me Improve My Answers
+    </button>`;
+  bodyEl.insertBefore(warn, bodyEl.firstChild);
+  warn.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function dismissWarning(part){
+  const warn = document.getElementById("dup-warn-"+part);
+  if(warn) warn.remove();
+  // Clear all answers in this part so student must redo them
+  for(let i=1;i<=10;i++){
+    const el = document.getElementById(part+i);
+    if(el){ el.value=""; el.classList.remove("ok","bad"); }
+  }
+  // Clear any AI feedback
+  for(let i=1;i<=10;i++){
+    const fb = document.getElementById("ai-fb-"+part+i);
+    if(fb){ fb.className="ai-fb"; fb.querySelector(".ai-top").innerHTML=""; fb.querySelector(".ai-body").innerHTML=""; }
+  }
+  updateProgress();
+}
+
+// ── GRAMMAR CHECKER
 const G_QUESTIONS=['The iceberg melted.','Sea levels rose.','Scientists warned governments.','The coral reef died.','The flood devastated the village.','Nations disagreed at the summit.','Renewable energy expanded.','The activist protested.','Wildlife habitats disappeared.','The agreement was reached.'];
 const H_QUESTIONS=['The weather is getting worse.','Many animals are dying.','The air in the city is bad.','People wasted a lot of energy.','The government made new environment rules.','Plastic is a big problem in the ocean.','Scientists found worrying results.','Young people started caring about the environment.','Trees were cut down in the forest.','The temperature went up every year.'];
 
@@ -1561,44 +1584,47 @@ async function checkParaAI() {
 }
 
 
-// ── INIT: runs after ALL functions are defined ────────────────────────────────
-window.onload = function(){
-  // AUTO-START: if name in URL, begin test immediately
-  var urlName = new URLSearchParams(window.location.search).get('name');
-  if(urlName){ beginTest(urlName); }
-  // Wire Part I word counter
-  var i1 = document.getElementById("i1");
-  if(i1) i1.addEventListener("input", function(){
-    var wc = document.getElementById("wc");
-    if(wc) wc.textContent = "Words: " + this.value.trim().split(/\s+/).filter(function(w){return w;}).length;
-    updateProgress();
-  });
 
-  // Profile preview on name input
+window.onload = function(){
+  // AUTO-START from URL param — runs after ALL functions are defined
+  var urlName = new URLSearchParams(window.location.search).get('name');
+  if(urlName){
+    try {
+      beginTest(urlName);
+    } catch(e) {
+      document.body.style.background = "#0a0a0a";
+      document.body.innerHTML = '<div style="color:#f87171;font-family:monospace;padding:40px;font-size:14px;max-width:800px">'
+        + '<h2 style="margin-bottom:16px">Error loading test</h2>'
+        + '<pre style="background:#1a0a0a;padding:16px;border-radius:8px;overflow:auto">' + e.stack + '</pre>'
+        + '</div>';
+    }
+    return;
+  }
+
+  // Manual name entry helpers
   var inp = document.getElementById("nameInput");
   if(inp){
     inp.addEventListener("input", function(){
       var p = getProfile(this.value.trim());
       var preview = document.getElementById("profilePreview");
       if(p && this.value.trim().length >= 3){
-        preview.style.display = "block";
-        preview.style.borderColor = p.colour;
-        preview.style.color = p.colour;
-        preview.innerHTML = "&#128075; " + p.welcome;
+        preview.style.display="block";
+        preview.style.borderColor=p.colour;
+        preview.style.color=p.colour;
+        preview.innerHTML="&#128075; "+p.welcome;
       } else {
-        preview.style.display = "none";
+        preview.style.display="none";
       }
     });
-    inp.addEventListener("keydown", function(e){
-      if(e.key === "Enter") startTest();
-    });
+    inp.addEventListener("keydown", function(e){ if(e.key==="Enter") startTest(); });
   }
-
-  // Auto-start from URL param — runs AFTER all functions defined
-  var urlName = new URLSearchParams(window.location.search).get("name");
-  if(urlName){
-    beginTest(urlName);
-  }
+  // Wire Part I word counter
+  var i1=document.getElementById("i1");
+  if(i1) i1.addEventListener("input",function(){
+    var wc=document.getElementById("wc");
+    if(wc) wc.textContent="Words: "+this.value.trim().split(/\s+/).filter(function(w){return w;}).length;
+    updateProgress();
+  });
 };
 </script>
 </body>
