@@ -396,6 +396,18 @@ function renderAll(){
 
 // ── SCORE STUDENT ─────────────────────────────────────────────────────────────
 function scoreStudent(sub){
+  // Prefer stored sectionScores (supports randomized papers from test.html)
+  if(sub.sectionScores && typeof sub.sectionScores === "object"){
+    return {
+      a:Number(sub.sectionScores.a)||0,
+      b:Number(sub.sectionScores.b)||0,
+      c:Number(sub.sectionScores.c)||0,
+      d:Number(sub.sectionScores.d)||0,
+      e:Number(sub.sectionScores.e)||0,
+      f:Number(sub.sectionScores.f)||0
+    };
+  }
+
   const theme=sub.testTheme||"Media & Communication";
   const AK=ANSWERS_BY_THEME[theme]||ANSWERS_BY_THEME["Media & Communication"];
   const grade=sub.studentGrade||"ZenV";
@@ -403,7 +415,6 @@ function scoreStudent(sub){
   const ss={};
   ["a","b","c","d","e"].forEach(p=>{
     let s=0;
-    // Get correct answers for this student's level
     const levelAnswers = AK[p] && AK[p][grade] ? AK[p][grade] : (Array.isArray(AK[p]) ? AK[p] : []);
     for(let i=1;i<=10;i++){
       const given=(ans[p+i]||"").trim();
@@ -412,11 +423,12 @@ function scoreStudent(sub){
     }
     ss[p]=s;
   });
-  // Part F — level-aware
+
   let sf=0;
   const fAnswers = AK.f && AK.f[grade] ? AK.f[grade] : (Array.isArray(AK.f) ? AK.f : []);
   for(let i=1;i<=10;i++){
-    if(ans["f"+i] && ans["f"+i]===fAnswers[i-1])sf++;
+    const fv = ans["f"+i];
+    if(fv !== "" && fv !== undefined && Number(fv)===Number(fAnswers[i-1])) sf++;
   }
   ss.f=sf;
   return ss;

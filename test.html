@@ -1,2088 +1,410 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>English Test — Media &amp; Communication</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#060d08;--surf:#0b1410;--card:#111c14;--border:#1a2d1e;--accent:#34d399;--a2:#f97316;--a3:#60a5fa;--text:#e2e8f0;--muted:#64748b;--ok:#34d399;--err:#f87171;--warn:#fbbf24;--mono:"Space Mono",monospace;--sans:"DM Sans",sans-serif}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(52,211,153,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(52,211,153,.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
-.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:28px 16px 80px}
-#nameGate{position:fixed;inset:0;background:var(--bg);z-index:200;display:flex;align-items:center;justify-content:center}
-.name-box{background:var(--card);border:1px solid var(--accent);border-radius:16px;padding:44px 32px;max-width:420px;width:92%;text-align:center;box-shadow:0 0 60px rgba(52,211,153,.1)}
-.badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:3px;border:1px solid var(--accent);color:var(--accent);padding:3px 12px;border-radius:2px;margin-bottom:16px;text-transform:uppercase}
-.name-box h2{font-family:var(--mono);font-size:20px;color:#fff;margin-bottom:8px}
-.name-box p{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.7}
-input.big{width:100%;background:var(--surf);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:15px;padding:13px 16px;outline:none;text-align:center;margin-bottom:12px}
-input.big:focus{border-color:var(--accent)}
-.btn-primary{width:100%;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:1px;padding:14px;background:linear-gradient(135deg,var(--a2),var(--accent));color:#000;border:none;border-radius:8px;cursor:pointer;text-transform:uppercase}
-.err-msg{color:var(--err);font-size:12px;font-family:var(--mono);margin-top:6px;display:none}
-.hdr{text-align:center;padding-bottom:24px;border-bottom:1px solid var(--border);margin-bottom:24px}
-.hdr h1{font-family:var(--mono);font-size:clamp(18px,4vw,30px);font-weight:700;color:#fff;margin-bottom:10px}
-.hdr h1 span{color:var(--accent)}
-.student-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);border-radius:6px;padding:6px 14px;margin-top:8px}
-.student-tag .lbl{font-size:11px;color:var(--muted);font-family:var(--mono)}
-.student-tag .nm{font-size:13px;color:var(--accent);font-family:var(--mono);font-weight:700}
-.dash{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
-.dash-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center}
-.dash-card .v{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--accent)}
-.dash-card .l{font-size:10px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:1px}
-.prog-wrap{margin-bottom:26px}
-.prog-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-family:var(--mono);margin-bottom:6px}
-.prog-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
-.prog-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--a2),var(--accent));border-radius:2px;transition:width .5s ease}
-.autosave-bar{background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.15);border-radius:8px;padding:10px 16px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.autosave-bar .as-left{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-family:var(--mono)}
-.as-dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background .3s}
-.as-dot.saving{background:var(--warn);animation:pulse .8s infinite}
-.as-dot.saved{background:var(--ok)}
-.as-dot.error{background:var(--err)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.restore-banner{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.25);border-radius:8px;padding:12px 16px;margin-bottom:18px;display:none;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.restore-banner p{font-size:13px;color:var(--warn);font-family:var(--mono)}
-.restore-banner button{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:7px 14px;background:var(--warn);color:#000;border:none;border-radius:5px;cursor:pointer;text-transform:uppercase}
-.section{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:18px;overflow:hidden}
-.sec-hdr{padding:14px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
-.sec-tag{font-family:var(--mono);font-size:10px;font-weight:700;color:#000;background:var(--accent);padding:3px 8px;border-radius:2px;flex-shrink:0}
-.sec-title{font-weight:600;font-size:13px;flex:1}
-.sec-sub{font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:2px}
-.sec-arrow{color:var(--accent);font-size:13px;transition:transform .3s;flex-shrink:0}
-.sec-arrow.open{transform:rotate(180deg)}
-.sec-body{padding:18px;display:none;border-top:1px solid var(--border)}
-.sec-body.open{display:block}
-.qb{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
-.qb:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0}
-.qnum{font-family:var(--mono);font-size:10px;color:var(--a2);margin-bottom:5px;text-transform:uppercase;letter-spacing:1px}
-.qtext{font-size:13px;line-height:1.75;margin-bottom:10px}
-.qsub{font-size:11px;color:var(--a3);font-family:var(--mono);margin-bottom:8px}
-.qwords{font-family:var(--mono);color:var(--a2);font-size:12px}
-input.fill{width:100%;max-width:420px;background:var(--surf);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--sans);font-size:14px;padding:9px 12px;outline:none}
-input.fill:focus{border-color:var(--accent)}
-input.fill.ok{border-color:var(--ok);background:rgba(52,211,153,.05)}
-input.fill.bad{border-color:var(--err);background:rgba(248,113,113,.05)}
-textarea.ta{width:100%;background:var(--surf);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:13px;line-height:1.75;padding:12px;resize:vertical;min-height:80px;outline:none}
-textarea.ta:focus{border-color:var(--accent)}
-textarea.ta.ok{border-color:var(--ok)}
-textarea.ta.bad{border-color:var(--err)}
-.mcq-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
-.mcq-opt{background:var(--surf);border:1px solid var(--border);border-radius:6px;padding:10px 12px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:10px}
-.mcq-opt.sel{border-color:var(--a2);background:rgba(249,115,22,.1)}
-.mcq-opt.right{border-color:var(--ok);background:rgba(52,211,153,.08)}
-.mcq-opt.wrong{border-color:var(--err);background:rgba(248,113,113,.08)}
-.opt-l{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--muted);background:rgba(255,255,255,.05);width:22px;height:22px;border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.mcq-opt.sel .opt-l{background:rgba(249,115,22,.25);color:var(--a2)}
-.fb-correct{margin-top:8px;padding:9px 12px;border-radius:6px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.25);font-size:12px;color:var(--ok);font-family:var(--mono);display:none}
-.fb-wrong{margin-top:8px;border-radius:8px;overflow:hidden;border:1px solid rgba(248,113,113,.3);display:none}
-.fb-wrong-top{padding:9px 12px;background:rgba(248,113,113,.08);font-size:12px;color:var(--err);font-family:var(--mono)}
-.fb-hint{padding:11px 14px;background:rgba(251,191,36,.05);border-top:1px solid rgba(251,191,36,.15)}
-.fb-hint .lbl{font-size:10px;color:var(--warn);font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
-.fb-hint .txt{font-size:12px;color:var(--text);line-height:1.65}
-.fb-rule{padding:11px 14px;background:rgba(96,165,250,.05);border-top:1px solid rgba(96,165,250,.15)}
-.fb-rule .lbl{font-size:10px;color:var(--a3);font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
-.fb-rule .txt{font-size:12px;color:var(--text);line-height:1.65}
-.btn-check{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:9px 18px;background:var(--accent);color:#000;border:none;border-radius:6px;cursor:pointer;text-transform:uppercase;margin-top:16px}
-.check-ai-btn{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:9px 18px;background:linear-gradient(135deg,rgba(96,165,250,.15),rgba(52,211,153,.15));color:var(--text);border:1px solid rgba(96,165,250,.3);border-radius:6px;cursor:pointer;text-transform:uppercase;margin-top:14px;display:flex;align-items:center;gap:7px}
-.check-all-btn{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:10px 22px;background:linear-gradient(135deg,var(--a3),var(--accent));color:#000;border:none;border-radius:6px;cursor:pointer;text-transform:uppercase;margin-top:16px}
-.ai-fb{margin-top:10px;border-radius:8px;overflow:hidden;border:1px solid var(--border);display:none}
-.ai-fb.show{display:block}
-.ai-fb.loading .ai-top{background:rgba(96,165,250,.08)}
-.ai-fb.correct .ai-top{background:rgba(52,211,153,.08)}
-.ai-fb.partial .ai-top{background:rgba(251,191,36,.08)}
-.ai-fb.incorrect .ai-top{background:rgba(248,113,113,.08)}
-.ai-top{padding:9px 13px;font-size:12px;font-family:var(--mono)}
-.ai-fb.loading .ai-top{color:var(--a3)}
-.ai-fb.correct .ai-top{color:var(--ok)}
-.ai-fb.partial .ai-top{color:var(--warn)}
-.ai-fb.incorrect .ai-top{color:var(--err)}
-.ai-body{padding:12px 14px;font-size:13px;line-height:1.7;color:var(--text)}
-.ai-spinner{display:inline-block;width:10px;height:10px;border:2px solid rgba(96,165,250,.3);border-top-color:var(--a3);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
-@keyframes spin{to{transform:rotate(360deg)}}
-.para-ai-fb{margin-top:14px;border-radius:10px;overflow:hidden;border:1px solid var(--border);display:none}
-.para-ai-fb.show{display:block}
-.para-ai-top{padding:12px 16px;font-size:12px;font-family:var(--mono);border-bottom:1px solid var(--border)}
-.para-ai-section{padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px;line-height:1.75}
-.para-ai-section:last-child{border-bottom:none}
-.example-box{background:rgba(52,211,153,.04);border:1px solid rgba(52,211,153,.15);border-radius:8px;padding:14px;margin-bottom:18px}
-.example-box .ex-lbl{font-size:10px;color:var(--accent);font-family:var(--mono);margin-bottom:6px}
-.example-box .ex-s{font-size:12px;color:var(--muted)}
-.example-box .ex-e{font-size:13px;color:var(--text);margin-top:5px;line-height:1.7}
-.topic-box{background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.2);border-radius:10px;padding:18px;margin-bottom:18px}
-.topic-box .t-lbl{font-family:var(--mono);font-size:10px;color:var(--a2);letter-spacing:2px;margin-bottom:8px;text-transform:uppercase}
-.topic-box h4{font-size:15px;font-weight:600;margin-bottom:8px}
-.topic-box p{font-size:13px;color:var(--muted);line-height:1.75}
-.topic-box ul{padding-left:16px;font-size:13px;color:var(--muted);line-height:2.1;margin-top:8px}
-#resultModal{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
-#resultModal.open{display:flex}
-.res-box{background:var(--card);border:1px solid var(--accent);border-radius:16px;padding:36px 28px;max-width:460px;width:100%;text-align:center}
-.res-score{font-family:var(--mono);font-size:52px;font-weight:700;line-height:1}
-.res-label{font-size:12px;color:var(--muted);font-family:var(--mono);margin:8px 0 16px}
-.res-saved{border-radius:8px;padding:11px;margin-bottom:16px;font-size:12px;font-family:var(--mono)}
-.res-msg{font-size:13px;line-height:1.65;margin-bottom:22px}
-.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px}
-.res-item{background:var(--surf);border-radius:6px;padding:10px}
-.res-item .v{font-family:var(--mono);font-size:18px;font-weight:700}
-.res-item .l{font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:3px}
-.btn-close{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:10px 28px;background:var(--accent);color:#000;border:none;border-radius:6px;cursor:pointer;text-transform:uppercase}
-@media(max-width:500px){.mcq-grid{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>English Test Generator (A–I)</title>
+  <style>
+    :root{--bg:#0b1020;--card:#121a31;--muted:#9fb0d3;--txt:#e9efff;--accent:#60a5fa;--ok:#34d399;--warn:#fbbf24;--bad:#f87171}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,Segoe UI,Arial;background:linear-gradient(180deg,#070b18,#101a35);color:var(--txt)}
+    .wrap{max-width:1100px;margin:24px auto;padding:0 14px}
+    .card{background:rgba(18,26,49,.92);border:1px solid rgba(159,176,211,.18);border-radius:14px;padding:16px}
+    h1{font-size:22px;margin:0 0 6px} .muted{color:var(--muted);font-size:13px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    input,textarea,select{width:100%;background:#0b1327;border:1px solid #2d3b62;border-radius:10px;color:var(--txt);padding:10px;font-size:14px}
+    textarea{min-height:90px;resize:vertical}
+    button{background:#2563eb;color:#fff;border:0;border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:600}
+    button:disabled{opacity:.6;cursor:not-allowed}
+    .ghost{background:#243454}
+    .pill{display:inline-block;border:1px solid #35508c;padding:4px 10px;border-radius:999px;font-size:12px;color:#bdd0ff}
+    .grid{display:grid;gap:10px}
+    .q{padding:10px;border:1px solid rgba(159,176,211,.2);border-radius:10px;background:#0c152b}
+    .qnum{font-size:12px;color:#aac0ef;margin-bottom:6px}
+    .good{border-color:rgba(52,211,153,.55)!important} .bad{border-color:rgba(248,113,113,.6)!important}
+    .sec{margin-top:14px}
+    .sec h2{margin:0 0 8px;font-size:16px}
+    .meta{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+    .status{font-size:12px;color:#b9caef}
+    .mcqOpts{display:grid;gap:6px;margin-top:6px}
+    .opt{padding:8px;border:1px solid #2d3b62;border-radius:8px;cursor:pointer}
+    .opt.sel{background:#1a2f5f;border-color:#4f74c6}
+    .opt.right{border-color:var(--ok)} .opt.wrong{border-color:var(--bad)}
+    #main{display:none}
+    .scoreBox{font-weight:700}
+    .fb{font-size:12px;margin-top:6px;color:#b9caef;white-space:pre-wrap}
+  </style>
 </head>
 <body>
-
-<!-- NAME GATE -->
-<div id="nameGate">
-  <div class="name-box">
-    <div class="badge">Media &amp; Communication</div>
-    <h2>Welcome!</h2>
-    <p>Enter your name to begin.</p>
-    <input class="big" id="nameInput" placeholder="Your name..." maxlength="80" autocomplete="name">
-    <div class="err-msg" id="nameErr">Please enter your name.</div>
-    <div id="profilePreview" style="display:none;margin-bottom:14px;padding:10px 14px;border-radius:8px;font-size:13px;font-family:var(--mono);border:1px solid var(--border)"></div>
-    <button class="btn-primary" onclick="startTest()">Begin Test &#8594;</button>
-  </div>
-</div>
-
-<!-- MAIN TEST -->
-<div class="wrap" id="mainTest" style="display:none">
-  <div class="autosave-bar">
-    <div class="as-left"><div class="as-dot" id="asDot"></div><span id="asText">Auto-saves when you check answers</span></div>
-    <span style="font-size:11px;color:var(--muted);font-family:var(--mono)" id="lastSaved"></span>
-  </div>
-  <div class="hdr">
-    <div class="badge" id="levelBadge">Media &amp; Communication</div>
-    <h1>English Language <span>Assessment</span></h1>
-    <div style="display:flex;align-items:center;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px">
-      <div class="student-tag"><span class="lbl">Student:</span><span class="nm" id="dispName">&mdash;</span></div>
+<div class="wrap">
+  <div id="gate" class="card">
+    <h1>English Test (Parts A–I)</h1>
+    <div class="muted">Auto-generated by student level · A–F static answers · G–I smart checking</div>
+    <div class="row" style="margin-top:12px">
+      <div style="flex:1 1 240px"><input id="studentName" placeholder="Enter student name (ZenV / ZenZ / ZenE)" /></div>
+      <button onclick="startTest()">Start Test</button>
     </div>
-  </div>
-  <div class="dash">
-    <div class="dash-card"><div class="v" id="dScore">0</div><div class="l">Score</div></div>
-    <div class="dash-card"><div class="v" id="dAnswered">0</div><div class="l">Answered</div></div>
-    <div class="dash-card"><div class="v">70</div><div class="l">Total</div></div>
-  </div>
-  <div class="prog-wrap">
-    <div class="prog-lbl"><span>Progress</span><span id="dPct">0%</span></div>
-    <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+    <div id="gateErr" class="fb" style="color:var(--bad)"></div>
   </div>
 
-  <!-- PARTS A-F: one set per student, shown based on name -->
+  <div id="main" class="card">
+    <div class="row" style="justify-content:space-between">
+      <div>
+        <div id="studentTag" class="pill">Student: -</div>
+        <div id="levelTag" class="pill">Level: -</div>
+      </div>
+      <div class="scoreBox">A–F Score: <span id="totalScore">0</span>/60</div>
+    </div>
+    <div class="meta">
+      <span class="pill" id="answeredTag">Answered: 0/71</span>
+      <span class="pill" id="savedTag">Not saved yet</span>
+    </div>
 
-<div id="parts-zenv" style="display:none">
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('a')">
-      <span class="sec-tag">PART A</span>
-      <div><div class="sec-title">Verb Forms (Tenses)</div><div class="sec-sub">Fill in the correct form of the verb in brackets</div></div>
-      <span class="sec-arrow open" id="arr-a">&#9660;</span>
-    </div>
-    <div class="sec-body open" id="body-a">
-      <div class="qb">
-        <div class="qnum">Question 1</div>
-        <div class="qtext">Social media platforms ______ (transform) the way people communicate over the past decade.</div>
-        <input class="fill" id="a1" placeholder="Type your answer..."
-          data-ans="have transformed" data-hint="Action started in past, results still felt now." data-rule="Present Perfect = has/have + past participle. &#39;Over the past decade&#39; signals a connection from past to present.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 2</div>
-        <div class="qtext">The journalist ______ (investigate) the corruption scandal for six months before the story was published.</div>
-        <input class="fill" id="a2" placeholder="Type your answer..."
-          data-ans="had been investigating" data-hint="Ongoing action completed before another past event." data-rule="Past Perfect Continuous = had + been + verb-ing. Shows ongoing action already in progress before a past point.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 3</div>
-        <div class="qtext">By the time the press conference begins, the editors ______ (review) all the footage.</div>
-        <input class="fill" id="a3" placeholder="Type your answer..."
-          data-ans="will have reviewed" data-hint="Completed before a future point." data-rule="Future Perfect = will + have + past participle. For actions completed before a specific future deadline.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 4</div>
-        <div class="qtext">The government ______ (introduce) stricter regulations on social media since the data breach.</div>
-        <input class="fill" id="a4" placeholder="Type your answer..."
-          data-ans="has introduced" data-hint="&#39;Since&#39; connects past action to present relevance." data-rule="Present Perfect = has/have + past participle. &#39;Since&#39; signals a connection from a past point to now.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 5</div>
-        <div class="qtext">While the presenter ______ (deliver) the live broadcast, the teleprompter suddenly failed.</div>
-        <input class="fill" id="a5" placeholder="Type your answer..."
-          data-ans="was delivering" data-hint="Ongoing action interrupted by sudden event." data-rule="Past Continuous = was/were + verb-ing. Shows an action in progress when another event interrupted it.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 6</div>
-        <div class="qtext">Researchers ______ (study) the psychological effects of screen addiction for several decades now.</div>
-        <input class="fill" id="a6" placeholder="Type your answer..."
-          data-ans="have been studying" data-hint="Ongoing from past until now — duration emphasised." data-rule="Present Perfect Continuous = have/has + been + verb-ing. Shows continuous action from the past until now.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 7</div>
-        <div class="qtext">The newspaper ______ (cease) its print edition next month and move entirely online.</div>
-        <input class="fill" id="a7" placeholder="Type your answer..."
-          data-ans="will cease" data-hint="Planned future action." data-rule="Simple Future = will + base verb. Used for planned or scheduled future events.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 8</div>
-        <div class="qtext">By 2030, artificial intelligence ______ (replace) most traditional journalism roles.</div>
-        <input class="fill" id="a8" placeholder="Type your answer..."
-          data-ans="will have replaced" data-hint="Completed before a future point — 2030." data-rule="Future Perfect = will + have + past participle. For actions completed before a future deadline.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 9</div>
-        <div class="qtext">The documentary filmmaker ______ (travel) across twelve countries when his funding was unexpectedly cut.</div>
-        <input class="fill" id="a9" placeholder="Type your answer..."
-          data-ans="had been travelling" data-hint="Already ongoing before the funding was cut." data-rule="Past Perfect Continuous = had + been + verb-ing. Ongoing action in progress before another past event.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 10</div>
-        <div class="qtext">Unless media literacy ______ (teach) in schools, misinformation will continue to spread unchecked.</div>
-        <input class="fill" id="a10" placeholder="Type your answer..."
-          data-ans="is taught" data-hint="Conditional clause — passive, present tense." data-rule="In &#39;unless&#39; conditionals, use Present Simple Passive (is/are + past participle) in the condition clause.">
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('a','fill')">Check &amp; Submit Part A</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('b')">
-      <span class="sec-tag">PART B</span>
-      <div><div class="sec-title">Word Forms</div><div class="sec-sub">Change the word in brackets to the correct form</div></div>
-      <span class="sec-arrow" id="arr-b">&#9660;</span>
-    </div>
-    <div class="sec-body" id="body-b">
-      <div class="qb">
-        <div class="qnum">Question 1</div>
-        <div class="qtext">The ______ of fake news on social media has become a serious global concern. (PROLIFERATE)</div>
-        <input class="fill" id="b1" placeholder="Type your answer..."
-          data-ans="proliferation" data-hint="Noun needed as subject." data-rule="PROLIFERATE → PROLIFERATION (noun). Suffix &#39;-tion&#39; creates nouns from verbs.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 2</div>
-        <div class="qtext">The editor argued ______ that sensationalist headlines undermine journalistic integrity. (PERSUADE)</div>
-        <input class="fill" id="b2" placeholder="Type your answer..."
-          data-ans="persuasively" data-hint="Adverb modifying &#39;argued&#39;." data-rule="PERSUADE → PERSUASIVE (adj) → PERSUASIVELY (adverb). Add &#39;-ly&#39; to the adjective.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 3</div>
-        <div class="qtext">The ______ impact of social media on adolescent mental health is well-documented. (DEVASTATE)</div>
-        <input class="fill" id="b3" placeholder="Type your answer..."
-          data-ans="devastating" data-hint="Adjective describing &#39;impact&#39;." data-rule="DEVASTATE → DEVASTATING (adjective). -ing participial form used as adjective.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 4</div>
-        <div class="qtext">Governments must ensure the ______ of press freedom in democratic societies. (PRESERVE)</div>
-        <input class="fill" id="b4" placeholder="Type your answer..."
-          data-ans="preservation" data-hint="Noun after &#39;the&#39;." data-rule="PRESERVE → PRESERVATION (noun). Suffix &#39;-ation&#39; creates nouns from verbs.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 5</div>
-        <div class="qtext">The media mogul spoke ______ about the future of digital journalism. (VISION)</div>
-        <input class="fill" id="b5" placeholder="Type your answer..."
-          data-ans="visionary" data-hint="Adjective modifying &#39;about&#39; — actually, this modifies how they spoke. Think carefully." data-rule="VISION → VISIONARY can be adjective. But here an adverb modifying &#39;spoke&#39; is needed: VISION → VISIONARY is incorrect. Think of another route: the answer is &#39;visionary&#39; used attributively, OR reconsider — the adverb form would be needed. Answer: visionarily is rare; correct answer is &#39;passionately&#39; — wait, bracket says VISION. Hmm. Let&#39;s use: PASSION instead.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 6</div>
-        <div class="qtext">The ______ of the new broadcasting regulations was debated extensively in parliament. (IMPLEMENT)</div>
-        <input class="fill" id="b6" placeholder="Type your answer..."
-          data-ans="implementation" data-hint="Noun as subject after &#39;the&#39;." data-rule="IMPLEMENT → IMPLEMENTATION (noun). Suffix &#39;-ation&#39;.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 7</div>
-        <div class="qtext">Social media algorithms have ______ changed how news is consumed by the public. (FUNDAMENTAL)</div>
-        <input class="fill" id="b7" placeholder="Type your answer..."
-          data-ans="fundamentally" data-hint="Adverb modifying &#39;changed&#39;." data-rule="FUNDAMENTAL (adj) → FUNDAMENTALLY (adverb). Add &#39;-ly&#39;.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 8</div>
-        <div class="qtext">There is a clear ______ between excessive screen time and reduced attention spans. (RELATE)</div>
-        <input class="fill" id="b8" placeholder="Type your answer..."
-          data-ans="relationship" data-hint="Noun after &#39;a clear&#39;." data-rule="RELATE → RELATIONSHIP (noun). Suffix &#39;-ship&#39; expresses connection.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 9</div>
-        <div class="qtext">Critics argued ______ against the merger of the two major broadcasting networks. (VEHEMENT)</div>
-        <input class="fill" id="b9" placeholder="Type your answer..."
-          data-ans="vehemently" data-hint="Adverb modifying &#39;argued&#39;." data-rule="VEHEMENT (adj) → VEHEMENTLY (adverb). Add &#39;-ly&#39;.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 10</div>
-        <div class="qtext">The ______ of online content by tech companies has sparked widespread controversy. (CENSOR)</div>
-        <input class="fill" id="b10" placeholder="Type your answer..."
-          data-ans="censorship" data-hint="Noun after &#39;the&#39;." data-rule="CENSOR → CENSORSHIP (noun). Suffix &#39;-ship&#39; creates nouns.">
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('b','fill')">Check &amp; Submit Part B</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('c')">
-      <span class="sec-tag">PART C</span>
-      <div><div class="sec-title">Error Correction</div><div class="sec-sub">Each sentence has one error — rewrite it correctly</div></div>
-      <span class="sec-arrow" id="arr-c">&#9660;</span>
-    </div>
-    <div class="sec-body" id="body-c">
-      <div class="qb">
-        <div class="qnum">Q1</div>
-        <div class="qtext"><em>The number of fake news articles circulating online have increased exponentially.</em></div>
-        <textarea class="ta" id="c1" placeholder="Write your answer here..."
-          data-ans="The number of fake news articles circulating online has increased exponentially." data-hint="Is &#39;the number&#39; singular or plural?" data-rule="&#39;The number of + plural noun&#39; takes a SINGULAR verb (has). &#39;A number of articles HAVE&#39; is different."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q2</div>
-        <div class="qtext"><em>Despite of the media blackout, information continued to leak through social networks.</em></div>
-        <textarea class="ta" id="c2" placeholder="Write your answer here..."
-          data-ans="Despite the media blackout, information continued to leak through social networks." data-hint="&#39;Despite&#39; does not take &#39;of&#39;." data-rule="Use &#39;despite + noun phrase&#39;. Never &#39;despite of&#39;."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q3</div>
-        <div class="qtext"><em>The broadcaster should of verified the sources before airing the story.</em></div>
-        <textarea class="ta" id="c3" placeholder="Write your answer here..."
-          data-ans="The broadcaster should have verified the sources before airing the story." data-hint="What follows modal verbs?" data-rule="Modal + HAVE + past participle. &#39;Should of&#39; is always wrong."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q4</div>
-        <div class="qtext"><em>Neither the editor nor the reporters was aware of the legal implications.</em></div>
-        <textarea class="ta" id="c4" placeholder="Write your answer here..."
-          data-ans="Neither the editor nor the reporters were aware of the legal implications." data-hint="With &#39;neither...nor&#39;, which noun determines the verb?" data-rule="Verb agrees with the CLOSER subject. &#39;The reporters&#39; is plural → &#39;were&#39;."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q5</div>
-        <div class="qtext"><em>The media conglomerate, along with its subsidiaries, were found guilty of tax evasion.</em></div>
-        <textarea class="ta" id="c5" placeholder="Write your answer here..."
-          data-ans="The media conglomerate, along with its subsidiaries, was found guilty of tax evasion." data-hint="What is the true subject?" data-rule="&#39;Along with&#39; does not change the subject. &#39;The media conglomerate&#39; is singular → &#39;was&#39;."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q6</div>
-        <div class="qtext"><em>Journalists have been report on the conflict zone for over three years.</em></div>
-        <textarea class="ta" id="c6" placeholder="Write your answer here..."
-          data-ans="Journalists have been reporting on the conflict zone for over three years." data-hint="What form follows &#39;have been&#39;?" data-rule="Present Perfect Continuous = have/has + been + VERB-ING. &#39;Report&#39; → &#39;reporting&#39;."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q7</div>
-        <div class="qtext"><em>The television network lacks of credibility after broadcasting unverified claims.</em></div>
-        <textarea class="ta" id="c7" placeholder="Write your answer here..."
-          data-ans="The television network lacks credibility after broadcasting unverified claims." data-hint="&#39;Lacks&#39; is transitive — does it need &#39;of&#39;?" data-rule="&#39;Lack&#39; takes a direct object with no preposition. &#39;Lacks something&#39;, not &#39;lacks of something&#39;."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q8</div>
-        <div class="qtext"><em>If the whistleblower had come forward earlier, the scandal can have been exposed sooner.</em></div>
-        <textarea class="ta" id="c8" placeholder="Write your answer here..."
-          data-ans="If the whistleblower had come forward earlier, the scandal could have been exposed sooner." data-hint="Third conditional — check the result clause." data-rule="Third conditional: If + had + past participle → would/could/might + have + past participle."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q9</div>
-        <div class="qtext"><em>The investigative report, which have been compiled over two years, won a Pulitzer Prize.</em></div>
-        <textarea class="ta" id="c9" placeholder="Write your answer here..."
-          data-ans="The investigative report, which has been compiled over two years, won a Pulitzer Prize." data-hint="What does &#39;which&#39; refer to?" data-rule="&#39;Which&#39; refers to &#39;the investigative report&#39; (singular) → &#39;which HAS been compiled&#39;."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q10</div>
-        <div class="qtext"><em>More transparency from social media companies are urgently needed.</em></div>
-        <textarea class="ta" id="c10" placeholder="Write your answer here..."
-          data-ans="More transparency from social media companies is urgently needed." data-hint="&#39;Transparency&#39; — countable or uncountable?" data-rule="&#39;Transparency&#39; is uncountable. Always use singular verb: &#39;transparency IS&#39;."></textarea>
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('c','ta')">Check &amp; Submit Part C</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('d')">
-      <span class="sec-tag">PART D</span>
-      <div><div class="sec-title">Sentence Transformation</div><div class="sec-sub">Rewrite each sentence as instructed</div></div>
-      <span class="sec-arrow" id="arr-d">&#9660;</span>
-    </div>
-    <div class="sec-body" id="body-d">
-      <div class="qb">
-        <div class="qnum">Q1</div>
-        <div class="qtext">media / social / has / transformed / fundamentally / communication / human / the / way / of</div>
-        <textarea class="ta" id="d1" placeholder="Write your answer here..."
-          data-ans="Social media has fundamentally transformed the way of human communication." data-hint="Subject: &#39;Social media&#39;. Verb: &#39;has transformed&#39;. Adverb &#39;fundamentally&#39; after verb." data-rule="Subject + has + adverb + past participle + object."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q2</div>
-        <div class="qtext">despite / regulations / media / strict / misinformation / continues / spread / to / online</div>
-        <textarea class="ta" id="d2" placeholder="Write your answer here..."
-          data-ans="Despite strict media regulations, misinformation continues to spread online." data-hint="&#39;Despite&#39; starts a concession. Main clause states the contrasting reality." data-rule="Despite + noun phrase, + main clause."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q3</div>
-        <div class="qtext">journalists / have / independent / pledged / to / integrity / uphold / editorial / their</div>
-        <textarea class="ta" id="d3" placeholder="Write your answer here..."
-          data-ans="Independent journalists have pledged to uphold their editorial integrity." data-hint="Subject: &#39;Independent journalists&#39;. Present Perfect. Pledged to do something." data-rule="Subject + have + past participle + infinitive."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q4</div>
-        <div class="qtext">only / be / can / misinformation / through / tackled / media / effective / literacy</div>
-        <textarea class="ta" id="d4" placeholder="Write your answer here..."
-          data-ans="Misinformation can only be tackled through effective media literacy." data-hint="Passive sentence. &#39;Only&#39; after modal verb." data-rule="Subject + modal + only + be + past participle + through + noun phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q5</div>
-        <div class="qtext">the / has / scandal / broadcasting / credibility / of / the / undermined / network</div>
-        <textarea class="ta" id="d5" placeholder="Write your answer here..."
-          data-ans="The broadcasting scandal has undermined the credibility of the network." data-hint="Subject: &#39;The broadcasting scandal&#39;. Present Perfect active." data-rule="Subject + has/have + past participle + object."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q6</div>
-        <div class="qtext">it / all / that / is / journalists / essential / sources / verify / their</div>
-        <textarea class="ta" id="d6" placeholder="Write your answer here..."
-          data-ans="It is essential that all journalists verify their sources." data-hint="Formal &#39;It is + adjective + that&#39; structure." data-rule="It + is + adjective + that + subject + verb."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q7</div>
-        <div class="qtext">the / praised / organisation / reporters / investigative / for / groundbreaking / their / work</div>
-        <textarea class="ta" id="d7" placeholder="Write your answer here..."
-          data-ans="The organisation praised the investigative reporters for their groundbreaking work." data-hint="Subject + praised + object + for + reason." data-rule="Subject + verb + object + for + noun phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q8</div>
-        <div class="qtext">had / the / filed / journalists / story / their / before / the / midnight / deadline</div>
-        <textarea class="ta" id="d8" placeholder="Write your answer here..."
-          data-ans="The journalists had filed their story before the midnight deadline." data-hint="Past Perfect for the earlier action." data-rule="Subject + had + past participle + before + Simple Past."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q9</div>
-        <div class="qtext">being / of / the / addressed / causes / misinformation / are / root / bias / and</div>
-        <textarea class="ta" id="d9" placeholder="Write your answer here..."
-          data-ans="The root causes of misinformation, bias and sensationalism, are being addressed." data-hint="Subject: &#39;The root causes&#39;. Passive continuous. Appositive in commas." data-rule="Subject + are + being + past participle. Appositive elaborates on subject."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q10</div>
-        <div class="qtext">no / will / democracy / thrive / without / access / free / to / press / a</div>
-        <textarea class="ta" id="d10" placeholder="Write your answer here..."
-          data-ans="No democracy will thrive without access to a free press." data-hint="Negative subject &#39;No&#39; + future simple + &#39;without&#39; phrase." data-rule="No + noun + will + verb + without + noun phrase."></textarea>
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('d','ta')">Check &amp; Submit Part D</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('e')">
-      <span class="sec-tag">PART E</span>
-      <div><div class="sec-title">Sentence Building</div><div class="sec-sub">Rearrange the words to form a correct sentence</div></div>
-      <span class="sec-arrow" id="arr-e">&#9660;</span>
-    </div>
-    <div class="sec-body" id="body-e">
-      <div class="qb">
-        <div class="qnum">Q1</div>
-        <div class="qtext"><span class="qwords">media / social / has / transformed / fundamentally / communication / human / the / way / of</span></div>
-        <textarea class="ta" id="e1" placeholder="Write your answer here..."
-          data-ans="Social media has fundamentally transformed the way of human communication." data-hint="Subject: &#39;Social media&#39;. Verb: &#39;has transformed&#39;. Adverb &#39;fundamentally&#39; after verb." data-rule="Subject + has + adverb + past participle + object."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q2</div>
-        <div class="qtext"><span class="qwords">despite / regulations / media / strict / misinformation / continues / spread / to / online</span></div>
-        <textarea class="ta" id="e2" placeholder="Write your answer here..."
-          data-ans="Despite strict media regulations, misinformation continues to spread online." data-hint="&#39;Despite&#39; starts a concession. Main clause states the contrasting reality." data-rule="Despite + noun phrase, + main clause."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q3</div>
-        <div class="qtext"><span class="qwords">journalists / have / independent / pledged / to / integrity / uphold / editorial / their</span></div>
-        <textarea class="ta" id="e3" placeholder="Write your answer here..."
-          data-ans="Independent journalists have pledged to uphold their editorial integrity." data-hint="Subject: &#39;Independent journalists&#39;. Present Perfect. Pledged to do something." data-rule="Subject + have + past participle + infinitive."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q4</div>
-        <div class="qtext"><span class="qwords">only / be / can / misinformation / through / tackled / media / effective / literacy</span></div>
-        <textarea class="ta" id="e4" placeholder="Write your answer here..."
-          data-ans="Misinformation can only be tackled through effective media literacy." data-hint="Passive sentence. &#39;Only&#39; after modal verb." data-rule="Subject + modal + only + be + past participle + through + noun phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q5</div>
-        <div class="qtext"><span class="qwords">the / has / scandal / broadcasting / credibility / of / the / undermined / network</span></div>
-        <textarea class="ta" id="e5" placeholder="Write your answer here..."
-          data-ans="The broadcasting scandal has undermined the credibility of the network." data-hint="Subject: &#39;The broadcasting scandal&#39;. Present Perfect active." data-rule="Subject + has/have + past participle + object."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q6</div>
-        <div class="qtext"><span class="qwords">it / all / that / is / journalists / essential / sources / verify / their</span></div>
-        <textarea class="ta" id="e6" placeholder="Write your answer here..."
-          data-ans="It is essential that all journalists verify their sources." data-hint="Formal &#39;It is + adjective + that&#39; structure." data-rule="It + is + adjective + that + subject + verb."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q7</div>
-        <div class="qtext"><span class="qwords">the / praised / organisation / reporters / investigative / for / groundbreaking / their / work</span></div>
-        <textarea class="ta" id="e7" placeholder="Write your answer here..."
-          data-ans="The organisation praised the investigative reporters for their groundbreaking work." data-hint="Subject + praised + object + for + reason." data-rule="Subject + verb + object + for + noun phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q8</div>
-        <div class="qtext"><span class="qwords">had / the / filed / journalists / story / their / before / the / midnight / deadline</span></div>
-        <textarea class="ta" id="e8" placeholder="Write your answer here..."
-          data-ans="The journalists had filed their story before the midnight deadline." data-hint="Past Perfect for the earlier action." data-rule="Subject + had + past participle + before + Simple Past."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q9</div>
-        <div class="qtext"><span class="qwords">being / of / the / addressed / causes / misinformation / are / root / bias / and</span></div>
-        <textarea class="ta" id="e9" placeholder="Write your answer here..."
-          data-ans="The root causes of misinformation, bias and sensationalism, are being addressed." data-hint="Subject: &#39;The root causes&#39;. Passive continuous. Appositive in commas." data-rule="Subject + are + being + past participle. Appositive elaborates on subject."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q10</div>
-        <div class="qtext"><span class="qwords">no / will / democracy / thrive / without / access / free / to / press / a</span></div>
-        <textarea class="ta" id="e10" placeholder="Write your answer here..."
-          data-ans="No democracy will thrive without access to a free press." data-hint="Negative subject &#39;No&#39; + future simple + &#39;without&#39; phrase." data-rule="No + noun + will + verb + without + noun phrase."></textarea>
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('e','ta')">Check &amp; Submit Part E</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('f')">
-      <span class="sec-tag">PART F</span>
-      <div><div class="sec-title">Vocabulary &mdash; Choose the Best Word</div><div class="sec-sub">Select the most appropriate option</div></div>
-      <span class="sec-arrow" id="arr-f">&#9660;</span>
-    </div>
-    <div class="sec-body" id="body-f">
-      <div class="qb" id="qb-f1">
-        <div class="qnum">Q1</div>
-        <div class="qtext">The ______ of misinformation across social platforms has become a global crisis.</div>
-        <div class="mcq-grid" id="mcq-1"><div class="mcq-opt" id="opt-f1-0" onclick="selMCQ(1,0)"><div class="opt-l">A</div>proliferation</div><div class="mcq-opt" id="opt-f1-1" onclick="selMCQ(1,1)"><div class="opt-l">B</div>celebration</div><div class="mcq-opt" id="opt-f1-2" onclick="selMCQ(1,2)"><div class="opt-l">C</div>moderation</div><div class="mcq-opt" id="opt-f1-3" onclick="selMCQ(1,3)"><div class="opt-l">D</div>illustration</div></div>
-        <div class="fb-correct" id="fb-ok-f1">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f1">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">Rapid spread/growth of something harmful.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">PROLIFERATION = rapid increase and spread. Key media/communication vocabulary.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f2">
-        <div class="qnum">Q2</div>
-        <div class="qtext">The documentary filmmaker conducted a ______ investigation into media ownership.</div>
-        <div class="mcq-grid" id="mcq-2"><div class="mcq-opt" id="opt-f2-0" onclick="selMCQ(2,0)"><div class="opt-l">A</div>lenient</div><div class="mcq-opt" id="opt-f2-1" onclick="selMCQ(2,1)"><div class="opt-l">B</div>rigorous</div><div class="mcq-opt" id="opt-f2-2" onclick="selMCQ(2,2)"><div class="opt-l">C</div>ambiguous</div><div class="mcq-opt" id="opt-f2-3" onclick="selMCQ(2,3)"><div class="opt-l">D</div>redundant</div></div>
-        <div class="fb-correct" id="fb-ok-f2">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f2">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">Thorough, careful, and demanding investigation.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">RIGOROUS = extremely thorough and careful. Key academic/journalism vocabulary.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f3">
-        <div class="qnum">Q3</div>
-        <div class="qtext">Freedom of the press is considered a fundamental democratic ______.</div>
-        <div class="mcq-grid" id="mcq-3"><div class="mcq-opt" id="opt-f3-0" onclick="selMCQ(3,0)"><div class="opt-l">A</div>rite</div><div class="mcq-opt" id="opt-f3-1" onclick="selMCQ(3,1)"><div class="opt-l">B</div>right</div><div class="mcq-opt" id="opt-f3-2" onclick="selMCQ(3,2)"><div class="opt-l">C</div>might</div><div class="mcq-opt" id="opt-f3-3" onclick="selMCQ(3,3)"><div class="opt-l">D</div>plight</div></div>
-        <div class="fb-correct" id="fb-ok-f3">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f3">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">Moral or legal entitlement.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">RIGHT = a moral or legal entitlement.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f4">
-        <div class="qnum">Q4</div>
-        <div class="qtext">The committee reached a ______ agreement to regulate online hate speech.</div>
-        <div class="mcq-grid" id="mcq-4"><div class="mcq-opt" id="opt-f4-0" onclick="selMCQ(4,0)"><div class="opt-l">A</div>contentious</div><div class="mcq-opt" id="opt-f4-1" onclick="selMCQ(4,1)"><div class="opt-l">B</div>ambiguous</div><div class="mcq-opt" id="opt-f4-2" onclick="selMCQ(4,2)"><div class="opt-l">C</div>unilateral</div><div class="mcq-opt" id="opt-f4-3" onclick="selMCQ(4,3)"><div class="opt-l">D</div>unanimous</div></div>
-        <div class="fb-correct" id="fb-ok-f4">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f4">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">All members agreed.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">UNANIMOUS = agreed upon by all members of a group.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f5">
-        <div class="qnum">Q5</div>
-        <div class="qtext">The ______ of reliable news sources in some regions leaves citizens ill-informed.</div>
-        <div class="mcq-grid" id="mcq-5"><div class="mcq-opt" id="opt-f5-0" onclick="selMCQ(5,0)"><div class="opt-l">A</div>surplus</div><div class="mcq-opt" id="opt-f5-1" onclick="selMCQ(5,1)"><div class="opt-l">B</div>clarity</div><div class="mcq-opt" id="opt-f5-2" onclick="selMCQ(5,2)"><div class="opt-l">C</div>scarcity</div><div class="mcq-opt" id="opt-f5-3" onclick="selMCQ(5,3)"><div class="opt-l">D</div>disparity</div></div>
-        <div class="fb-correct" id="fb-ok-f5">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f5">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">Severe shortage of something.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">SCARCITY = a severe shortage of something needed.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f6">
-        <div class="qnum">Q6</div>
-        <div class="qtext">Digital rights activists urged the government to ______ the surveillance programme.</div>
-        <div class="mcq-grid" id="mcq-6"><div class="mcq-opt" id="opt-f6-0" onclick="selMCQ(6,0)"><div class="opt-l">A</div>diminish</div><div class="mcq-opt" id="opt-f6-1" onclick="selMCQ(6,1)"><div class="opt-l">B</div>abolish</div><div class="mcq-opt" id="opt-f6-2" onclick="selMCQ(6,2)"><div class="opt-l">C</div>admonish</div><div class="mcq-opt" id="opt-f6-3" onclick="selMCQ(6,3)"><div class="opt-l">D</div>tarnish</div></div>
-        <div class="fb-correct" id="fb-ok-f6">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f6">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">Completely and formally end.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">ABOLISH = to formally put an end to something entirely.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f7">
-        <div class="qnum">Q7</div>
-        <div class="qtext">New fact-checking tools aim to ______ the damage caused by viral misinformation.</div>
-        <div class="mcq-grid" id="mcq-7"><div class="mcq-opt" id="opt-f7-0" onclick="selMCQ(7,0)"><div class="opt-l">A</div>aggravate</div><div class="mcq-opt" id="opt-f7-1" onclick="selMCQ(7,1)"><div class="opt-l">B</div>alienate</div><div class="mcq-opt" id="opt-f7-2" onclick="selMCQ(7,2)"><div class="opt-l">C</div>alleviate</div><div class="mcq-opt" id="opt-f7-3" onclick="selMCQ(7,3)"><div class="opt-l">D</div>allocate</div></div>
-        <div class="fb-correct" id="fb-ok-f7">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f7">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">Make the damage less severe.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">ALLEVIATE = to make a problem less severe. &#39;Aggravate&#39; = worsen.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f8">
-        <div class="qnum">Q8</div>
-        <div class="qtext">The editor&#39;s speech was highly ______, convincing advertisers to withdraw their support.</div>
-        <div class="mcq-grid" id="mcq-8"><div class="mcq-opt" id="opt-f8-0" onclick="selMCQ(8,0)"><div class="opt-l">A</div>redundant</div><div class="mcq-opt" id="opt-f8-1" onclick="selMCQ(8,1)"><div class="opt-l">B</div>divisive</div><div class="mcq-opt" id="opt-f8-2" onclick="selMCQ(8,2)"><div class="opt-l">C</div>ambivalent</div><div class="mcq-opt" id="opt-f8-3" onclick="selMCQ(8,3)"><div class="opt-l">D</div>persuasive</div></div>
-        <div class="fb-correct" id="fb-ok-f8">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f8">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">Able to convince or change minds.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">PERSUASIVE = able to convince others to act or think differently.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f9">
-        <div class="qnum">Q9</div>
-        <div class="qtext">The international broadcasting treaty was formally ______ by forty nations.</div>
-        <div class="mcq-grid" id="mcq-9"><div class="mcq-opt" id="opt-f9-0" onclick="selMCQ(9,0)"><div class="opt-l">A</div>clarified</div><div class="mcq-opt" id="opt-f9-1" onclick="selMCQ(9,1)"><div class="opt-l">B</div>justified</div><div class="mcq-opt" id="opt-f9-2" onclick="selMCQ(9,2)"><div class="opt-l">C</div>notified</div><div class="mcq-opt" id="opt-f9-3" onclick="selMCQ(9,3)"><div class="opt-l">D</div>ratified</div></div>
-        <div class="fb-correct" id="fb-ok-f9">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f9">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">Formally approved to make legally binding.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">RATIFY = to give formal consent to a treaty or agreement.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f10">
-        <div class="qnum">Q10</div>
-        <div class="qtext">The war correspondent&#39;s ______ coverage of the conflict earned her worldwide recognition.</div>
-        <div class="mcq-grid" id="mcq-10"><div class="mcq-opt" id="opt-f10-0" onclick="selMCQ(10,0)"><div class="opt-l">A</div>reckless</div><div class="mcq-opt" id="opt-f10-1" onclick="selMCQ(10,1)"><div class="opt-l">B</div>restless</div><div class="mcq-opt" id="opt-f10-2" onclick="selMCQ(10,2)"><div class="opt-l">C</div>fearless</div><div class="mcq-opt" id="opt-f10-3" onclick="selMCQ(10,3)"><div class="opt-l">D</div>helpless</div></div>
-        <div class="fb-correct" id="fb-ok-f10">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f10">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">Brave and without fear.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">FEARLESS = having no fear, brave. Key vocabulary for describing journalists in dangerous situations.</div></div>
-        </div>
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('f','mcq')">Check &amp; Submit Part F</button>
-    </div>
-  </div>
-</div>
-<div id="parts-zenz" style="display:none">
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('a')">
-      <span class="sec-tag">PART A</span>
-      <div><div class="sec-title">Verb Forms (Tenses)</div><div class="sec-sub">Fill in the correct form of the verb in brackets</div></div>
-      <span class="sec-arrow open" id="arr-a">&#9660;</span>
-    </div>
-    <div class="sec-body open" id="body-a">
-      <div class="qb">
-        <div class="qnum">Question 1</div>
-        <div class="qtext">The journalist ______ (publish) an important article about online safety last week.</div>
-        <input class="fill" id="a1" placeholder="Type your answer..."
-          data-ans="published" data-hint="&#39;Last week&#39; tells you this happened in the past. Use Simple Past." data-rule="Simple Past = verb + -ed for regular verbs. Use it when something happened at a specific time in the past.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 2</div>
-        <div class="qtext">The school ______ (launch) a new digital literacy programme since January.</div>
-        <input class="fill" id="a2" placeholder="Type your answer..."
-          data-ans="has launched" data-hint="Started in the past and still relevant now — &#39;since&#39; is the clue. Use Present Perfect." data-rule="Present Perfect = has/have + past participle. &#39;Since&#39; connects a past point to the present.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 3</div>
-        <div class="qtext">By the time the broadcast started, the technicians ______ (fix) the equipment.</div>
-        <input class="fill" id="a3" placeholder="Type your answer..."
-          data-ans="had fixed" data-hint="Fixing happened BEFORE the broadcast started. Use Past Perfect." data-rule="Past Perfect = had + past participle. Use when one past action happened before another.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 4</div>
-        <div class="qtext">The students ______ (create) podcasts for their media class for three months now.</div>
-        <input class="fill" id="a4" placeholder="Type your answer..."
-          data-ans="have been creating" data-hint="Started three months ago and still happening now. Use Present Perfect Continuous." data-rule="Present Perfect Continuous = have/has + been + verb-ing. Shows ongoing action from the past until now.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 5</div>
-        <div class="qtext">The newspaper ______ (release) a special digital edition next Friday.</div>
-        <input class="fill" id="a5" placeholder="Type your answer..."
-          data-ans="will release" data-hint="This is a plan for the future. Use Simple Future." data-rule="Simple Future = will + base verb. Use for plans or scheduled future events.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 6</div>
-        <div class="qtext">While the presenter ______ (read) the news, the studio lights suddenly went out.</div>
-        <input class="fill" id="a6" placeholder="Type your answer..."
-          data-ans="was reading" data-hint="Reading was in progress when the lights went out. Use Past Continuous." data-rule="Past Continuous = was/were + verb-ing. Shows an action in progress when another event occurred.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 7</div>
-        <div class="qtext">By next year, the school ______ (upgrade) all its media equipment.</div>
-        <input class="fill" id="a7" placeholder="Type your answer..."
-          data-ans="will have upgraded" data-hint="This will be finished before next year. Use Future Perfect." data-rule="Future Perfect = will + have + past participle. For actions completed before a future point.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 8</div>
-        <div class="qtext">The young reporter ______ (interview) celebrities for her blog since she was fifteen.</div>
-        <input class="fill" id="a8" placeholder="Type your answer..."
-          data-ans="has been interviewing" data-hint="Started at fifteen and still doing it now. Use Present Perfect Continuous." data-rule="Present Perfect Continuous = has/have + been + verb-ing. &#39;Since she was fifteen&#39; tells you when it started.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 9</div>
-        <div class="qtext">The editor ______ (check) the article for two hours when she finally found the error.</div>
-        <input class="fill" id="a9" placeholder="Type your answer..."
-          data-ans="had been checking" data-hint="Checking was already ongoing before she found the error. Use Past Perfect Continuous." data-rule="Past Perfect Continuous = had + been + verb-ing. Shows ongoing action already happening before a past point.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 10</div>
-        <div class="qtext">If we ______ (not learn) media literacy, we will easily believe fake news.</div>
-        <input class="fill" id="a10" placeholder="Type your answer..."
-          data-ans="do not learn" data-hint="Real future possibility — use Simple Present in the &#39;if&#39; clause." data-rule="Type 1 Conditional: If + Simple Present, will + base verb. For real future possibilities.">
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('a','fill')">Check &amp; Submit Part A</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('b')">
-      <span class="sec-tag">PART B</span>
-      <div><div class="sec-title">Word Forms</div><div class="sec-sub">Change the word in brackets to the correct form</div></div>
-      <span class="sec-arrow" id="arr-b">&#9660;</span>
-    </div>
-    <div class="sec-body" id="body-b">
-      <div class="qb">
-        <div class="qnum">Question 1</div>
-        <div class="qtext">The ______ of false information online is a major problem today. (SPREAD)</div>
-        <input class="fill" id="b1" placeholder="Type your answer..."
-          data-ans="spreading" data-hint="A noun is needed after &#39;the&#39;. Use the -ing form as a noun." data-rule="SPREAD → SPREADING (gerund/noun). The -ing form can act as a noun.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 2</div>
-        <div class="qtext">It is very ______ to share news without checking if it is true. (HARM)</div>
-        <input class="fill" id="b2" placeholder="Type your answer..."
-          data-ans="harmful" data-hint="Adjective needed after &#39;very&#39;." data-rule="HARM → HARMFUL (adjective). Suffix &#39;-ful&#39; means &#39;full of&#39; or &#39;causing&#39;.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 3</div>
-        <div class="qtext">The students worked ______ on their school newspaper. (ENTHUSIASM)</div>
-        <input class="fill" id="b3" placeholder="Type your answer..."
-          data-ans="enthusiastically" data-hint="Adverb modifying &#39;worked&#39;." data-rule="ENTHUSIASM → ENTHUSIASTIC (adj) → ENTHUSIASTICALLY (adverb). Add &#39;-ally&#39;.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 4</div>
-        <div class="qtext">The ______ of the new school magazine took three months of planning. (PRODUCE)</div>
-        <input class="fill" id="b4" placeholder="Type your answer..."
-          data-ans="production" data-hint="Noun as subject after &#39;the&#39;." data-rule="PRODUCE → PRODUCTION (noun). Suffix &#39;-tion&#39; creates nouns from verbs.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 5</div>
-        <div class="qtext">We must be ______ about the news sources we trust online. (SELECT)</div>
-        <input class="fill" id="b5" placeholder="Type your answer..."
-          data-ans="selective" data-hint="Adjective needed after &#39;be&#39;." data-rule="SELECT → SELECTIVE (adjective). Suffix &#39;-ive&#39; creates adjectives from verbs.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 6</div>
-        <div class="qtext">The ______ of social media among teenagers has changed how they communicate. (POPULAR)</div>
-        <input class="fill" id="b6" placeholder="Type your answer..."
-          data-ans="popularity" data-hint="Noun needed after &#39;the&#39;." data-rule="POPULAR → POPULARITY (noun). Suffix &#39;-ity&#39; creates nouns from adjectives.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 7</div>
-        <div class="qtext">The news reporter spoke ______ about the importance of press freedom. (PASSION)</div>
-        <input class="fill" id="b7" placeholder="Type your answer..."
-          data-ans="passionately" data-hint="Adverb modifying &#39;spoke&#39;." data-rule="PASSION → PASSIONATE (adj) → PASSIONATELY (adverb). Add &#39;-ly&#39;.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 8</div>
-        <div class="qtext">There is a strong ______ between media exposure and public opinion. (CONNECT)</div>
-        <input class="fill" id="b8" placeholder="Type your answer..."
-          data-ans="connection" data-hint="Noun after &#39;a strong&#39;." data-rule="CONNECT → CONNECTION (noun). Suffix &#39;-ion&#39;.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 9</div>
-        <div class="qtext">The documentary was very ______ and made many people change their views. (INFORM)</div>
-        <input class="fill" id="b9" placeholder="Type your answer..."
-          data-ans="informative" data-hint="Adjective after &#39;very&#39;. What adjective comes from &#39;inform&#39;?" data-rule="INFORM → INFORMATIVE (adjective). Suffix &#39;-ative&#39; creates adjectives.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 10</div>
-        <div class="qtext">Social media companies have a ______ to protect users from harmful content. (RESPONSIBLE)</div>
-        <input class="fill" id="b10" placeholder="Type your answer..."
-          data-ans="responsibility" data-hint="Noun after &#39;a&#39;. What noun comes from &#39;responsible&#39;?" data-rule="RESPONSIBLE (adj) → RESPONSIBILITY (noun). Suffix &#39;-ity&#39;.">
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('b','fill')">Check &amp; Submit Part B</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('c')">
-      <span class="sec-tag">PART C</span>
-      <div><div class="sec-title">Error Correction</div><div class="sec-sub">Each sentence has one error — rewrite it correctly</div></div>
-      <span class="sec-arrow" id="arr-c">&#9660;</span>
-    </div>
-    <div class="sec-body" id="body-c">
-      <div class="qb">
-        <div class="qnum">Q1</div>
-        <div class="qtext"><em>The amount of fake videos posted online have risen sharply this year.</em></div>
-        <textarea class="ta" id="c1" placeholder="Write your answer here..."
-          data-ans="The amount of fake videos posted online has risen sharply this year." data-hint="Is &#39;the amount&#39; singular or plural?" data-rule="&#39;The amount of + noun&#39; takes a SINGULAR verb (has). Think of it as one quantity."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q2</div>
-        <div class="qtext"><em>Despite of the internet blackout, people still found ways to share news.</em></div>
-        <textarea class="ta" id="c2" placeholder="Write your answer here..."
-          data-ans="Despite the internet blackout, people still found ways to share news." data-hint="What word must NOT follow &#39;despite&#39;?" data-rule="Use &#39;despite + noun phrase&#39;. Never &#39;despite of&#39;."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q3</div>
-        <div class="qtext"><em>The student should of checked the source before sharing the article.</em></div>
-        <textarea class="ta" id="c3" placeholder="Write your answer here..."
-          data-ans="The student should have checked the source before sharing the article." data-hint="What word follows a modal verb?" data-rule="Modal + HAVE + past participle. &#39;Should of&#39; is always wrong."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q4</div>
-        <div class="qtext"><em>The podcast, together with the blog posts, are very popular among teenagers.</em></div>
-        <textarea class="ta" id="c4" placeholder="Write your answer here..."
-          data-ans="The podcast, together with the blog posts, is very popular among teenagers." data-hint="What is the real subject? Ignore the phrase in the middle." data-rule="&#39;Together with&#39; does not change the subject. &#39;The podcast&#39; is singular → &#39;is&#39;."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q5</div>
-        <div class="qtext"><em>My classmates have been following this news channel since two years.</em></div>
-        <textarea class="ta" id="c5" placeholder="Write your answer here..."
-          data-ans="My classmates have been following this news channel for two years." data-hint="&#39;Two years&#39; is a period of time — which word, &#39;since&#39; or &#39;for&#39;?" data-rule="Use &#39;FOR&#39; + period of time. Use &#39;SINCE&#39; + point in time."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q6</div>
-        <div class="qtext"><em>The school newspaper lack enough reporters to cover all the events.</em></div>
-        <textarea class="ta" id="c6" placeholder="Write your answer here..."
-          data-ans="The school newspaper lacks enough reporters to cover all the events." data-hint="Singular subject — check the verb ending." data-rule="Singular subject → verb + -s in Simple Present: &#39;lacks&#39;."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q7</div>
-        <div class="qtext"><em>If we had taught media literacy earlier, fewer people can have been fooled by fake news.</em></div>
-        <textarea class="ta" id="c7" placeholder="Write your answer here..."
-          data-ans="If we had taught media literacy earlier, fewer people could have been fooled by fake news." data-hint="Past unreal condition — both clauses must match." data-rule="Third conditional: If + had + past participle → could/would + have + past participle."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q8</div>
-        <div class="qtext"><em>The documentary series, which were produced by a local team, won an international award.</em></div>
-        <textarea class="ta" id="c8" placeholder="Write your answer here..."
-          data-ans="The documentary series, which was produced by a local team, won an international award." data-hint="What does &#39;which&#39; refer to? Is &#39;series&#39; singular or plural?" data-rule="&#39;Which&#39; refers to &#39;the documentary series&#39; (singular) → &#39;which WAS produced&#39;."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q9</div>
-        <div class="qtext"><em>More awareness about media literacy are needed in our schools.</em></div>
-        <textarea class="ta" id="c9" placeholder="Write your answer here..."
-          data-ans="More awareness about media literacy is needed in our schools." data-hint="&#39;Awareness&#39; — can you count it?" data-rule="&#39;Awareness&#39; is uncountable. Always use singular verb: &#39;awareness IS&#39;."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q10</div>
-        <div class="qtext"><em>Neither the editor nor the writers was happy with the final layout.</em></div>
-        <textarea class="ta" id="c10" placeholder="Write your answer here..."
-          data-ans="Neither the editor nor the writers were happy with the final layout." data-hint="With &#39;neither...nor&#39;, which subject is closer to the verb?" data-rule="Verb agrees with the CLOSER subject. &#39;The writers&#39; is plural → &#39;were&#39;."></textarea>
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('c','ta')">Check &amp; Submit Part C</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('d')">
-      <span class="sec-tag">PART D</span>
-      <div><div class="sec-title">Sentence Transformation</div><div class="sec-sub">Rewrite each sentence as instructed</div></div>
-      <span class="sec-arrow" id="arr-d">&#9660;</span>
-    </div>
-    <div class="sec-body" id="body-d">
-      <div class="qb">
-        <div class="qnum">Q1</div>
-        <div class="qtext">The fake news was very damaging. It caused a lot of public panic. (Join using: so...that)</div>
-        <textarea class="ta" id="d1" placeholder="Write your answer here..."
-          data-ans="The fake news was so damaging that it caused a lot of public panic." data-hint="So + adjective + that + result." data-rule="So + adjective + that + result. Shows degree and consequence."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q2</div>
-        <div class="qtext">media / is / social / most / of / the / powerful / communication / forms / one</div>
-        <textarea class="ta" id="d2" placeholder="Write your answer here..."
-          data-ans="Social media is one of the most powerful forms of communication." data-hint="Start with &#39;Social media&#39; as the subject." data-rule="Subject + verb + predicate noun phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q3</div>
-        <div class="qtext">students / the / created / a / school / impressive / newspaper / for / their</div>
-        <textarea class="ta" id="d3" placeholder="Write your answer here..."
-          data-ans="The students created an impressive newspaper for their school." data-hint="Subject: &#39;The students&#39;. Verb: &#39;created&#39;. Object: &#39;an impressive newspaper&#39;." data-rule="Subject + verb + object + purpose phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q4</div>
-        <div class="qtext">we / should / always / before / news / sources / sharing / check</div>
-        <textarea class="ta" id="d4" placeholder="Write your answer here..."
-          data-ans="We should always check sources before sharing news." data-hint="Modal &#39;should&#39; + adverb &#39;always&#39; + verb." data-rule="Subject + should + adverb + verb + object + time phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q5</div>
-        <div class="qtext">media / literacy / programme / has / the / school / very / been / successful</div>
-        <textarea class="ta" id="d5" placeholder="Write your answer here..."
-          data-ans="The school media literacy programme has been very successful." data-hint="Subject: &#39;The school media literacy programme&#39;. Verb: &#39;has been&#39;." data-rule="Subject + has/have + been + adjective."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q6</div>
-        <div class="qtext">sharing / online / false / information / causes / serious / harm</div>
-        <textarea class="ta" id="d6" placeholder="Write your answer here..."
-          data-ans="Sharing false information online causes serious harm." data-hint="Gerund phrase &#39;sharing false information online&#39; as subject." data-rule="Gerund phrase + verb + object."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q7</div>
-        <div class="qtext">important / it / all / that / is / students / news / critical / read</div>
-        <textarea class="ta" id="d7" placeholder="Write your answer here..."
-          data-ans="It is important that all students read news critically." data-hint="&#39;It is + adjective + that&#39; structure." data-rule="It + is + adjective + that + subject + verb + adverb."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q8</div>
-        <div class="qtext">the / praised / teacher / students / their / for / media / project</div>
-        <textarea class="ta" id="d8" placeholder="Write your answer here..."
-          data-ans="The teacher praised the students for their media project." data-hint="Subject + praised + object + for + reason." data-rule="Subject + verb + object + for + noun phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q9</div>
-        <div class="qtext">the / had / reporters / their / filed / story / the / before / deadline</div>
-        <textarea class="ta" id="d9" placeholder="Write your answer here..."
-          data-ans="The reporters had filed their story before the deadline." data-hint="Past Perfect for the earlier action." data-rule="Subject + had + past participle + object + before + noun."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q10</div>
-        <div class="qtext">media / the / reporting / responsible / community / is / part / important / of</div>
-        <textarea class="ta" id="d10" placeholder="Write your answer here..."
-          data-ans="Responsible media reporting is an important part of the community." data-hint="Start with &#39;Responsible media reporting&#39; as subject." data-rule="Gerund/noun phrase + is + predicate noun phrase."></textarea>
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('d','ta')">Check &amp; Submit Part D</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('e')">
-      <span class="sec-tag">PART E</span>
-      <div><div class="sec-title">Sentence Building</div><div class="sec-sub">Rearrange the words to form a correct sentence</div></div>
-      <span class="sec-arrow" id="arr-e">&#9660;</span>
-    </div>
-    <div class="sec-body" id="body-e">
-      <div class="qb">
-        <div class="qnum">Q1</div>
-        <div class="qtext"><span class="qwords">media / is / social / most / of / the / powerful / communication / forms / one</span></div>
-        <textarea class="ta" id="e1" placeholder="Write your answer here..."
-          data-ans="Social media is one of the most powerful forms of communication." data-hint="Start with &#39;Social media&#39; as the subject." data-rule="Subject + verb + predicate noun phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q2</div>
-        <div class="qtext"><span class="qwords">students / the / created / a / school / impressive / newspaper / for / their</span></div>
-        <textarea class="ta" id="e2" placeholder="Write your answer here..."
-          data-ans="The students created an impressive newspaper for their school." data-hint="Subject: &#39;The students&#39;. Verb: &#39;created&#39;. Object: &#39;an impressive newspaper&#39;." data-rule="Subject + verb + object + purpose phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q3</div>
-        <div class="qtext"><span class="qwords">we / should / always / before / news / sources / sharing / check</span></div>
-        <textarea class="ta" id="e3" placeholder="Write your answer here..."
-          data-ans="We should always check sources before sharing news." data-hint="Modal &#39;should&#39; + adverb &#39;always&#39; + verb." data-rule="Subject + should + adverb + verb + object + time phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q4</div>
-        <div class="qtext"><span class="qwords">media / literacy / programme / has / the / school / very / been / successful</span></div>
-        <textarea class="ta" id="e4" placeholder="Write your answer here..."
-          data-ans="The school media literacy programme has been very successful." data-hint="Subject: &#39;The school media literacy programme&#39;. Verb: &#39;has been&#39;." data-rule="Subject + has/have + been + adjective."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q5</div>
-        <div class="qtext"><span class="qwords">sharing / online / false / information / causes / serious / harm</span></div>
-        <textarea class="ta" id="e5" placeholder="Write your answer here..."
-          data-ans="Sharing false information online causes serious harm." data-hint="Gerund phrase &#39;sharing false information online&#39; as subject." data-rule="Gerund phrase + verb + object."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q6</div>
-        <div class="qtext"><span class="qwords">important / it / all / that / is / students / news / critical / read</span></div>
-        <textarea class="ta" id="e6" placeholder="Write your answer here..."
-          data-ans="It is important that all students read news critically." data-hint="&#39;It is + adjective + that&#39; structure." data-rule="It + is + adjective + that + subject + verb + adverb."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q7</div>
-        <div class="qtext"><span class="qwords">the / praised / teacher / students / their / for / media / project</span></div>
-        <textarea class="ta" id="e7" placeholder="Write your answer here..."
-          data-ans="The teacher praised the students for their media project." data-hint="Subject + praised + object + for + reason." data-rule="Subject + verb + object + for + noun phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q8</div>
-        <div class="qtext"><span class="qwords">the / had / reporters / their / filed / story / the / before / deadline</span></div>
-        <textarea class="ta" id="e8" placeholder="Write your answer here..."
-          data-ans="The reporters had filed their story before the deadline." data-hint="Past Perfect for the earlier action." data-rule="Subject + had + past participle + object + before + noun."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q9</div>
-        <div class="qtext"><span class="qwords">media / the / reporting / responsible / community / is / part / important / of</span></div>
-        <textarea class="ta" id="e9" placeholder="Write your answer here..."
-          data-ans="Responsible media reporting is an important part of the community." data-hint="Start with &#39;Responsible media reporting&#39; as subject." data-rule="Gerund/noun phrase + is + predicate noun phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q10</div>
-        <div class="qtext"><span class="qwords">society / no / without / free / will / media / a / progress</span></div>
-        <textarea class="ta" id="e10" placeholder="Write your answer here..."
-          data-ans="No society will progress without a free media." data-hint="&#39;No society&#39; as negative subject + future simple." data-rule="No + noun + will + verb + without + noun phrase."></textarea>
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('e','ta')">Check &amp; Submit Part E</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('f')">
-      <span class="sec-tag">PART F</span>
-      <div><div class="sec-title">Vocabulary &mdash; Choose the Best Word</div><div class="sec-sub">Select the most appropriate option</div></div>
-      <span class="sec-arrow" id="arr-f">&#9660;</span>
-    </div>
-    <div class="sec-body" id="body-f">
-      <div class="qb" id="qb-f1">
-        <div class="qnum">Q1</div>
-        <div class="qtext">The rapid ______ of false information online is a major challenge today.</div>
-        <div class="mcq-grid" id="mcq-1"><div class="mcq-opt" id="opt-f1-0" onclick="selMCQ(1,0)"><div class="opt-l">A</div>reduction</div><div class="mcq-opt" id="opt-f1-1" onclick="selMCQ(1,1)"><div class="opt-l">B</div>spread</div><div class="mcq-opt" id="opt-f1-2" onclick="selMCQ(1,2)"><div class="opt-l">C</div>decline</div><div class="mcq-opt" id="opt-f1-3" onclick="selMCQ(1,3)"><div class="opt-l">D</div>creation</div></div>
-        <div class="fb-correct" id="fb-ok-f1">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f1">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">News moving quickly from person to person.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">SPREAD = the process of something moving quickly to many people. Key media vocabulary.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f2">
-        <div class="qnum">Q2</div>
-        <div class="qtext">Journalists must be ______ when checking the accuracy of their sources.</div>
-        <div class="mcq-grid" id="mcq-2"><div class="mcq-opt" id="opt-f2-0" onclick="selMCQ(2,0)"><div class="opt-l">A</div>careless</div><div class="mcq-opt" id="opt-f2-1" onclick="selMCQ(2,1)"><div class="opt-l">B</div>rigorous</div><div class="mcq-opt" id="opt-f2-2" onclick="selMCQ(2,2)"><div class="opt-l">C</div>lenient</div><div class="mcq-opt" id="opt-f2-3" onclick="selMCQ(2,3)"><div class="opt-l">D</div>hesitant</div></div>
-        <div class="fb-correct" id="fb-ok-f2">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f2">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">Extremely careful and thorough.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">RIGOROUS = very careful and thorough. Important in journalism.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f3">
-        <div class="qnum">Q3</div>
-        <div class="qtext">Every citizen has the ______ to access accurate and unbiased news.</div>
-        <div class="mcq-grid" id="mcq-3"><div class="mcq-opt" id="opt-f3-0" onclick="selMCQ(3,0)"><div class="opt-l">A</div>rite</div><div class="mcq-opt" id="opt-f3-1" onclick="selMCQ(3,1)"><div class="opt-l">B</div>write</div><div class="mcq-opt" id="opt-f3-2" onclick="selMCQ(3,2)"><div class="opt-l">C</div>right</div><div class="mcq-opt" id="opt-f3-3" onclick="selMCQ(3,3)"><div class="opt-l">D</div>might</div></div>
-        <div class="fb-correct" id="fb-ok-f3">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f3">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">Something everyone is entitled to.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">RIGHT = a moral or legal entitlement.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f4">
-        <div class="qnum">Q4</div>
-        <div class="qtext">The school agreed ______ that social media rules needed to be updated.</div>
-        <div class="mcq-grid" id="mcq-4"><div class="mcq-opt" id="opt-f4-0" onclick="selMCQ(4,0)"><div class="opt-l">A</div>partially</div><div class="mcq-opt" id="opt-f4-1" onclick="selMCQ(4,1)"><div class="opt-l">B</div>rarely</div><div class="mcq-opt" id="opt-f4-2" onclick="selMCQ(4,2)"><div class="opt-l">C</div>unanimously</div><div class="mcq-opt" id="opt-f4-3" onclick="selMCQ(4,3)"><div class="opt-l">D</div>occasionally</div></div>
-        <div class="fb-correct" id="fb-ok-f4">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f4">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">Everyone agreed — no one disagreed.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">UNANIMOUSLY = with everyone&#39;s agreement.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f5">
-        <div class="qnum">Q5</div>
-        <div class="qtext">There is a clear ______ of skilled journalists willing to report from conflict zones.</div>
-        <div class="mcq-grid" id="mcq-5"><div class="mcq-opt" id="opt-f5-0" onclick="selMCQ(5,0)"><div class="opt-l">A</div>surplus</div><div class="mcq-opt" id="opt-f5-1" onclick="selMCQ(5,1)"><div class="opt-l">B</div>shortage</div><div class="mcq-opt" id="opt-f5-2" onclick="selMCQ(5,2)"><div class="opt-l">C</div>solution</div><div class="mcq-opt" id="opt-f5-3" onclick="selMCQ(5,3)"><div class="opt-l">D</div>supply</div></div>
-        <div class="fb-correct" id="fb-ok-f5">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f5">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">Not enough of something.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">SHORTAGE = when there is not enough of something needed.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f6">
-        <div class="qnum">Q6</div>
-        <div class="qtext">The school council decided to ______ the use of phones during lessons.</div>
-        <div class="mcq-grid" id="mcq-6"><div class="mcq-opt" id="opt-f6-0" onclick="selMCQ(6,0)"><div class="opt-l">A</div>encourage</div><div class="mcq-opt" id="opt-f6-1" onclick="selMCQ(6,1)"><div class="opt-l">B</div>allow</div><div class="mcq-opt" id="opt-f6-2" onclick="selMCQ(6,2)"><div class="opt-l">C</div>ban</div><div class="mcq-opt" id="opt-f6-3" onclick="selMCQ(6,3)"><div class="opt-l">D</div>support</div></div>
-        <div class="fb-correct" id="fb-ok-f6">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f6">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">They said phones are not allowed.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">BAN = to officially forbid something.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f7">
-        <div class="qnum">Q7</div>
-        <div class="qtext">Teaching media literacy will ______ students&#39; ability to identify fake news.</div>
-        <div class="mcq-grid" id="mcq-7"><div class="mcq-opt" id="opt-f7-0" onclick="selMCQ(7,0)"><div class="opt-l">A</div>worsen</div><div class="mcq-opt" id="opt-f7-1" onclick="selMCQ(7,1)"><div class="opt-l">B</div>reduce</div><div class="mcq-opt" id="opt-f7-2" onclick="selMCQ(7,2)"><div class="opt-l">C</div>improve</div><div class="mcq-opt" id="opt-f7-3" onclick="selMCQ(7,3)"><div class="opt-l">D</div>weaken</div></div>
-        <div class="fb-correct" id="fb-ok-f7">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f7">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">Make students better at identifying fake news.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">IMPROVE = to make something better.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f8">
-        <div class="qnum">Q8</div>
-        <div class="qtext">The school magazine was very ______ and made many parents reconsider screen time rules.</div>
-        <div class="mcq-grid" id="mcq-8"><div class="mcq-opt" id="opt-f8-0" onclick="selMCQ(8,0)"><div class="opt-l">A</div>boring</div><div class="mcq-opt" id="opt-f8-1" onclick="selMCQ(8,1)"><div class="opt-l">B</div>confusing</div><div class="mcq-opt" id="opt-f8-2" onclick="selMCQ(8,2)"><div class="opt-l">C</div>persuasive</div><div class="mcq-opt" id="opt-f8-3" onclick="selMCQ(8,3)"><div class="opt-l">D</div>unhelpful</div></div>
-        <div class="fb-correct" id="fb-ok-f8">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f8">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">It changed people&#39;s minds.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">PERSUASIVE = able to convince people to think or act differently.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f9">
-        <div class="qnum">Q9</div>
-        <div class="qtext">The new media policy was officially ______ by the school board.</div>
-        <div class="mcq-grid" id="mcq-9"><div class="mcq-opt" id="opt-f9-0" onclick="selMCQ(9,0)"><div class="opt-l">A</div>rejected</div><div class="mcq-opt" id="opt-f9-1" onclick="selMCQ(9,1)"><div class="opt-l">B</div>ignored</div><div class="mcq-opt" id="opt-f9-2" onclick="selMCQ(9,2)"><div class="opt-l">C</div>approved</div><div class="mcq-opt" id="opt-f9-3" onclick="selMCQ(9,3)"><div class="opt-l">D</div>delayed</div></div>
-        <div class="fb-correct" id="fb-ok-f9">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f9">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">The school board said yes to it.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">APPROVED = officially accepted or agreed to.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f10">
-        <div class="qnum">Q10</div>
-        <div class="qtext">The journalist worked ______ to meet the midnight deadline.</div>
-        <div class="mcq-grid" id="mcq-10"><div class="mcq-opt" id="opt-f10-0" onclick="selMCQ(10,0)"><div class="opt-l">A</div>lazily</div><div class="mcq-opt" id="opt-f10-1" onclick="selMCQ(10,1)"><div class="opt-l">B</div>reluctantly</div><div class="mcq-opt" id="opt-f10-2" onclick="selMCQ(10,2)"><div class="opt-l">C</div>relentlessly</div><div class="mcq-opt" id="opt-f10-3" onclick="selMCQ(10,3)"><div class="opt-l">D</div>carelessly</div></div>
-        <div class="fb-correct" id="fb-ok-f10">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f10">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">Worked without stopping or giving up.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">RELENTLESSLY = in a constant and determined way, without stopping.</div></div>
-        </div>
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('f','mcq')">Check &amp; Submit Part F</button>
-    </div>
-  </div>
-</div>
-<div id="parts-zene" style="display:none">
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('a')">
-      <span class="sec-tag">PART A</span>
-      <div><div class="sec-title">Verb Forms (Tenses)</div><div class="sec-sub">Fill in the correct form of the verb in brackets</div></div>
-      <span class="sec-arrow open" id="arr-a">&#9660;</span>
-    </div>
-    <div class="sec-body open" id="body-a">
-      <div class="qb">
-        <div class="qnum">Question 1</div>
-        <div class="qtext">Last Monday, our class ______ (watch) a documentary about internet safety.</div>
-        <input class="fill" id="a1" placeholder="Type your answer..."
-          data-ans="watched" data-hint="&#39;Last Monday&#39; = something that happened in the past. Add -ed to &#39;watch&#39;." data-rule="Simple Past: add -ed to regular verbs (watch → watched). Use when something happened at a specific past time.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 2</div>
-        <div class="qtext">Our school ______ (produce) a school newsletter every month since last year.</div>
-        <input class="fill" id="a2" placeholder="Type your answer..."
-          data-ans="has produced" data-hint="It started last year and is still happening now. Use &#39;has&#39; + past form." data-rule="Present Perfect = has/have + past participle. &#39;Since last year&#39; means it started then and is still relevant.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 3</div>
-        <div class="qtext">When the teacher arrived, the pupils ______ (already finish) their media project.</div>
-        <input class="fill" id="a3" placeholder="Type your answer..."
-          data-ans="had already finished" data-hint="Finishing happened BEFORE the teacher arrived. Use &#39;had&#39; + past form." data-rule="Past Perfect = had + past participle. Use when one past action happened BEFORE another past action.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 4</div>
-        <div class="qtext">My sister ______ (read) the news on her phone for an hour. She is still reading.</div>
-        <input class="fill" id="a4" placeholder="Type your answer..."
-          data-ans="has been reading" data-hint="She started an hour ago and is STILL reading. Use &#39;has been&#39; + verb-ing." data-rule="Present Perfect Continuous = has/have + been + verb-ing. Shows action started in the past and still happening.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 5</div>
-        <div class="qtext">Our school ______ (start) a new media club next term.</div>
-        <input class="fill" id="a5" placeholder="Type your answer..."
-          data-ans="will start" data-hint="This has not happened yet — it is a future plan. Use &#39;will&#39; + base verb." data-rule="Simple Future = will + base verb. Use &#39;will&#39; for plans about the future.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 6</div>
-        <div class="qtext">While my brother ______ (play) a computer game, I was reading the news online.</div>
-        <input class="fill" id="a6" placeholder="Type your answer..."
-          data-ans="was playing" data-hint="Both actions were happening at the same time. Use &#39;was&#39; + verb-ing." data-rule="Past Continuous = was/were + verb-ing. Use when one action was in progress at the same time as another.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 7</div>
-        <div class="qtext">By the time we finish this term, we ______ (learn) how to create our own videos.</div>
-        <input class="fill" id="a7" placeholder="Type your answer..."
-          data-ans="will have learned" data-hint="This will be finished before the end of term. Use &#39;will have&#39; + past form." data-rule="Future Perfect = will + have + past participle. For actions that will be complete before a future point.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 8</div>
-        <div class="qtext">The pupils ______ (work) on their school blog for the past two weeks.</div>
-        <input class="fill" id="a8" placeholder="Type your answer..."
-          data-ans="have been working" data-hint="Started two weeks ago and still continuing now. Use &#39;have been&#39; + verb-ing." data-rule="Present Perfect Continuous = have/has + been + verb-ing. Shows ongoing action from the past until now.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 9</div>
-        <div class="qtext">It ______ (rain) for two days before the outdoor media event was finally cancelled.</div>
-        <input class="fill" id="a9" placeholder="Type your answer..."
-          data-ans="had been raining" data-hint="The rain was ongoing before the event was cancelled. Use &#39;had been&#39; + verb-ing." data-rule="Past Perfect Continuous = had + been + verb-ing. Shows ongoing action already happening before a past event.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 10</div>
-        <div class="qtext">If we ______ (not check) the news carefully, we might believe false stories.</div>
-        <input class="fill" id="a10" placeholder="Type your answer..."
-          data-ans="do not check" data-hint="This is a real possibility. In the &#39;if&#39; part, use simple present tense." data-rule="Type 1 Conditional: If + Simple Present → will + base verb. For real future possibilities.">
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('a','fill')">Check &amp; Submit Part A</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('b')">
-      <span class="sec-tag">PART B</span>
-      <div><div class="sec-title">Word Forms</div><div class="sec-sub">Change the word in brackets to the correct form</div></div>
-      <span class="sec-arrow" id="arr-b">&#9660;</span>
-    </div>
-    <div class="sec-body" id="body-b">
-      <div class="qb">
-        <div class="qnum">Question 1</div>
-        <div class="qtext">We should always check the ______ of the news before sharing it. (ACCURATE)</div>
-        <input class="fill" id="b1" placeholder="Type your answer..."
-          data-ans="accuracy" data-hint="A noun is needed after &#39;the&#39;. What noun comes from &#39;accurate&#39;?" data-rule="ACCURATE (adj) → ACCURACY (noun). The suffix &#39;-cy&#39; creates nouns from adjectives.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 2</div>
-        <div class="qtext">It is ______ to share fake news because it can confuse many people. (HARM)</div>
-        <input class="fill" id="b2" placeholder="Type your answer..."
-          data-ans="harmful" data-hint="An adjective needed after &#39;is&#39;. Think: causing harm = ?" data-rule="HARM → HARMFUL (adjective). Suffix &#39;-ful&#39; means &#39;full of&#39; or &#39;causing&#39;.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 3</div>
-        <div class="qtext">The pupils presented their media project very ______. (CONFIDENCE)</div>
-        <input class="fill" id="b3" placeholder="Type your answer..."
-          data-ans="confidently" data-hint="The word describes HOW they presented. It needs to be an adverb." data-rule="CONFIDENCE → CONFIDENT (adj) → CONFIDENTLY (adverb). Add &#39;-ly&#39; to the adjective.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 4</div>
-        <div class="qtext">The school held a ______ about internet safety for all the students. (DISCUSS)</div>
-        <input class="fill" id="b4" placeholder="Type your answer..."
-          data-ans="discussion" data-hint="A noun needed after &#39;a&#39;. What noun comes from &#39;discuss&#39;?" data-rule="DISCUSS → DISCUSSION (noun). Suffix &#39;-ion&#39; creates nouns from verbs.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 5</div>
-        <div class="qtext">We must be very ______ when reading news online and not believe everything. (CARE)</div>
-        <input class="fill" id="b5" placeholder="Type your answer..."
-          data-ans="careful" data-hint="Adjective needed after &#39;very&#39;. Think: full of care = ?" data-rule="CARE → CAREFUL (adjective). Suffix &#39;-ful&#39; creates adjectives.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 6</div>
-        <div class="qtext">The ______ of the school newsletter each month takes a lot of effort. (PRODUCE)</div>
-        <input class="fill" id="b6" placeholder="Type your answer..."
-          data-ans="production" data-hint="Noun needed after &#39;the&#39;. What noun comes from &#39;produce&#39;?" data-rule="PRODUCE → PRODUCTION (noun). Suffix &#39;-tion&#39; creates nouns.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 7</div>
-        <div class="qtext">Everyone was very ______ when they heard about the new school TV channel. (EXCITE)</div>
-        <input class="fill" id="b7" placeholder="Type your answer..."
-          data-ans="excited" data-hint="Adjective describing how people FELT. Use the -ed form." data-rule="EXCITE → EXCITED (adjective). Use -ed form to describe feelings.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 8</div>
-        <div class="qtext">There is a strong ______ between reading habits and how well pupils write. (CONNECT)</div>
-        <input class="fill" id="b8" placeholder="Type your answer..."
-          data-ans="connection" data-hint="Noun after &#39;a strong&#39;. What noun comes from &#39;connect&#39;?" data-rule="CONNECT → CONNECTION (noun). Suffix &#39;-ion&#39;.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 9</div>
-        <div class="qtext">The pupils gave a very ______ presentation about fake news. (IMPRESS)</div>
-        <input class="fill" id="b9" placeholder="Type your answer..."
-          data-ans="impressive" data-hint="Adjective before &#39;presentation&#39;. What adjective comes from &#39;impress&#39;?" data-rule="IMPRESS → IMPRESSIVE (adjective). Suffix &#39;-ive&#39; creates adjectives.">
-      </div>
-      <div class="qb">
-        <div class="qnum">Question 10</div>
-        <div class="qtext">Learning to use media ______ is an important skill for all pupils. (RESPONSIBLE)</div>
-        <input class="fill" id="b10" placeholder="Type your answer..."
-          data-ans="responsibly" data-hint="Adverb modifying &#39;use&#39;. What adverb comes from &#39;responsible&#39;?" data-rule="RESPONSIBLE → RESPONSIBLY (adverb). Change &#39;-ble&#39; to &#39;-bly&#39;.">
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('b','fill')">Check &amp; Submit Part B</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('c')">
-      <span class="sec-tag">PART C</span>
-      <div><div class="sec-title">Error Correction</div><div class="sec-sub">Each sentence has one error — rewrite it correctly</div></div>
-      <span class="sec-arrow" id="arr-c">&#9660;</span>
-    </div>
-    <div class="sec-body" id="body-c">
-      <div class="qb">
-        <div class="qnum">Q1</div>
-        <div class="qtext"><em>The number of pupils who use social media have grown every year.</em></div>
-        <textarea class="ta" id="c1" placeholder="Write your answer here..."
-          data-ans="The number of pupils who use social media has grown every year." data-hint="&#39;The number&#39; is ONE number — it is singular. Change &#39;have&#39; to the correct form." data-rule="&#39;The number of + noun&#39; is singular. Use &#39;has&#39; not &#39;have&#39;."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q2</div>
-        <div class="qtext"><em>Despite of the slow internet, the pupils finished uploading their video.</em></div>
-        <textarea class="ta" id="c2" placeholder="Write your answer here..."
-          data-ans="Despite the slow internet, the pupils finished uploading their video." data-hint="&#39;Despite&#39; does not need &#39;of&#39; after it. Remove &#39;of&#39;." data-rule="Correct: &#39;despite + noun phrase&#39;. Wrong: &#39;despite of&#39;. Simply remove &#39;of&#39;."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q3</div>
-        <div class="qtext"><em>We should of learned how to spot fake news earlier.</em></div>
-        <textarea class="ta" id="c3" placeholder="Write your answer here..."
-          data-ans="We should have learned how to spot fake news earlier." data-hint="&#39;Should&#39; is followed by &#39;have&#39;, not &#39;of&#39;." data-rule="Modal verbs are followed by &#39;HAVE&#39;, not &#39;of&#39;. &#39;Should of&#39; is always wrong."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q4</div>
-        <div class="qtext"><em>The school newsletter, together with the blog, are read by many parents.</em></div>
-        <textarea class="ta" id="c4" placeholder="Write your answer here..."
-          data-ans="The school newsletter, together with the blog, is read by many parents." data-hint="The subject is &#39;the school newsletter&#39;. The phrase in the middle is extra information." data-rule="&#39;Together with&#39; does not change the subject. &#39;The school newsletter&#39; is singular → &#39;is&#39;."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q5</div>
-        <div class="qtext"><em>My friend has been making videos for social media since three months.</em></div>
-        <textarea class="ta" id="c5" placeholder="Write your answer here..."
-          data-ans="My friend has been making videos for social media for three months." data-hint="&#39;Three months&#39; is a period of time. Which word — &#39;since&#39; or &#39;for&#39;?" data-rule="Use &#39;FOR&#39; with periods of time. Use &#39;SINCE&#39; with points in time (a date or event)."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q6</div>
-        <div class="qtext"><em>Our school media club lack members to help run the events.</em></div>
-        <textarea class="ta" id="c6" placeholder="Write your answer here..."
-          data-ans="Our school media club lacks members to help run the events." data-hint="&#39;Our school media club&#39; is one club — it is singular. What happens to the verb?" data-rule="Singular subjects use verb + -s in Simple Present: &#39;lack&#39; → &#39;lacks&#39;."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q7</div>
-        <div class="qtext"><em>If we had started the project earlier, we can have finished it on time.</em></div>
-        <textarea class="ta" id="c7" placeholder="Write your answer here..."
-          data-ans="If we had started the project earlier, we could have finished it on time." data-hint="This talks about something that did NOT happen. The result must use &#39;could have&#39;, not &#39;can have&#39;." data-rule="Third conditional: If + had + past participle → could/would + have + past participle."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q8</div>
-        <div class="qtext"><em>The school video project, which were made by Primary 6, was shown at assembly.</em></div>
-        <textarea class="ta" id="c8" placeholder="Write your answer here..."
-          data-ans="The school video project, which was made by Primary 6, was shown at assembly." data-hint="&#39;Which&#39; is referring to &#39;the school video project&#39; — singular. Use &#39;was&#39; not &#39;were&#39;." data-rule="&#39;Which&#39; agrees with the noun it refers to. &#39;The school video project&#39; is singular → &#39;was made&#39;."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q9</div>
-        <div class="qtext"><em>More information about internet safety are available on the school website.</em></div>
-        <textarea class="ta" id="c9" placeholder="Write your answer here..."
-          data-ans="More information about internet safety is available on the school website." data-hint="&#39;Information&#39; cannot be counted — it has no plural form. What verb should it take?" data-rule="&#39;Information&#39; is uncountable. Always use &#39;is&#39;: &#39;information IS available&#39;."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q10</div>
-        <div class="qtext"><em>Neither Tom nor his classmates was present for the media workshop.</em></div>
-        <textarea class="ta" id="c10" placeholder="Write your answer here..."
-          data-ans="Neither Tom nor his classmates were present for the media workshop." data-hint="Look at the noun closest to the verb — &#39;his classmates&#39;. Is it singular or plural?" data-rule="With &#39;neither...nor&#39;, the verb agrees with the CLOSEST noun. &#39;His classmates&#39; is plural → &#39;were&#39;."></textarea>
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('c','ta')">Check &amp; Submit Part C</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('d')">
-      <span class="sec-tag">PART D</span>
-      <div><div class="sec-title">Sentence Transformation</div><div class="sec-sub">Rewrite each sentence as instructed</div></div>
-      <span class="sec-arrow" id="arr-d">&#9660;</span>
-    </div>
-    <div class="sec-body" id="body-d">
-      <div class="qb">
-        <div class="qnum">Q1</div>
-        <div class="qtext">we / before / should / always / sharing / news / check / online</div>
-        <textarea class="ta" id="d1" placeholder="Write your answer here..."
-          data-ans="We should always check news before sharing online." data-hint="Start with &#39;We&#39;. Modal &#39;should&#39; comes next." data-rule="Subject + should + adverb + verb + object + time phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q2</div>
-        <div class="qtext">pupils / the / a / created / school / impressive / newsletter / for</div>
-        <textarea class="ta" id="d2" placeholder="Write your answer here..."
-          data-ans="The pupils created an impressive newsletter for school." data-hint="Subject: &#39;the pupils&#39;. Verb: &#39;created&#39;." data-rule="Subject + verb + adjective + object + purpose."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q3</div>
-        <div class="qtext">off / turn / you / should / devices / your / before / class</div>
-        <textarea class="ta" id="d3" placeholder="Write your answer here..."
-          data-ans="You should turn off your devices before class." data-hint="Start with &#39;You&#39;. Modal &#39;should&#39; comes next." data-rule="Subject + should + verb + object + time phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q4</div>
-        <div class="qtext">project / media / the / school / has / very / been / successful</div>
-        <textarea class="ta" id="d4" placeholder="Write your answer here..."
-          data-ans="The school media project has been very successful." data-hint="Subject: &#39;The school media project&#39;. Verb: &#39;has been&#39;." data-rule="Subject + has + been + adverb + adjective."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q5</div>
-        <div class="qtext">posting / false / online / information / causes / real / harm</div>
-        <textarea class="ta" id="d5" placeholder="Write your answer here..."
-          data-ans="Posting false information online causes real harm." data-hint="Start with the gerund &#39;Posting false information online&#39;." data-rule="Gerund phrase + verb + adjective + noun."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q6</div>
-        <div class="qtext">important / every / it / that / is / pupil / media / learns / literacy</div>
-        <textarea class="ta" id="d6" placeholder="Write your answer here..."
-          data-ans="It is important that every pupil learns media literacy." data-hint="Start with &#39;It is important that&#39;." data-rule="It + is + adjective + that + subject + verb + object."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q7</div>
-        <div class="qtext">the / praised / teacher / students / their / for / media / work</div>
-        <textarea class="ta" id="d7" placeholder="Write your answer here..."
-          data-ans="The teacher praised the students for their media work." data-hint="Subject + praised + object + for + reason." data-rule="Subject + verb + object + for + noun phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q8</div>
-        <div class="qtext">the / had / pupils / their / project / the / finished / bell / before / rang</div>
-        <textarea class="ta" id="d8" placeholder="Write your answer here..."
-          data-ans="The pupils had finished their project before the bell rang." data-hint="Use &#39;had finished&#39; for the earlier action." data-rule="Subject + had + past participle + object + before + Simple Past."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q9</div>
-        <div class="qtext">using / media / responsibility / everyone&#39;s / is / online / carefully</div>
-        <textarea class="ta" id="d9" placeholder="Write your answer here..."
-          data-ans="Using online media carefully is everyone&#39;s responsibility." data-hint="Start with the gerund phrase &#39;Using online media carefully&#39;." data-rule="Gerund phrase + is + possessive + noun."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q10</div>
-        <div class="qtext">will / there / free / not / be / without / a / press / truth</div>
-        <textarea class="ta" id="d10" placeholder="Write your answer here..."
-          data-ans="There will not be truth without a free press." data-hint="Start with &#39;There will not be&#39;." data-rule="There + will + not + be + noun + without + noun phrase."></textarea>
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('d','ta')">Check &amp; Submit Part D</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('e')">
-      <span class="sec-tag">PART E</span>
-      <div><div class="sec-title">Sentence Building</div><div class="sec-sub">Rearrange the words to form a correct sentence</div></div>
-      <span class="sec-arrow" id="arr-e">&#9660;</span>
-    </div>
-    <div class="sec-body" id="body-e">
-      <div class="qb">
-        <div class="qnum">Q1</div>
-        <div class="qtext"><span class="qwords">we / before / should / always / sharing / news / check / online</span></div>
-        <textarea class="ta" id="e1" placeholder="Write your answer here..."
-          data-ans="We should always check news before sharing online." data-hint="Start with &#39;We&#39;. Modal &#39;should&#39; comes next." data-rule="Subject + should + adverb + verb + object + time phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q2</div>
-        <div class="qtext"><span class="qwords">pupils / the / a / created / school / impressive / newsletter / for</span></div>
-        <textarea class="ta" id="e2" placeholder="Write your answer here..."
-          data-ans="The pupils created an impressive newsletter for school." data-hint="Subject: &#39;the pupils&#39;. Verb: &#39;created&#39;." data-rule="Subject + verb + adjective + object + purpose."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q3</div>
-        <div class="qtext"><span class="qwords">off / turn / you / should / devices / your / before / class</span></div>
-        <textarea class="ta" id="e3" placeholder="Write your answer here..."
-          data-ans="You should turn off your devices before class." data-hint="Start with &#39;You&#39;. Modal &#39;should&#39; comes next." data-rule="Subject + should + verb + object + time phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q4</div>
-        <div class="qtext"><span class="qwords">project / media / the / school / has / very / been / successful</span></div>
-        <textarea class="ta" id="e4" placeholder="Write your answer here..."
-          data-ans="The school media project has been very successful." data-hint="Subject: &#39;The school media project&#39;. Verb: &#39;has been&#39;." data-rule="Subject + has + been + adverb + adjective."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q5</div>
-        <div class="qtext"><span class="qwords">posting / false / online / information / causes / real / harm</span></div>
-        <textarea class="ta" id="e5" placeholder="Write your answer here..."
-          data-ans="Posting false information online causes real harm." data-hint="Start with the gerund &#39;Posting false information online&#39;." data-rule="Gerund phrase + verb + adjective + noun."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q6</div>
-        <div class="qtext"><span class="qwords">important / every / it / that / is / pupil / media / learns / literacy</span></div>
-        <textarea class="ta" id="e6" placeholder="Write your answer here..."
-          data-ans="It is important that every pupil learns media literacy." data-hint="Start with &#39;It is important that&#39;." data-rule="It + is + adjective + that + subject + verb + object."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q7</div>
-        <div class="qtext"><span class="qwords">the / praised / teacher / students / their / for / media / work</span></div>
-        <textarea class="ta" id="e7" placeholder="Write your answer here..."
-          data-ans="The teacher praised the students for their media work." data-hint="Subject + praised + object + for + reason." data-rule="Subject + verb + object + for + noun phrase."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q8</div>
-        <div class="qtext"><span class="qwords">the / had / pupils / their / project / the / finished / bell / before / rang</span></div>
-        <textarea class="ta" id="e8" placeholder="Write your answer here..."
-          data-ans="The pupils had finished their project before the bell rang." data-hint="Use &#39;had finished&#39; for the earlier action." data-rule="Subject + had + past participle + object + before + Simple Past."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q9</div>
-        <div class="qtext"><span class="qwords">using / media / responsibility / everyone&#39;s / is / online / carefully</span></div>
-        <textarea class="ta" id="e9" placeholder="Write your answer here..."
-          data-ans="Using online media carefully is everyone&#39;s responsibility." data-hint="Start with the gerund phrase &#39;Using online media carefully&#39;." data-rule="Gerund phrase + is + possessive + noun."></textarea>
-      </div>
-      <div class="qb">
-        <div class="qnum">Q10</div>
-        <div class="qtext"><span class="qwords">will / there / free / not / be / without / a / press / truth</span></div>
-        <textarea class="ta" id="e10" placeholder="Write your answer here..."
-          data-ans="There will not be truth without a free press." data-hint="Start with &#39;There will not be&#39;." data-rule="There + will + not + be + noun + without + noun phrase."></textarea>
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('e','ta')">Check &amp; Submit Part E</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('f')">
-      <span class="sec-tag">PART F</span>
-      <div><div class="sec-title">Vocabulary &mdash; Choose the Best Word</div><div class="sec-sub">Select the most appropriate option</div></div>
-      <span class="sec-arrow" id="arr-f">&#9660;</span>
-    </div>
-    <div class="sec-body" id="body-f">
-      <div class="qb" id="qb-f1">
-        <div class="qnum">Q1</div>
-        <div class="qtext">It is important to check the ______ of a news article before sharing it.</div>
-        <div class="mcq-grid" id="mcq-1"><div class="mcq-opt" id="opt-f1-0" onclick="selMCQ(1,0)"><div class="opt-l">A</div>accuracy</div><div class="mcq-opt" id="opt-f1-1" onclick="selMCQ(1,1)"><div class="opt-l">B</div>colour</div><div class="mcq-opt" id="opt-f1-2" onclick="selMCQ(1,2)"><div class="opt-l">C</div>design</div><div class="mcq-opt" id="opt-f1-3" onclick="selMCQ(1,3)"><div class="opt-l">D</div>length</div></div>
-        <div class="fb-correct" id="fb-ok-f1">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f1">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">This word means how correct or true something is.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">ACCURACY = the quality of being correct and true. We check accuracy to avoid sharing fake news.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f2">
-        <div class="qnum">Q2</div>
-        <div class="qtext">Good journalists are ______ in checking their facts before publishing.</div>
-        <div class="mcq-grid" id="mcq-2"><div class="mcq-opt" id="opt-f2-0" onclick="selMCQ(2,0)"><div class="opt-l">A</div>lazy</div><div class="mcq-opt" id="opt-f2-1" onclick="selMCQ(2,1)"><div class="opt-l">B</div>careless</div><div class="mcq-opt" id="opt-f2-2" onclick="selMCQ(2,2)"><div class="opt-l">C</div>rigorous</div><div class="mcq-opt" id="opt-f2-3" onclick="selMCQ(2,3)"><div class="opt-l">D</div>casual</div></div>
-        <div class="fb-correct" id="fb-ok-f2">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f2">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">They are very careful and thorough.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">RIGOROUS = extremely careful and thorough. Journalists must be rigorous about facts.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f3">
-        <div class="qnum">Q3</div>
-        <div class="qtext">Every person has the ______ to access fair and honest news.</div>
-        <div class="mcq-grid" id="mcq-3"><div class="mcq-opt" id="opt-f3-0" onclick="selMCQ(3,0)"><div class="opt-l">A</div>rite</div><div class="mcq-opt" id="opt-f3-1" onclick="selMCQ(3,1)"><div class="opt-l">B</div>write</div><div class="mcq-opt" id="opt-f3-2" onclick="selMCQ(3,2)"><div class="opt-l">C</div>right</div><div class="mcq-opt" id="opt-f3-3" onclick="selMCQ(3,3)"><div class="opt-l">D</div>might</div></div>
-        <div class="fb-correct" id="fb-ok-f3">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f3">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">This word means something you are entitled to.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">RIGHT = something a person is entitled to by law or morally.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f4">
-        <div class="qnum">Q4</div>
-        <div class="qtext">All the teachers ______ agreed that pupils need to learn about fake news.</div>
-        <div class="mcq-grid" id="mcq-4"><div class="mcq-opt" id="opt-f4-0" onclick="selMCQ(4,0)"><div class="opt-l">A</div>never</div><div class="mcq-opt" id="opt-f4-1" onclick="selMCQ(4,1)"><div class="opt-l">B</div>sometimes</div><div class="mcq-opt" id="opt-f4-2" onclick="selMCQ(4,2)"><div class="opt-l">C</div>unanimously</div><div class="mcq-opt" id="opt-f4-3" onclick="selMCQ(4,3)"><div class="opt-l">D</div>rarely</div></div>
-        <div class="fb-correct" id="fb-ok-f4">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f4">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">Every single teacher agreed — no one said no.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">UNANIMOUSLY = when every member of a group agrees.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f5">
-        <div class="qnum">Q5</div>
-        <div class="qtext">There is a ______ of reliable news sources that young people trust.</div>
-        <div class="mcq-grid" id="mcq-5"><div class="mcq-opt" id="opt-f5-0" onclick="selMCQ(5,0)"><div class="opt-l">A</div>lot</div><div class="mcq-opt" id="opt-f5-1" onclick="selMCQ(5,1)"><div class="opt-l">B</div>surplus</div><div class="mcq-opt" id="opt-f5-2" onclick="selMCQ(5,2)"><div class="opt-l">C</div>shortage</div><div class="mcq-opt" id="opt-f5-3" onclick="selMCQ(5,3)"><div class="opt-l">D</div>supply</div></div>
-        <div class="fb-correct" id="fb-ok-f5">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f5">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">There are not enough reliable sources.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">SHORTAGE = when there is not enough of something needed.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f6">
-        <div class="qnum">Q6</div>
-        <div class="qtext">The school decided to ______ the use of social media during school hours.</div>
-        <div class="mcq-grid" id="mcq-6"><div class="mcq-opt" id="opt-f6-0" onclick="selMCQ(6,0)"><div class="opt-l">A</div>allow</div><div class="mcq-opt" id="opt-f6-1" onclick="selMCQ(6,1)"><div class="opt-l">B</div>encourage</div><div class="mcq-opt" id="opt-f6-2" onclick="selMCQ(6,2)"><div class="opt-l">C</div>ban</div><div class="mcq-opt" id="opt-f6-3" onclick="selMCQ(6,3)"><div class="opt-l">D</div>support</div></div>
-        <div class="fb-correct" id="fb-ok-f6">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f6">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">They said social media is not allowed during school hours.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">BAN = to officially forbid something from being done.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f7">
-        <div class="qnum">Q7</div>
-        <div class="qtext">Learning about media literacy will ______ your ability to spot fake news.</div>
-        <div class="mcq-grid" id="mcq-7"><div class="mcq-opt" id="opt-f7-0" onclick="selMCQ(7,0)"><div class="opt-l">A</div>worsen</div><div class="mcq-opt" id="opt-f7-1" onclick="selMCQ(7,1)"><div class="opt-l">B</div>reduce</div><div class="mcq-opt" id="opt-f7-2" onclick="selMCQ(7,2)"><div class="opt-l">C</div>improve</div><div class="mcq-opt" id="opt-f7-3" onclick="selMCQ(7,3)"><div class="opt-l">D</div>weaken</div></div>
-        <div class="fb-correct" id="fb-ok-f7">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f7">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">It will make you better at spotting fake news.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">IMPROVE = to make something better.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f8">
-        <div class="qnum">Q8</div>
-        <div class="qtext">The school assembly talk on internet safety was very ______ and made us think carefully.</div>
-        <div class="mcq-grid" id="mcq-8"><div class="mcq-opt" id="opt-f8-0" onclick="selMCQ(8,0)"><div class="opt-l">A</div>boring</div><div class="mcq-opt" id="opt-f8-1" onclick="selMCQ(8,1)"><div class="opt-l">B</div>persuasive</div><div class="mcq-opt" id="opt-f8-2" onclick="selMCQ(8,2)"><div class="opt-l">C</div>confusing</div><div class="mcq-opt" id="opt-f8-3" onclick="selMCQ(8,3)"><div class="opt-l">D</div>unhelpful</div></div>
-        <div class="fb-correct" id="fb-ok-f8">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f8">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">It made us change the way we think and act.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">PERSUASIVE = able to make someone change their mind or take action.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f9">
-        <div class="qnum">Q9</div>
-        <div class="qtext">The new school media guidelines were ______ at the assembly.</div>
-        <div class="mcq-grid" id="mcq-9"><div class="mcq-opt" id="opt-f9-0" onclick="selMCQ(9,0)"><div class="opt-l">A</div>rejected</div><div class="mcq-opt" id="opt-f9-1" onclick="selMCQ(9,1)"><div class="opt-l">B</div>ignored</div><div class="mcq-opt" id="opt-f9-2" onclick="selMCQ(9,2)"><div class="opt-l">C</div>announced</div><div class="mcq-opt" id="opt-f9-3" onclick="selMCQ(9,3)"><div class="opt-l">D</div>forgotten</div></div>
-        <div class="fb-correct" id="fb-ok-f9">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f9">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">The principal told everyone about the guidelines.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">ANNOUNCED = made known publicly to a group of people.</div></div>
-        </div>
-      </div>
-      <div class="qb" id="qb-f10">
-        <div class="qnum">Q10</div>
-        <div class="qtext">The pupils worked ______ to finish their media project before the deadline.</div>
-        <div class="mcq-grid" id="mcq-10"><div class="mcq-opt" id="opt-f10-0" onclick="selMCQ(10,0)"><div class="opt-l">A</div>lazily</div><div class="mcq-opt" id="opt-f10-1" onclick="selMCQ(10,1)"><div class="opt-l">B</div>slowly</div><div class="mcq-opt" id="opt-f10-2" onclick="selMCQ(10,2)"><div class="opt-l">C</div>relentlessly</div><div class="mcq-opt" id="opt-f10-3" onclick="selMCQ(10,3)"><div class="opt-l">D</div>unwillingly</div></div>
-        <div class="fb-correct" id="fb-ok-f10">&#10003; Correct! Well done.</div>
-        <div class="fb-wrong" id="fb-bad-f10">
-          <div class="fb-wrong-top">&#10007; Not quite.</div>
-          <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">They worked very hard without stopping.</div></div>
-          <div class="fb-rule"><div class="lbl">&#128216; Rule</div><div class="txt">RELENTLESSLY = without stopping, in a constant and determined way.</div></div>
-        </div>
-      </div>
-      <button class="btn-check" onclick="checkAndSubmit('f','mcq')">Check &amp; Submit Part F</button>
-    </div>
-  </div>
-</div>
-
-  <!-- PARTS G H I: same for all students -->
-<!-- PART G -->
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('g')"><span class="sec-tag">PART G</span><div><div class="sec-title">Sentence Expansion</div><div class="sec-sub">Expand each simple sentence into a complex, descriptive sentence</div></div><span class="sec-arrow open" id="arr-g">&#9660;</span></div>
-    <div class="sec-body open" id="body-g">
-      <div class="example-box"><div class="ex-lbl">EXAMPLE</div><div class="ex-s">The news spread.</div><div class="ex-e">&#8594; Within minutes of being posted online, the shocking breaking news spread rapidly across social media platforms, reaching millions of people around the world before journalists could verify its accuracy.</div></div>
-      <div class="qb"><div class="qnum">Q1</div><div class="qtext">The journalist reported.</div><textarea class="ta" id="g1" placeholder="Expand into a complex descriptive sentence..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-g1" onclick="checkAI('g',1)"><span class="ai-spinner" id="ai-spin-g1" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-g1"><div class="ai-top" id="ai-top-g1"></div><div class="ai-body" id="ai-body-g1"></div></div></div>
-      <div class="qb"><div class="qnum">Q2</div><div class="qtext">Social media spread the news.</div><textarea class="ta" id="g2" placeholder="Expand into a complex descriptive sentence..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-g2" onclick="checkAI('g',2)"><span class="ai-spinner" id="ai-spin-g2" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-g2"><div class="ai-top" id="ai-top-g2"></div><div class="ai-body" id="ai-body-g2"></div></div></div>
-      <div class="qb"><div class="qnum">Q3</div><div class="qtext">The documentary shocked viewers.</div><textarea class="ta" id="g3" placeholder="Expand into a complex descriptive sentence..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-g3" onclick="checkAI('g',3)"><span class="ai-spinner" id="ai-spin-g3" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-g3"><div class="ai-top" id="ai-top-g3"></div><div class="ai-body" id="ai-body-g3"></div></div></div>
-      <div class="qb"><div class="qnum">Q4</div><div class="qtext">The newspaper closed.</div><textarea class="ta" id="g4" placeholder="Expand into a complex descriptive sentence..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-g4" onclick="checkAI('g',4)"><span class="ai-spinner" id="ai-spin-g4" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-g4"><div class="ai-top" id="ai-top-g4"></div><div class="ai-body" id="ai-body-g4"></div></div></div>
-      <div class="qb"><div class="qnum">Q5</div><div class="qtext">The broadcast was interrupted.</div><textarea class="ta" id="g5" placeholder="Expand into a complex descriptive sentence..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-g5" onclick="checkAI('g',5)"><span class="ai-spinner" id="ai-spin-g5" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-g5"><div class="ai-top" id="ai-top-g5"></div><div class="ai-body" id="ai-body-g5"></div></div></div>
-      <div class="qb"><div class="qnum">Q6</div><div class="qtext">Online misinformation grew.</div><textarea class="ta" id="g6" placeholder="Expand into a complex descriptive sentence..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-g6" onclick="checkAI('g',6)"><span class="ai-spinner" id="ai-spin-g6" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-g6"><div class="ai-top" id="ai-top-g6"></div><div class="ai-body" id="ai-body-g6"></div></div></div>
-      <div class="qb"><div class="qnum">Q7</div><div class="qtext">The reporter investigated.</div><textarea class="ta" id="g7" placeholder="Expand into a complex descriptive sentence..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-g7" onclick="checkAI('g',7)"><span class="ai-spinner" id="ai-spin-g7" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-g7"><div class="ai-top" id="ai-top-g7"></div><div class="ai-body" id="ai-body-g7"></div></div></div>
-      <div class="qb"><div class="qnum">Q8</div><div class="qtext">The interview ended.</div><textarea class="ta" id="g8" placeholder="Expand into a complex descriptive sentence..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-g8" onclick="checkAI('g',8)"><span class="ai-spinner" id="ai-spin-g8" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-g8"><div class="ai-top" id="ai-top-g8"></div><div class="ai-body" id="ai-body-g8"></div></div></div>
-      <div class="qb"><div class="qnum">Q9</div><div class="qtext">Digital media expanded.</div><textarea class="ta" id="g9" placeholder="Expand into a complex descriptive sentence..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-g9" onclick="checkAI('g',9)"><span class="ai-spinner" id="ai-spin-g9" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-g9"><div class="ai-top" id="ai-top-g9"></div><div class="ai-body" id="ai-body-g9"></div></div></div>
-      <div class="qb"><div class="qnum">Q10</div><div class="qtext">The story went viral.</div><textarea class="ta" id="g10" placeholder="Expand into a complex descriptive sentence..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-g10" onclick="checkAI('g',10)"><span class="ai-spinner" id="ai-spin-g10" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-g10"><div class="ai-top" id="ai-top-g10"></div><div class="ai-body" id="ai-body-g10"></div></div></div>
-      <div style="margin-top:6px">
-        <button class="btn-check" id="check-all-g" onclick="checkAllAndSubmit('g')">&#129302; Check &amp; Submit Part G</button>
-        <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:8px">AI checks grammar &amp; vocabulary, then saves to dashboard</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PART H -->
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('h')"><span class="sec-tag">PART H</span><div><div class="sec-title">Composition Sentence Practice</div><div class="sec-sub">Rewrite each sentence to be more vivid, formal and impactful</div></div><span class="sec-arrow open" id="arr-h">&#9660;</span></div>
-    <div class="sec-body open" id="body-h">
-      <div class="qb"><div class="qnum">Q1</div><div class="qtext">Fake news is a big problem.</div><textarea class="ta" id="h1" placeholder="Rewrite more descriptively..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-h1" onclick="checkAI('h',1)"><span class="ai-spinner" id="ai-spin-h1" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-h1"><div class="ai-top" id="ai-top-h1"></div><div class="ai-body" id="ai-body-h1"></div></div></div>
-      <div class="qb"><div class="qnum">Q2</div><div class="qtext">Many people watch the news online.</div><textarea class="ta" id="h2" placeholder="Rewrite more descriptively..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-h2" onclick="checkAI('h',2)"><span class="ai-spinner" id="ai-spin-h2" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-h2"><div class="ai-top" id="ai-top-h2"></div><div class="ai-body" id="ai-body-h2"></div></div></div>
-      <div class="qb"><div class="qnum">Q3</div><div class="qtext">The media has a lot of power.</div><textarea class="ta" id="h3" placeholder="Rewrite more descriptively..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-h3" onclick="checkAI('h',3)"><span class="ai-spinner" id="ai-spin-h3" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-h3"><div class="ai-top" id="ai-top-h3"></div><div class="ai-body" id="ai-body-h3"></div></div></div>
-      <div class="qb"><div class="qnum">Q4</div><div class="qtext">People share news without checking.</div><textarea class="ta" id="h4" placeholder="Rewrite more descriptively..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-h4" onclick="checkAI('h',4)"><span class="ai-spinner" id="ai-spin-h4" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-h4"><div class="ai-top" id="ai-top-h4"></div><div class="ai-body" id="ai-body-h4"></div></div></div>
-      <div class="qb"><div class="qnum">Q5</div><div class="qtext">The school started a media club.</div><textarea class="ta" id="h5" placeholder="Rewrite more descriptively..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-h5" onclick="checkAI('h',5)"><span class="ai-spinner" id="ai-spin-h5" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-h5"><div class="ai-top" id="ai-top-h5"></div><div class="ai-body" id="ai-body-h5"></div></div></div>
-      <div class="qb"><div class="qnum">Q6</div><div class="qtext">Social media can be dangerous.</div><textarea class="ta" id="h6" placeholder="Rewrite more descriptively..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-h6" onclick="checkAI('h',6)"><span class="ai-spinner" id="ai-spin-h6" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-h6"><div class="ai-top" id="ai-top-h6"></div><div class="ai-body" id="ai-body-h6"></div></div></div>
-      <div class="qb"><div class="qnum">Q7</div><div class="qtext">Journalists work very hard.</div><textarea class="ta" id="h7" placeholder="Rewrite more descriptively..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-h7" onclick="checkAI('h',7)"><span class="ai-spinner" id="ai-spin-h7" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-h7"><div class="ai-top" id="ai-top-h7"></div><div class="ai-body" id="ai-body-h7"></div></div></div>
-      <div class="qb"><div class="qnum">Q8</div><div class="qtext">Young people use social media a lot.</div><textarea class="ta" id="h8" placeholder="Rewrite more descriptively..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-h8" onclick="checkAI('h',8)"><span class="ai-spinner" id="ai-spin-h8" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-h8"><div class="ai-top" id="ai-top-h8"></div><div class="ai-body" id="ai-body-h8"></div></div></div>
-      <div class="qb"><div class="qnum">Q9</div><div class="qtext">The newspaper printed a false story.</div><textarea class="ta" id="h9" placeholder="Rewrite more descriptively..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-h9" onclick="checkAI('h',9)"><span class="ai-spinner" id="ai-spin-h9" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-h9"><div class="ai-top" id="ai-top-h9"></div><div class="ai-body" id="ai-body-h9"></div></div></div>
-      <div class="qb"><div class="qnum">Q10</div><div class="qtext">Communication has changed a lot.</div><textarea class="ta" id="h10" placeholder="Rewrite more descriptively..."></textarea>
-        <button class="check-ai-btn" id="ai-btn-h10" onclick="checkAI('h',10)"><span class="ai-spinner" id="ai-spin-h10" style="display:none"></span>&#129302; Check with AI</button>
-        <div class="ai-fb" id="ai-fb-h10"><div class="ai-top" id="ai-top-h10"></div><div class="ai-body" id="ai-body-h10"></div></div></div>
-      <div style="margin-top:6px">
-        <button class="btn-check" id="check-all-h" onclick="checkAllAndSubmit('h')">&#129302; Check &amp; Submit Part H</button>
-        <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:8px">AI checks grammar &amp; vocabulary, then saves to dashboard</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PART I -->
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('i')"><span class="sec-tag">PART I</span><div><div class="sec-title">Paragraph Writing</div><div class="sec-sub">Write 6&ndash;8 sentences &middot; Target: 100&ndash;140 words</div></div><span class="sec-arrow open" id="arr-i">&#9660;</span></div>
-    <div class="sec-body open" id="body-i">
-      <div class="topic-box">
-        <div class="t-lbl">Writing Topic</div>
-        <h4>The Impact of Social Media on Communication and Society</h4>
-        <p>Write a well-structured paragraph about how social media has changed the way people communicate. You may discuss both the positive and negative effects.</p>
-        <ul>
-          <li>State clearly how social media has changed communication</li>
-          <li>Give at least one positive effect with an example</li>
-          <li>Give at least one negative effect with an example</li>
-          <li>Share your personal view on whether social media does more good or harm</li>
-        </ul>
-      </div>
-      <textarea class="ta" id="i1" style="min-height:190px" placeholder="Write your paragraph here..."></textarea>
-      <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--muted);font-family:var(--mono)">
-        <span id="wc">Words: 0</span><span>Target: 100&ndash;140 words</span>
-      </div>
-      <div style="margin-top:14px">
-        <button class="check-all-btn" id="check-para-btn" onclick="checkAndSubmitPara()">&#129302; Check &amp; Submit Part I</button>
-      </div>
-      <div class="para-ai-fb" id="para-ai-fb">
-        <div class="para-ai-top" id="para-ai-top"></div>
-        <div class="para-ai-section" id="para-ai-grammar"></div>
-        <div class="para-ai-section" id="para-ai-vocab"></div>
-        <div class="para-ai-section" id="para-ai-structure"></div>
-        <div class="para-ai-section" id="para-ai-suggestion"></div>
-      </div>
-    </div>
-  </div>
-
-</div>
-</div>
-</div>
-
-<!-- RESULT MODAL -->
-<div id="resultModal">
-  <div class="res-box">
-    <div style="font-family:var(--mono);font-size:10px;color:var(--a2);letter-spacing:3px;margin-bottom:12px">FINAL RESULT</div>
-    <div class="res-score" id="resScore">0</div>
-    <div class="res-label">out of 60 auto-marked questions (Parts A&ndash;F)</div>
-    <div class="res-saved" id="resSaved"></div>
-    <div class="res-msg" id="resMsg"></div>
-    <div class="res-grid" id="resGrid"></div>
-    <button class="btn-close" onclick="document.getElementById('resultModal').classList.remove('open')">Done</button>
+    <div id="sections"></div>
   </div>
 </div>
 
 <script>
-var MCQ_ANSWERS = {
-  zenv: [0, 1, 1, 3, 2, 1, 2, 3, 3, 2],
-  zenz: [1, 1, 2, 2, 1, 2, 2, 2, 2, 2],
-  zene: [0, 2, 2, 2, 2, 2, 2, 1, 2, 2],
+const BIN_ID="69babf10b7ec241ddc7d652f";
+const MKEY="$2a$10$GeOyXKViWuf6OsSoiA9eT.bifbFDXJ/AsilT9KSjMz.2Ibg5mPDGS";
+const API="https://api.jsonbin.io/v3";
+const SKEY="mc_progress_random_v2";
+
+const PROFILES={
+  zenv:{name:"ZenV",level:"Secondary 2",grade:"S2",key:"zenv"},
+  zenz:{name:"ZenZ",level:"Secondary 1",grade:"S1",key:"zenz"},
+  zene:{name:"ZenE",level:"Primary 6",grade:"P6",key:"zene"}
 };
 
-// ── CONFIG ────────────────────────────────────────────────────────────────────
-var BIN_ID   = "69babf10b7ec241ddc7d652f";
-var MKEY     = "$2a$10$GeOyXKViWuf6OsSoiA9eT.bifbFDXJ/AsilT9KSjMz.2Ibg5mPDGS";
-var API      = "https://api.jsonbin.io/v3";
-var SKEY     = "mc_progress";
+let currentProfile=null, studentName="", startTime=null;
+let questionSet=null;
+let answers={};
+let sectionScores={a:0,b:0,c:0,d:0,e:0,f:0,g:0,h:0,i:0};
+let sectionChecked={a:false,b:false,c:false,d:false,e:false,f:false,g:false,h:false,i:false};
 
-// ── STUDENT PROFILES ──────────────────────────────────────────────────────────
-var PROFILES = {
-  zenv: {name:"ZenV", level:"Secondary 2", grade:"S2", colour:"#34d399"},
-  zenz: {name:"ZenZ", level:"Secondary 1", grade:"S1", colour:"#60a5fa"},
-  zene: {name:"ZenE", level:"Primary 6",   grade:"P6", colour:"#f97316"}
+function profileFromName(raw){
+  const k=(raw||"").trim().toLowerCase().replace(/\s+/g,"");
+  if(!k) return null;
+  return PROFILES[k]||Object.values(PROFILES).find(p=>k.includes(p.name.toLowerCase()))||null;
+}
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+function pick(a,n){return shuffle(a).slice(0,n)}
+const norm=s=>(s||"").toLowerCase().replace(/[^a-z0-9' ]/g,"").replace(/\s+/g," ").trim();
+
+const BANK={
+  zenv:{
+    a:[
+      {q:"By next term, she ___ (complete) three media projects.",a:"will have completed"},
+      {q:"The editor ___ (review) the article before publishing.",a:"had reviewed"},
+      {q:"They ___ (discuss) fake news now.",a:"are discussing"},
+      {q:"He ___ (not verify) the source yesterday.",a:"did not verify"},
+      {q:"Students ___ (learn) media literacy since January.",a:"have been learning"},
+      {q:"If she ___ (fact-check), she would avoid mistakes.",a:"fact-checked"},
+      {q:"The report ___ (write) by the class monitor.",a:"was written"},
+      {q:"By 8 pm, they ___ (upload) the video.",a:"had uploaded"},
+      {q:"I ___ (watch) the interview when you called.",a:"was watching"},
+      {q:"He usually ___ (cite) reliable sources.",a:"cites"},
+      {q:"The anchor ___ (speak) confidently every day.",a:"speaks"},
+      {q:"Tomorrow, we ___ (present) our findings.",a:"will present"}
+    ],
+    b:[
+      {q:"The article lacked ___ and evidence. (CREDIBLE)",a:"credibility"},
+      {q:"Her explanation was clear and ___. (LOGIC)",a:"logical"},
+      {q:"They reacted with great ___. (RESPONSIBLE)",a:"responsibility"},
+      {q:"The post became ___ within hours. (VIRUS)",a:"viral"},
+      {q:"The class had a meaningful ___. (DISCUSS)",a:"discussion"},
+      {q:"He responded ___. (PROFESSION)",a:"professionally"},
+      {q:"The journalist acted with ___. (HONEST)",a:"honesty"},
+      {q:"The report was highly ___. (INFORM)",a:"informative"},
+      {q:"We need better media ___. (AWARE)",a:"awareness"},
+      {q:"Her comment was quite ___. (THOUGHT)",a:"thoughtful"},
+      {q:"The speaker gave a ___ response. (PERSUADE)",a:"persuasive"},
+      {q:"The editor made a quick ___. (DECIDE)",a:"decision"}
+    ],
+    c:[
+      {q:"She don't trust that website.",a:"She doesn't trust that website."},
+      {q:"The news were shared quickly.",a:"The news was shared quickly."},
+      {q:"He should of checked the facts.",a:"He should have checked the facts."},
+      {q:"Many students is confused.",a:"Many students are confused."},
+      {q:"They was discussing fake news.",a:"They were discussing fake news."},
+      {q:"The editor explain clearly.",a:"The editor explains clearly."},
+      {q:"She has wrote a report.",a:"She has written a report."},
+      {q:"This informations are useful.",a:"This information is useful."},
+      {q:"I didn't knew the source.",a:"I didn't know the source."},
+      {q:"He is more smarter now.",a:"He is smarter now."},
+      {q:"They has completed the task.",a:"They have completed the task."},
+      {q:"The class have finished.",a:"The class has finished."}
+    ],
+    d:[
+      {q:"Transform: 'People share misinformation quickly.' Start with: Misinformation...",a:"Misinformation is shared quickly by people."},
+      {q:"Transform: 'Because she verified the source, the report was trusted.' Start with: The report...",a:"The report was trusted because she verified the source."},
+      {q:"Transform to passive: 'The team published the article yesterday.'",a:"The article was published by the team yesterday."},
+      {q:"Transform using 'although': 'The news looked real, it was fake.'",a:"Although the news looked real, it was fake."},
+      {q:"Transform using 'not only...but also': 'He checks facts. He checks images.'",a:"He not only checks facts but also checks images."},
+      {q:"Transform to reported speech: 'She said, “I trust this source.”'",a:"She said that she trusted that source."},
+      {q:"Transform to comparative: 'This source is reliable. That source is less reliable.'",a:"This source is more reliable than that source."},
+      {q:"Transform: 'If students think critically, they avoid fake news.' Start with: Students...",a:"Students avoid fake news if they think critically."},
+      {q:"Transform to passive: 'The teacher praised the article.'",a:"The article was praised by the teacher."},
+      {q:"Transform using 'so...that': 'The claim was shocking. Everyone shared it.'",a:"The claim was so shocking that everyone shared it."}
+    ],
+    e:[
+      {q:"Build sentence: students / must / verify / every source / before / sharing / online",a:"Students must verify every source before sharing online."},
+      {q:"Build sentence: the journalist / wrote / a balanced report / about / the issue",a:"The journalist wrote a balanced report about the issue."},
+      {q:"Build sentence: many readers / were misled / by / the false headline",a:"Many readers were misled by the false headline."},
+      {q:"Build sentence: our class / created / a podcast / on media literacy",a:"Our class created a podcast on media literacy."},
+      {q:"Build sentence: she / carefully / compared / two different sources",a:"She carefully compared two different sources."},
+      {q:"Build sentence: fake stories / spread / faster / than / real reports",a:"Fake stories spread faster than real reports."},
+      {q:"Build sentence: the editor / rejected / the article / due to / weak evidence",a:"The editor rejected the article due to weak evidence."},
+      {q:"Build sentence: pupils / should / question / sensational claims",a:"Pupils should question sensational claims."},
+      {q:"Build sentence: we / discussed / responsible posting / in class",a:"We discussed responsible posting in class."},
+      {q:"Build sentence: the campaign / raised / public awareness",a:"The campaign raised public awareness."}
+    ],
+    f:[
+      {q:"The report was highly ___ and easy to understand.",opts:["confusing","informative","silent","hidden"],ans:1},
+      {q:"Students should ___ sources before sharing.",opts:["ignore","delete","verify","guess"],ans:2},
+      {q:"The fake post went ___ overnight.",opts:["viral","quiet","slow","invisible"],ans:0},
+      {q:"The editor demanded stronger ___ for the claim.",opts:["evidence","emotion","rumor","noise"],ans:0},
+      {q:"Critical thinking helps people detect ___.",opts:["weather","fiction","misinformation","sunlight"],ans:2},
+      {q:"A ___ headline is designed to attract clicks.",opts:["balanced","sensational","boring","private"],ans:1},
+      {q:"The speaker gave a ___ argument.",opts:["persuasive","empty","broken","random"],ans:0},
+      {q:"Reliable articles include proper ___.",opts:["citations","jokes","stickers","ads"],ans:0},
+      {q:"Online users should act ___.",opts:["carelessly","responsibly","angrily","secretly"],ans:1},
+      {q:"The class held a ___ about media ethics.",opts:["discussion","vacation","silence","mistake"],ans:0},
+      {q:"The newsroom works under strict ___.",opts:["guidelines","guesses","rumors","memes"],ans:0},
+      {q:"She corrected the article with great ___.",opts:["accuracy","noise","panic","delay"],ans:0}
+    ],
+    g:["The article was published.","Students shared the post.","The reporter asked questions.","The interview ended.","The audience reacted.","The claim spread online.","The editor corrected errors.","The video gained attention.","The source was unclear.","The team checked facts.","The headline misled readers.","The class discussed ethics."],
+    h:["Social media influences opinions.","People should verify information.","The school launched a media campaign.","A rumor can cause panic.","Journalists have social responsibility.","Digital platforms spread news quickly.","Young users need media literacy.","False headlines attract attention.","Fact-checking protects the public.","Clear writing builds trust.","Online debates can become toxic.","Readers should evaluate bias."],
+    i:["Discuss how social media shapes communication and society. Include one benefit, one risk, and your view on responsible use.","Write about whether young people should trust online news. Explain your reasons with examples and suggest good verification habits."]
+  }
 };
+BANK.zenz = JSON.parse(JSON.stringify(BANK.zenv));
+BANK.zene = JSON.parse(JSON.stringify(BANK.zenv));
+// Lightly tune lower levels
+BANK.zenz.g = BANK.zenz.g.map(s=>s.replace("published","shared"));
+BANK.zene.g = ["The boy read news.","The class watched videos.","The teacher explained fake news.","The website showed a story.","The girl checked facts.","The students wrote a report.","The interview was short.","The post was popular.","The news sounded strange.","The team asked questions.","The message spread quickly.","The school gave advice."];
+BANK.zene.h = ["Fake news is harmful.","Children use social media daily.","We should check before sharing.","A clear message is important.","The school taught online safety.","Friends share links quickly.","Good writers use simple words.","The internet can teach us.","People believe headlines easily.","Smart readers ask questions.","Photos can be edited.","Truth matters online."];
 
-function getProfile(name) {
-  var key = name.trim().toLowerCase().replace(/\s+/g,"");
-  for (var k in PROFILES) {
-    if (key === k || key.indexOf(k) >= 0) return PROFILES[k];
-  }
-  return null;
-}
-
-// ── STATE ─────────────────────────────────────────────────────────────────────
-var studentName = "", startTime = null, currentProfile = null;
-var sectionScores = {a:0,b:0,c:0,d:0,e:0,f:0};
-var sectionChecked = {a:false,b:false,c:false,d:false,e:false,f:false};
-var mcqSel = {};
-
-// ── START TEST ────────────────────────────────────────────────────────────────
-function startTest() {
-  var val = document.getElementById("nameInput").value.trim();
-  if (val.length < 2) { document.getElementById("nameErr").style.display = "block"; return; }
-  beginTest(val);
-}
-
-function beginTest(name) {
-  studentName = name;
-  startTime = new Date();
-  currentProfile = getProfile(name);
-  document.getElementById("nameGate").style.display = "none";
-  document.getElementById("mainTest").style.display = "block";
-  document.getElementById("dispName").textContent = studentName;
-
-  // Show correct parts for this student
-  ["zenv","zenz","zene"].forEach(function(s) {
-    document.getElementById("parts-"+s).style.display = "none";
-  });
-  if (currentProfile) {
-    var sid = currentProfile.name.toLowerCase();
-    document.getElementById("parts-"+sid).style.display = "block";
-    document.getElementById("levelBadge").textContent = currentProfile.level + " · Media & Communication";
-    document.getElementById("levelBadge").style.color = currentProfile.colour;
-    document.getElementById("levelBadge").style.borderColor = currentProfile.colour;
-  }
-
-  // Wire input listeners
-  document.querySelectorAll("input.fill, textarea.ta").forEach(function(el) {
-    el.addEventListener("input", updateProgress);
-  });
-  var i1 = document.getElementById("i1");
-  if (i1) i1.addEventListener("input", function() {
-    var wc = document.getElementById("wc");
-    if (wc) wc.textContent = "Words: " + this.value.trim().split(/\s+/).filter(function(w){return w;}).length;
-    updateProgress();
-  });
-
-  // Restore saved answers
-  restoreLocal();
-  fetchAndRestore();
-}
-
-// ── TOGGLE ────────────────────────────────────────────────────────────────────
-function toggle(id) {
-  document.getElementById("body-"+id).classList.toggle("open");
-  document.getElementById("arr-"+id).classList.toggle("open");
-}
-
-// ── PROGRESS ──────────────────────────────────────────────────────────────────
-function updateProgress() {
-  var ans = 0;
-  "abcde".split("").forEach(function(p) {
-    for (var i=1; i<=10; i++) {
-      var el = document.getElementById(p+i);
-      if (el && el.value.trim()) ans++;
-    }
-  });
-  ans += Object.keys(mcqSel).length;
-  "gh".split("").forEach(function(p) {
-    for (var i=1; i<=10; i++) {
-      var el = document.getElementById(p+i);
-      if (el && el.value.trim()) ans++;
-    }
-  });
-  var i1 = document.getElementById("i1");
-  if (i1 && i1.value.trim()) ans++;
-  document.getElementById("dAnswered").textContent = ans;
-  var pct = Math.round((ans/70)*100);
-  document.getElementById("dPct").textContent = pct+"%";
-  document.getElementById("progFill").style.width = pct+"%";
-}
-
-function updateDash() {
-  var score = Object.values(sectionScores).reduce(function(a,b){return a+b;},0);
-  document.getElementById("dScore").textContent = score;
-  updateProgress();
-}
-
-// ── HELPERS ───────────────────────────────────────────────────────────────────
-function norm(s) { return (s||"").toLowerCase().replace(/[^a-z0-9 ',]/g,"").replace(/\s+/g," ").trim(); }
-function sc(pct) { return pct>=80?"#34d399":pct>=60?"#fbbf24":"#f87171"; }
-function setStatus(state, msg) {
-  var d = document.getElementById("asDot"), t = document.getElementById("asText");
-  if (d) d.className = "as-dot "+state;
-  if (t) t.textContent = msg;
-}
-function setLastSaved() {
-  var el = document.getElementById("lastSaved");
-  if (el) el.textContent = "Saved: "+new Date().toLocaleTimeString("en-MY",{hour:"2-digit",minute:"2-digit"});
-}
-
-// ── FEEDBACK ──────────────────────────────────────────────────────────────────
-function addFb(el) {
-  var id = el.id, parent = el.closest(".qb");
-  if (parent.querySelector("#fb-ok-"+id)) return;
-  var ok = document.createElement("div"); ok.className="fb-correct"; ok.id="fb-ok-"+id; ok.innerHTML="&#10003; Correct!";
-  var bad = document.createElement("div"); bad.className="fb-wrong"; bad.id="fb-bad-"+id;
-  bad.innerHTML = "<div class='fb-wrong-top'>&#10007; Not quite.</div><div class='fb-hint'><div class='lbl'>&#128161; Hint</div><div class='txt'>"+(el.dataset.hint||"")+"</div></div><div class='fb-rule'><div class='lbl'>&#128216; Rule</div><div class='txt'>"+(el.dataset.rule||"")+"</div></div>";
-  parent.appendChild(ok); parent.appendChild(bad);
-}
-
-function showFb(id, correct) {
-  var ok = document.getElementById("fb-ok-"+id), bad = document.getElementById("fb-bad-"+id);
-  if (ok) ok.style.display = correct ? "block" : "none";
-  if (bad) bad.style.display = correct ? "none" : "block";
-}
-
-// ── CHECK FUNCTIONS ───────────────────────────────────────────────────────────
-function checkFill(pfx, n) {
-  var score = 0;
-  for (var i=1; i<=n; i++) {
-    var el = document.getElementById(pfx+i);
-    if (!el) continue;
-    addFb(el);
-    var val = el.value.trim();
-    if (!val) { el.classList.remove("ok","bad"); showFb(pfx+i, false); document.getElementById("fb-ok-"+pfx+i).style.display="none"; document.getElementById("fb-bad-"+pfx+i).style.display="none"; continue; }
-    var correct = norm(val) === norm(el.dataset.ans);
-    el.classList.remove("ok","bad"); el.classList.add(correct?"ok":"bad");
-    showFb(pfx+i, correct);
-    if (correct) score++;
-  }
-  sectionScores[pfx] = score; sectionChecked[pfx] = true; updateDash();
-}
-
-function checkTA(pfx, n) {
-  var score = 0;
-  for (var i=1; i<=n; i++) {
-    var el = document.getElementById(pfx+i);
-    if (!el) continue;
-    addFb(el);
-    var val = el.value.trim();
-    if (!val) continue;
-    var correct = norm(val) === norm(el.dataset.ans);
-    el.classList.remove("ok","bad"); el.classList.add(correct?"ok":"bad");
-    showFb(pfx+i, correct);
-    if (correct) score++;
-  }
-  sectionScores[pfx] = score; sectionChecked[pfx] = true; updateDash();
-}
-
-function checkMCQ() {
-  var score = 0;
-  var sid = currentProfile ? currentProfile.name.toLowerCase() : "";
-  var ansArr = MCQ_ANSWERS[sid] || [];
-  for (var i=1; i<=10; i++) {
-    var qn = i, sel = mcqSel[qn];
-    var correctAns = ansArr[i-1];
-    if (correctAns === undefined) continue;
-    var okEl = document.getElementById("fb-ok-f"+qn), badEl = document.getElementById("fb-bad-f"+qn);
-    if (sel === undefined) { if(okEl) okEl.style.display="none"; if(badEl) badEl.style.display="none"; continue; }
-    var opts = document.querySelectorAll("#mcq-"+qn+" .mcq-opt");
-    opts.forEach(function(o,j) {
-      o.classList.remove("sel","right","wrong");
-      if (j === correctAns) o.classList.add("right");
-      else if (j === sel) o.classList.add("wrong");
-    });
-    var correct = sel === correctAns;
-    if (okEl) okEl.style.display = correct ? "block" : "none";
-    if (badEl) badEl.style.display = correct ? "none" : "block";
-    if (correct) score++;
-  }
-  sectionScores.f = score; sectionChecked.f = true; updateDash();
-}
-
-function selMCQ(qn, ji) {
-  if (document.querySelector("#mcq-"+qn+" .mcq-opt.right")) return;
-  document.querySelectorAll("#mcq-"+qn+" .mcq-opt").forEach(function(o) { o.classList.remove("sel"); });
-  var opt = document.getElementById("opt-f"+qn+"-"+ji);
-  if (opt) opt.classList.add("sel");
-  mcqSel[qn] = ji;
-  updateProgress();
-}
-
-// ── CHECK & SUBMIT ────────────────────────────────────────────────────────────
-async function checkAndSubmit(part, type) {
-  if (type === "fill") checkFill(part, 10);
-  else if (type === "ta") checkTA(part, 10);
-  else if (type === "mcq") checkMCQ();
-  await autoSave(part);
-  var allDone = ["a","b","c","d","e","f"].every(function(p) { return sectionChecked[p]; });
-  if (allDone) showFinalResult();
-}
-
-// ── COLLECT & SAVE ────────────────────────────────────────────────────────────
-function collectAnswers() {
-  var data = {};
-  "abcde".split("").forEach(function(p) {
-    for (var i=1; i<=10; i++) { var el=document.getElementById(p+i); data[p+i]=el?el.value.trim():""; }
-  });
-  for (var i=1; i<=10; i++) data["f"+i] = mcqSel[i] !== undefined ? mcqSel[i] : "";
-  "gh".split("").forEach(function(p) {
-    for (var i=1; i<=10; i++) { var el=document.getElementById(p+i); data[p+i]=el?el.value.trim():""; }
-  });
-  var i1=document.getElementById("i1"); data.i1 = i1?i1.value.trim():"";
-  return data;
-}
-
-function buildSubmission() {
-  var score = Object.values(sectionScores).reduce(function(a,b){return a+b;},0);
-  var pct = Math.round((score/60)*100);
-  var dur = startTime ? Math.round((new Date()-startTime)/60000)+" min" : "N/A";
+function generateSet(levelKey){
+  const b=BANK[levelKey]||BANK.zenv;
   return {
-    name: studentName,
-    submittedAt: new Date().toLocaleString("en-MY",{dateStyle:"medium",timeStyle:"short"}),
-    duration: dur, score: score, pct: pct,
-    sectionScores: Object.assign({},sectionScores),
-    answers: collectAnswers(),
-    testTheme: "Media & Communication",
-    studentLevel: currentProfile ? currentProfile.level : "Unknown",
-    studentGrade: currentProfile ? currentProfile.grade : "?"
+    a:pick(b.a,10), b:pick(b.b,10), c:pick(b.c,10), d:pick(b.d,10), e:pick(b.e,10), f:pick(b.f,10),
+    g:pick(b.g,10), h:pick(b.h,10), i:b.i[Math.floor(Math.random()*b.i.length)]
   };
 }
 
-function saveLocal(data) { try { localStorage.setItem(SKEY, JSON.stringify(data)); } catch(e) {} }
-function loadLocal() { try { var d=localStorage.getItem(SKEY); return d?JSON.parse(d):null; } catch(e) { return null; } }
-
-function restoreLocal() {
-  var saved = loadLocal();
-  if (!saved || !saved.name || saved.name.toLowerCase().replace(/\s+/g,"") !== studentName.toLowerCase().replace(/\s+/g,"")) return;
-  if (!saved.answers) return;
-  fillAnswers(saved.answers);
-}
-
-function fillAnswers(ans) {
-  if (!ans) return;
-  "abcde".split("").forEach(function(p) {
-    for (var i=1; i<=10; i++) { var el=document.getElementById(p+i); if(el&&ans[p+i]) el.value=ans[p+i]; }
-  });
-  for (var i=1; i<=10; i++) {
-    var v = ans["f"+i];
-    if (v !== "" && v !== undefined) {
-      document.querySelectorAll("#mcq-"+i+" .mcq-opt").forEach(function(o){o.classList.remove("sel");});
-      var opt = document.getElementById("opt-f"+i+"-"+v);
-      if (opt) { opt.classList.add("sel"); mcqSel[i] = parseInt(v); }
-    }
-  }
-  "gh".split("").forEach(function(p) {
-    for (var i=1; i<=10; i++) { var el=document.getElementById(p+i); if(el&&ans[p+i]) el.value=ans[p+i]; }
-  });
-  var i1=document.getElementById("i1"); if(i1&&ans.i1) i1.value=ans.i1;
+function startTest(){
+  const raw=document.getElementById('studentName').value.trim();
+  const p=profileFromName(raw);
+  if(!p){document.getElementById('gateErr').textContent='Use one of these names: ZenV, ZenZ, ZenE';return;}
+  studentName=raw; currentProfile=p; startTime=new Date();
+  questionSet=generateSet(p.key);
+  document.getElementById('gate').style.display='none';
+  document.getElementById('main').style.display='block';
+  document.getElementById('studentTag').textContent='Student: '+studentName;
+  document.getElementById('levelTag').textContent='Level: '+p.level;
+  renderAllSections();
+  restoreLocal();
+  fetchAndRestore();
   updateProgress();
 }
 
-async function pushToServer(data) {
-  for (var attempt=1; attempt<=3; attempt++) {
-    try {
-      var getRes = await fetch(API+"/b/"+BIN_ID+"/latest", {headers:{"X-Master-Key":MKEY,"X-Bin-Meta":"false"},cache:"no-store"});
-      if (!getRes.ok) throw new Error("GET "+getRes.status);
-      var existing = await getRes.json();
-      var subs = Array.isArray(existing.submissions) ? existing.submissions : [];
-      var idx = subs.findIndex(function(s) { return s.name===data.name && s.testTheme===data.testTheme; });
-      if (idx >= 0) subs[idx] = data; else subs.push(data);
-      var putRes = await fetch(API+"/b/"+BIN_ID, {method:"PUT",headers:{"Content-Type":"application/json","X-Master-Key":MKEY},body:JSON.stringify({submissions:subs})});
-      if (!putRes.ok) throw new Error("PUT "+putRes.status);
-      return true;
-    } catch(e) {
-      if (attempt < 3) await new Promise(function(r){setTimeout(r,1000*attempt);});
+function sectionHtml(part,title,builder){
+  return `<div class="sec card"><h2>Part ${part.toUpperCase()} — ${title}</h2>${builder()}<div style="margin-top:10px"><button onclick="submitPart('${part}')">Check & Submit Part ${part.toUpperCase()}</button> <span id="status-${part}" class="status"></span></div></div>`;
+}
+
+function renderAllSections(){
+  const el=document.getElementById('sections');
+  el.innerHTML =
+    sectionHtml('a','Verb Forms',()=>questionSet.a.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div>${x.q}</div><input id='a${i+1}'/></div>`).join(''))+
+    sectionHtml('b','Word Forms',()=>questionSet.b.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div>${x.q}</div><input id='b${i+1}'/></div>`).join(''))+
+    sectionHtml('c','Error Correction',()=>questionSet.c.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div><em>${x.q}</em></div><textarea id='c${i+1}'></textarea></div>`).join(''))+
+    sectionHtml('d','Sentence Transformation',()=>questionSet.d.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div>${x.q}</div><textarea id='d${i+1}'></textarea></div>`).join(''))+
+    sectionHtml('e','Sentence Building',()=>questionSet.e.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div>${x.q}</div><textarea id='e${i+1}'></textarea></div>`).join(''))+
+    sectionHtml('f','Vocabulary MCQ',()=>questionSet.f.map((x,i)=>`<div class='q' id='fq${i+1}'><div class='qnum'>Q${i+1}</div><div>${x.q}</div><div class='mcqOpts'>${x.opts.map((o,j)=>`<div class='opt' id='f${i+1}_${j}' onclick='pickMcq(${i+1},${j})'>${String.fromCharCode(65+j)}. ${o}</div>`).join('')}</div></div>`).join(''))+
+    sectionHtml('g','Sentence Expansion (smart check)',()=>questionSet.g.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div>${x}</div><textarea id='g${i+1}'></textarea><div id='gfb${i+1}' class='fb'></div></div>`).join(''))+
+    sectionHtml('h','Composition Sentence Practice (smart check)',()=>questionSet.h.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div>${x}</div><textarea id='h${i+1}'></textarea><div id='hfb${i+1}' class='fb'></div></div>`).join(''))+
+    sectionHtml('i','Paragraph Writing (target 200–250 words)',()=>`<div class='q'><div>${questionSet.i}</div><textarea id='i1' style='min-height:180px'></textarea><div class='fb' id='iWord'>Words: 0 / Target 200–250</div><div id='ifb1' class='fb'></div></div>`);
+
+  document.querySelectorAll('input,textarea').forEach(n=>n.addEventListener('input',()=>{if(n.id==='i1')updateParagraphCount();updateProgress();}));
+}
+
+function pickMcq(q,idx){
+  answers['f'+q]=idx;
+  for(let j=0;j<4;j++)document.getElementById(`f${q}_${j}`).classList.remove('sel');
+  document.getElementById(`f${q}_${idx}`).classList.add('sel');
+  updateProgress();
+}
+
+function smartScoreSentence(text,level='sec'){
+  const t=(text||'').trim();
+  if(!t) return {score:0,fb:'No answer provided.'};
+  const words=t.split(/\s+/).filter(Boolean);
+  const wc=words.length;
+  const unique=new Set(words.map(w=>w.toLowerCase().replace(/[^a-z']/g,''))).size;
+  let score=0,notes=[];
+  const min=level==='p6'?8:10;
+  if(wc>=min){score+=3;notes.push(`✔ length good (${wc} words)`);} else notes.push(`• add detail (now ${wc} words)`);
+  if(/[A-Z]/.test(t[0]||'') && /[.!?]$/.test(t)){score+=2;notes.push('✔ proper sentence form');} else notes.push('• start with capital and end punctuation');
+  if(/\b(because|although|while|which|that|when|since|however|therefore|moreover|despite)\b/i.test(t)){score+=3;notes.push('✔ good connector / complex structure');} else notes.push('• use a connector (because/although/however...)');
+  const ratio=wc?unique/wc:0; if(ratio>=0.55){score+=2;notes.push('✔ varied vocabulary');} else notes.push('• improve word variety');
+  return {score:Math.min(10,score),fb:notes.join('\n')};
+}
+
+function smartScoreParagraph(text){
+  const t=(text||'').trim();
+  if(!t) return {score:0,fb:'No paragraph provided.'};
+  const words=t.split(/\s+/).filter(Boolean);
+  const wc=words.length;
+  const sentences=t.split(/[.!?]+/).map(s=>s.trim()).filter(Boolean).length;
+  const unique=new Set(words.map(w=>w.toLowerCase().replace(/[^a-z']/g,''))).size;
+  let score=0,notes=[];
+  if(wc>=200 && wc<=250){score+=4;notes.push(`✔ word count in target (${wc})`);} else notes.push(`• target 200–250 words (now ${wc})`);
+  if(sentences>=8){score+=2;notes.push(`✔ sentence count good (${sentences})`);} else notes.push(`• add more complete sentences (now ${sentences})`);
+  if(/\b(firstly|however|therefore|moreover|for example|in conclusion|on the other hand|because)\b/i.test(t)){score+=2;notes.push('✔ uses linking/organisation words');} else notes.push('• include linking words for flow');
+  if((unique/(wc||1))>=0.45){score+=2;notes.push('✔ vocabulary variety is solid');} else notes.push('• vary vocabulary more');
+  return {score:Math.min(10,score),fb:notes.join('\n')};
+}
+
+function markInput(id,ok){const el=document.getElementById(id);if(!el)return;el.classList.remove('good','bad');el.classList.add(ok?'good':'bad');}
+
+function submitPart(part){
+  if(part==='a'||part==='b'||part==='c'||part==='d'||part==='e'){
+    let score=0;
+    questionSet[part].forEach((q,i)=>{const id=part+(i+1),v=(document.getElementById(id).value||'').trim();answers[id]=v;const ok=norm(v)===norm(q.a);markInput(id,ok);if(ok)score++;});
+    sectionScores[part]=score;
+  }
+  if(part==='f'){
+    let score=0;
+    questionSet.f.forEach((q,i)=>{const k='f'+(i+1);const sel=answers[k];if(sel===q.ans)score++;for(let j=0;j<4;j++){const e=document.getElementById(`f${i+1}_${j}`);e.classList.remove('right','wrong');if(sel!==undefined){if(j===q.ans)e.classList.add('right');else if(j===sel)e.classList.add('wrong');}}});
+    sectionScores.f=score;
+  }
+  if(part==='g'||part==='h'){
+    let total=0;
+    const lvl=currentProfile.grade==='P6'?'p6':'sec';
+    for(let i=1;i<=10;i++){
+      const id=part+i,v=(document.getElementById(id).value||'').trim();answers[id]=v;
+      const res=smartScoreSentence(v,lvl); total+=res.score;
+      document.getElementById(part+'fb'+i).textContent=`Score: ${res.score}/10\n${res.fb}`;
+      markInput(id,res.score>=6);
     }
+    sectionScores[part]=Math.round(total/10); // convert to /10 section score
+  }
+  if(part==='i'){
+    const v=(document.getElementById('i1').value||'').trim();answers.i1=v;
+    const res=smartScoreParagraph(v);
+    sectionScores.i=res.score;
+    document.getElementById('ifb1').textContent=`Score: ${res.score}/10\n${res.fb}`;
+    markInput('i1',res.score>=6);
+  }
+  sectionChecked[part]=true;
+  updateScoreUI();
+  autoSave(part);
+}
+
+function updateScoreUI(){
+  const af=['a','b','c','d','e','f'].reduce((s,p)=>s+(sectionScores[p]||0),0);
+  document.getElementById('totalScore').textContent=af;
+}
+
+function updateParagraphCount(){
+  const v=(document.getElementById('i1').value||'').trim();
+  const wc=v?v.split(/\s+/).filter(Boolean).length:0;
+  document.getElementById('iWord').textContent=`Words: ${wc} / Target 200–250`;
+}
+
+function updateProgress(){
+  let count=0;
+  ['a','b','c','d','e','g','h'].forEach(p=>{for(let i=1;i<=10;i++){const v=(document.getElementById(p+i)?.value||'').trim();if(v)count++;}});
+  for(let i=1;i<=10;i++) if(answers['f'+i]!==undefined) count++;
+  if((document.getElementById('i1')?.value||'').trim()) count++;
+  document.getElementById('answeredTag').textContent=`Answered: ${count}/71`;
+}
+
+function buildSubmission(){
+  const afScore=['a','b','c','d','e','f'].reduce((s,p)=>s+(sectionScores[p]||0),0);
+  const pct=Math.round((afScore/60)*100);
+  const dur=startTime?Math.max(1,Math.round((Date.now()-startTime.getTime())/60000))+" min":"N/A";
+  const allAnswers={};
+  ['a','b','c','d','e','g','h'].forEach(p=>{for(let i=1;i<=10;i++){allAnswers[p+i]=(document.getElementById(p+i)?.value||'').trim();}});
+  for(let i=1;i<=10;i++) allAnswers['f'+i]=answers['f'+i]!==undefined?answers['f'+i]:"";
+  allAnswers.i1=(document.getElementById('i1')?.value||'').trim();
+
+  return {
+    name:studentName,
+    submittedAt:new Date().toLocaleString('en-MY',{dateStyle:'medium',timeStyle:'short'}),
+    duration:dur,
+    score:afScore,
+    pct,
+    sectionScores:{a:sectionScores.a,b:sectionScores.b,c:sectionScores.c,d:sectionScores.d,e:sectionScores.e,f:sectionScores.f,g:sectionScores.g,h:sectionScores.h,i:sectionScores.i},
+    answers:allAnswers,
+    generatedQuestions:questionSet,
+    testTheme:'Media & Communication',
+    studentLevel:currentProfile.level,
+    studentGrade:currentProfile.grade
+  };
+}
+
+function saveLocal(data){try{localStorage.setItem(SKEY+"_"+currentProfile.key,JSON.stringify(data));}catch(e){}}
+function loadLocal(){try{const d=localStorage.getItem(SKEY+"_"+currentProfile.key);return d?JSON.parse(d):null;}catch(e){return null;}}
+
+function restoreLocal(){
+  const s=loadLocal(); if(!s||!s.answers) return;
+  fillAnswers(s.answers); if(s.sectionScores) sectionScores={...sectionScores,...s.sectionScores};
+  updateScoreUI();
+}
+
+function fillAnswers(a){
+  if(!a) return;
+  ['a','b','c','d','e','g','h'].forEach(p=>{for(let i=1;i<=10;i++){if(a[p+i]) document.getElementById(p+i).value=a[p+i];}});
+  for(let i=1;i<=10;i++){const v=a['f'+i];if(v!==""&&v!==undefined){answers['f'+i]=Number(v);pickMcq(i,Number(v));}}
+  if(a.i1) document.getElementById('i1').value=a.i1;
+  updateParagraphCount();updateProgress();
+}
+
+async function pushToServer(data){
+  for(let attempt=1;attempt<=3;attempt++){
+    try{
+      const getRes=await fetch(`${API}/b/${BIN_ID}/latest`,{headers:{'X-Master-Key':MKEY,'X-Bin-Meta':'false'},cache:'no-store'});
+      if(!getRes.ok) throw new Error('GET '+getRes.status);
+      const existing=await getRes.json();
+      const subs=Array.isArray(existing.submissions)?existing.submissions:[];
+      const idx=subs.findIndex(s=>s.name===data.name&&s.studentGrade===data.studentGrade&&s.testTheme===data.testTheme);
+      if(idx>=0) subs[idx]=data; else subs.push(data);
+      const putRes=await fetch(`${API}/b/${BIN_ID}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':MKEY},body:JSON.stringify({submissions:subs})});
+      if(!putRes.ok) throw new Error('PUT '+putRes.status);
+      return true;
+    }catch(e){if(attempt<3) await new Promise(r=>setTimeout(r,900*attempt));}
   }
   return false;
 }
 
-async function autoSave(part) {
-  setStatus("saving","Saving Part "+part.toUpperCase()+"...");
-  var data = buildSubmission();
+async function autoSave(part){
+  document.getElementById('status-'+part).textContent='Saving...';
+  const data=buildSubmission();
   saveLocal(data);
-  var ok = await pushToServer(data);
-  if (ok) { setStatus("saved","Part "+part.toUpperCase()+" saved ✓"); setLastSaved(); }
-  else { setStatus("error","Saved locally — retry if needed"); }
+  const ok=await pushToServer(data);
+  document.getElementById('status-'+part).textContent=ok?'Saved ✓':'Saved locally (server retry later)';
+  document.getElementById('savedTag').textContent=ok?`Last saved: Part ${part.toUpperCase()} ✓`:'Saved locally only';
 }
 
-async function fetchAndRestore() {
-  if (!studentName) return;
-  try {
-    var res = await fetch(API+"/b/"+BIN_ID+"/latest",{headers:{"X-Master-Key":MKEY,"X-Bin-Meta":"false"},cache:"no-store"});
-    if (!res.ok) return;
-    var data = await res.json();
-    var subs = Array.isArray(data.submissions) ? data.submissions : [];
-    var mine = null;
-    subs.forEach(function(s) {
-      if ((s.name||"").toLowerCase().replace(/\s+/g,"") === studentName.toLowerCase().replace(/\s+/g,"") && s.testTheme==="Media & Communication") mine = s;
-    });
-    if (mine && mine.answers) {
-      saveLocal(Object.assign({},mine,{name:studentName}));
+async function fetchAndRestore(){
+  try{
+    const res=await fetch(`${API}/b/${BIN_ID}/latest`,{headers:{'X-Master-Key':MKEY,'X-Bin-Meta':'false'},cache:'no-store'});
+    if(!res.ok) return;
+    const data=await res.json();
+    const subs=Array.isArray(data.submissions)?data.submissions:[];
+    const mine=subs.find(s=>(s.name||'').toLowerCase().replace(/\s+/g,'')===studentName.toLowerCase().replace(/\s+/g,'')&&(s.studentGrade||'')===currentProfile.grade);
+    if(mine&&mine.answers){
+      saveLocal(mine);
       fillAnswers(mine.answers);
+      if(mine.sectionScores){sectionScores={...sectionScores,...mine.sectionScores};updateScoreUI();}
     }
-  } catch(e) {}
+  }catch(e){}
 }
 
-// ── FINAL RESULT ──────────────────────────────────────────────────────────────
-function showFinalResult() {
-  var score = Object.values(sectionScores).reduce(function(a,b){return a+b;},0);
-  var pct = Math.round((score/60)*100);
-  var col = sc(pct);
-  document.getElementById("resScore").textContent = score+"/60";
-  document.getElementById("resScore").style.color = col;
-  document.getElementById("resSaved").style.cssText = "background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.25);color:#34d399";
-  document.getElementById("resSaved").textContent = "✓ All parts saved! Your teacher can see your results.";
-  var msg = pct>=85?"Excellent work!":pct>=70?"Well done!":pct>=55?"Good effort!":"Keep going!";
-  document.getElementById("resMsg").textContent = msg;
-  document.getElementById("resGrid").innerHTML = ["a","b","c","d","e","f"].map(function(p) {
-    return "<div class='res-item'><div class='v' style='color:"+sc((sectionScores[p]||0)*10)+"'>"+(sectionScores[p]||0)+"/10</div><div class='l'>Part "+p.toUpperCase()+"</div></div>";
-  }).join("");
-  document.getElementById("resultModal").classList.add("open");
-}
-
-// ── INIT ──────────────────────────────────────────────────────────────────────
-window.onload = function() {
-  // Profile preview as user types name
-  var inp = document.getElementById("nameInput");
-  if (inp) {
-    inp.addEventListener("input", function() {
-      var p = getProfile(this.value.trim());
-      var preview = document.getElementById("profilePreview");
-      if (p && this.value.trim().length >= 3) {
-        preview.style.display = "block";
-        preview.style.borderColor = p.colour;
-        preview.style.color = p.colour;
-        preview.innerHTML = "&#128075; Welcome, "+p.name+" — "+p.level;
-      } else {
-        preview.style.display = "none";
-      }
-    });
-    inp.addEventListener("keydown", function(e) { if(e.key==="Enter") startTest(); });
-  }
-
-  // Auto-start from URL ?name= param
-  var urlName = new URLSearchParams(location.search).get("name");
-  if (urlName) beginTest(urlName);
+window.onload=()=>{
+  const qName=new URLSearchParams(location.search).get('name');
+  if(qName){document.getElementById('studentName').value=qName;startTest();}
 };
 </script>
 </body>
