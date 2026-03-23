@@ -854,9 +854,18 @@ function selMCQ(qn,ji){
 
 function renderDynamicParts(){
   const container = document.getElementById("dynamicParts");
-  if(!container) return;
+  if(!container){ alert("ERROR: dynamicParts div not found"); return; }
   const p = currentProfile;
-  if(!p){ container.innerHTML = "<p style='color:var(--err);font-family:var(--mono);padding:20px'>Unknown student name. Please ask your teacher.</p>"; return; }
+  if(!p){
+    container.innerHTML = "<div style='color:#f87171;font-family:monospace;padding:20px;font-size:14px'>"
+      + "<b>DEBUG: currentProfile is null</b><br>"
+      + "studentName = " + studentName + "<br>"
+      + "getProfile result = " + JSON.stringify(getProfile(studentName)) + "<br>"
+      + "NAME_MAP keys = " + JSON.stringify(Object.keys(NAME_MAP))
+      + "</div>";
+    return;
+  }
+  container.innerHTML = "<div style='color:#34d399;font-family:monospace;padding:10px'>Profile loaded: " + p.level + " — rendering parts...</div>";
   
   let html = "";
   
