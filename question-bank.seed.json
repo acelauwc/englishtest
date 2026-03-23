@@ -1,0 +1,1175 @@
+{
+  "version": 1,
+  "questionBank": {
+    "zenv": {
+      "a": [
+        {
+          "q": "By next term, she ___ (complete) three media projects.",
+          "a": "will have completed"
+        },
+        {
+          "q": "The editor ___ (review) the article before publishing.",
+          "a": "had reviewed"
+        },
+        {
+          "q": "They ___ (discuss) fake news now.",
+          "a": "are discussing"
+        },
+        {
+          "q": "He ___ (not verify) the source yesterday.",
+          "a": "did not verify"
+        },
+        {
+          "q": "Students ___ (learn) media literacy since January.",
+          "a": "have been learning"
+        },
+        {
+          "q": "If she ___ (fact-check), she would avoid mistakes.",
+          "a": "fact-checked"
+        },
+        {
+          "q": "The report ___ (write) by the class monitor.",
+          "a": "was written"
+        },
+        {
+          "q": "By 8 pm, they ___ (upload) the video.",
+          "a": "had uploaded"
+        },
+        {
+          "q": "I ___ (watch) the interview when you called.",
+          "a": "was watching"
+        },
+        {
+          "q": "He usually ___ (cite) reliable sources.",
+          "a": "cites"
+        },
+        {
+          "q": "The anchor ___ (speak) confidently every day.",
+          "a": "speaks"
+        },
+        {
+          "q": "Tomorrow, we ___ (present) our findings.",
+          "a": "will present"
+        }
+      ],
+      "b": [
+        {
+          "q": "The article lacked ___ and evidence. (CREDIBLE)",
+          "a": "credibility"
+        },
+        {
+          "q": "Her explanation was clear and ___. (LOGIC)",
+          "a": "logical"
+        },
+        {
+          "q": "They reacted with great ___. (RESPONSIBLE)",
+          "a": "responsibility"
+        },
+        {
+          "q": "The post became ___ within hours. (VIRUS)",
+          "a": "viral"
+        },
+        {
+          "q": "The class had a meaningful ___. (DISCUSS)",
+          "a": "discussion"
+        },
+        {
+          "q": "He responded ___. (PROFESSION)",
+          "a": "professionally"
+        },
+        {
+          "q": "The journalist acted with ___. (HONEST)",
+          "a": "honesty"
+        },
+        {
+          "q": "The report was highly ___. (INFORM)",
+          "a": "informative"
+        },
+        {
+          "q": "We need better media ___. (AWARE)",
+          "a": "awareness"
+        },
+        {
+          "q": "Her comment was quite ___. (THOUGHT)",
+          "a": "thoughtful"
+        },
+        {
+          "q": "The speaker gave a ___ response. (PERSUADE)",
+          "a": "persuasive"
+        },
+        {
+          "q": "The editor made a quick ___. (DECIDE)",
+          "a": "decision"
+        }
+      ],
+      "c": [
+        {
+          "q": "She don't trust that website.",
+          "a": "She doesn't trust that website."
+        },
+        {
+          "q": "The news were shared quickly.",
+          "a": "The news was shared quickly."
+        },
+        {
+          "q": "He should of checked the facts.",
+          "a": "He should have checked the facts."
+        },
+        {
+          "q": "Many students is confused.",
+          "a": "Many students are confused."
+        },
+        {
+          "q": "They was discussing fake news.",
+          "a": "They were discussing fake news."
+        },
+        {
+          "q": "The editor explain clearly.",
+          "a": "The editor explains clearly."
+        },
+        {
+          "q": "She has wrote a report.",
+          "a": "She has written a report."
+        },
+        {
+          "q": "This informations are useful.",
+          "a": "This information is useful."
+        },
+        {
+          "q": "I didn't knew the source.",
+          "a": "I didn't know the source."
+        },
+        {
+          "q": "He is more smarter now.",
+          "a": "He is smarter now."
+        },
+        {
+          "q": "They has completed the task.",
+          "a": "They have completed the task."
+        },
+        {
+          "q": "The class have finished.",
+          "a": "The class has finished."
+        }
+      ],
+      "d": [
+        {
+          "q": "Transform: 'People share misinformation quickly.' Start with: Misinformation...",
+          "a": "Misinformation is shared quickly by people."
+        },
+        {
+          "q": "Transform: 'Because she verified the source, the report was trusted.' Start with: The report...",
+          "a": "The report was trusted because she verified the source."
+        },
+        {
+          "q": "Transform to passive: 'The team published the article yesterday.'",
+          "a": "The article was published by the team yesterday."
+        },
+        {
+          "q": "Transform using 'although': 'The news looked real, it was fake.'",
+          "a": "Although the news looked real, it was fake."
+        },
+        {
+          "q": "Transform using 'not only...but also': 'He checks facts. He checks images.'",
+          "a": "He not only checks facts but also checks images."
+        },
+        {
+          "q": "Transform to reported speech: 'She said, “I trust this source.”'",
+          "a": "She said that she trusted that source."
+        },
+        {
+          "q": "Transform to comparative: 'This source is reliable. That source is less reliable.'",
+          "a": "This source is more reliable than that source."
+        },
+        {
+          "q": "Transform: 'If students think critically, they avoid fake news.' Start with: Students...",
+          "a": "Students avoid fake news if they think critically."
+        },
+        {
+          "q": "Transform to passive: 'The teacher praised the article.'",
+          "a": "The article was praised by the teacher."
+        },
+        {
+          "q": "Transform using 'so...that': 'The claim was shocking. Everyone shared it.'",
+          "a": "The claim was so shocking that everyone shared it."
+        }
+      ],
+      "e": [
+        {
+          "q": "Build sentence: students / must / verify / every source / before / sharing / online",
+          "a": "Students must verify every source before sharing online."
+        },
+        {
+          "q": "Build sentence: the journalist / wrote / a balanced report / about / the issue",
+          "a": "The journalist wrote a balanced report about the issue."
+        },
+        {
+          "q": "Build sentence: many readers / were misled / by / the false headline",
+          "a": "Many readers were misled by the false headline."
+        },
+        {
+          "q": "Build sentence: our class / created / a podcast / on media literacy",
+          "a": "Our class created a podcast on media literacy."
+        },
+        {
+          "q": "Build sentence: she / carefully / compared / two different sources",
+          "a": "She carefully compared two different sources."
+        },
+        {
+          "q": "Build sentence: fake stories / spread / faster / than / real reports",
+          "a": "Fake stories spread faster than real reports."
+        },
+        {
+          "q": "Build sentence: the editor / rejected / the article / due to / weak evidence",
+          "a": "The editor rejected the article due to weak evidence."
+        },
+        {
+          "q": "Build sentence: pupils / should / question / sensational claims",
+          "a": "Pupils should question sensational claims."
+        },
+        {
+          "q": "Build sentence: we / discussed / responsible posting / in class",
+          "a": "We discussed responsible posting in class."
+        },
+        {
+          "q": "Build sentence: the campaign / raised / public awareness",
+          "a": "The campaign raised public awareness."
+        }
+      ],
+      "f": [
+        {
+          "q": "The report was highly ___ and easy to understand.",
+          "opts": [
+            "confusing",
+            "informative",
+            "silent",
+            "hidden"
+          ],
+          "ans": 1
+        },
+        {
+          "q": "Students should ___ sources before sharing.",
+          "opts": [
+            "ignore",
+            "delete",
+            "verify",
+            "guess"
+          ],
+          "ans": 2
+        },
+        {
+          "q": "The fake post went ___ overnight.",
+          "opts": [
+            "viral",
+            "quiet",
+            "slow",
+            "invisible"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "The editor demanded stronger ___ for the claim.",
+          "opts": [
+            "evidence",
+            "emotion",
+            "rumor",
+            "noise"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "Critical thinking helps people detect ___.",
+          "opts": [
+            "weather",
+            "fiction",
+            "misinformation",
+            "sunlight"
+          ],
+          "ans": 2
+        },
+        {
+          "q": "A ___ headline is designed to attract clicks.",
+          "opts": [
+            "balanced",
+            "sensational",
+            "boring",
+            "private"
+          ],
+          "ans": 1
+        },
+        {
+          "q": "The speaker gave a ___ argument.",
+          "opts": [
+            "persuasive",
+            "empty",
+            "broken",
+            "random"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "Reliable articles include proper ___.",
+          "opts": [
+            "citations",
+            "jokes",
+            "stickers",
+            "ads"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "Online users should act ___.",
+          "opts": [
+            "carelessly",
+            "responsibly",
+            "angrily",
+            "secretly"
+          ],
+          "ans": 1
+        },
+        {
+          "q": "The class held a ___ about media ethics.",
+          "opts": [
+            "discussion",
+            "vacation",
+            "silence",
+            "mistake"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "The newsroom works under strict ___.",
+          "opts": [
+            "guidelines",
+            "guesses",
+            "rumors",
+            "memes"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "She corrected the article with great ___.",
+          "opts": [
+            "accuracy",
+            "noise",
+            "panic",
+            "delay"
+          ],
+          "ans": 0
+        }
+      ],
+      "g": [
+        "The article was published.",
+        "Students shared the post.",
+        "The reporter asked questions.",
+        "The interview ended.",
+        "The audience reacted.",
+        "The claim spread online.",
+        "The editor corrected errors.",
+        "The video gained attention.",
+        "The source was unclear.",
+        "The team checked facts.",
+        "The headline misled readers.",
+        "The class discussed ethics."
+      ],
+      "h": [
+        "Social media influences opinions.",
+        "People should verify information.",
+        "The school launched a media campaign.",
+        "A rumor can cause panic.",
+        "Journalists have social responsibility.",
+        "Digital platforms spread news quickly.",
+        "Young users need media literacy.",
+        "False headlines attract attention.",
+        "Fact-checking protects the public.",
+        "Clear writing builds trust.",
+        "Online debates can become toxic.",
+        "Readers should evaluate bias."
+      ],
+      "i": [
+        "Discuss how social media shapes communication and society. Include one benefit, one risk, and your view on responsible use.",
+        "Write about whether young people should trust online news. Explain your reasons with examples and suggest good verification habits."
+      ]
+    },
+    "zenz": {
+      "a": [
+        {
+          "q": "By next term, she ___ (complete) three media projects.",
+          "a": "will have completed"
+        },
+        {
+          "q": "The editor ___ (review) the article before publishing.",
+          "a": "had reviewed"
+        },
+        {
+          "q": "They ___ (discuss) fake news now.",
+          "a": "are discussing"
+        },
+        {
+          "q": "He ___ (not verify) the source yesterday.",
+          "a": "did not verify"
+        },
+        {
+          "q": "Students ___ (learn) media literacy since January.",
+          "a": "have been learning"
+        },
+        {
+          "q": "If she ___ (fact-check), she would avoid mistakes.",
+          "a": "fact-checked"
+        },
+        {
+          "q": "The report ___ (write) by the class monitor.",
+          "a": "was written"
+        },
+        {
+          "q": "By 8 pm, they ___ (upload) the video.",
+          "a": "had uploaded"
+        },
+        {
+          "q": "I ___ (watch) the interview when you called.",
+          "a": "was watching"
+        },
+        {
+          "q": "He usually ___ (cite) reliable sources.",
+          "a": "cites"
+        },
+        {
+          "q": "The anchor ___ (speak) confidently every day.",
+          "a": "speaks"
+        },
+        {
+          "q": "Tomorrow, we ___ (present) our findings.",
+          "a": "will present"
+        }
+      ],
+      "b": [
+        {
+          "q": "The article lacked ___ and evidence. (CREDIBLE)",
+          "a": "credibility"
+        },
+        {
+          "q": "Her explanation was clear and ___. (LOGIC)",
+          "a": "logical"
+        },
+        {
+          "q": "They reacted with great ___. (RESPONSIBLE)",
+          "a": "responsibility"
+        },
+        {
+          "q": "The post became ___ within hours. (VIRUS)",
+          "a": "viral"
+        },
+        {
+          "q": "The class had a meaningful ___. (DISCUSS)",
+          "a": "discussion"
+        },
+        {
+          "q": "He responded ___. (PROFESSION)",
+          "a": "professionally"
+        },
+        {
+          "q": "The journalist acted with ___. (HONEST)",
+          "a": "honesty"
+        },
+        {
+          "q": "The report was highly ___. (INFORM)",
+          "a": "informative"
+        },
+        {
+          "q": "We need better media ___. (AWARE)",
+          "a": "awareness"
+        },
+        {
+          "q": "Her comment was quite ___. (THOUGHT)",
+          "a": "thoughtful"
+        },
+        {
+          "q": "The speaker gave a ___ response. (PERSUADE)",
+          "a": "persuasive"
+        },
+        {
+          "q": "The editor made a quick ___. (DECIDE)",
+          "a": "decision"
+        }
+      ],
+      "c": [
+        {
+          "q": "She don't trust that website.",
+          "a": "She doesn't trust that website."
+        },
+        {
+          "q": "The news were shared quickly.",
+          "a": "The news was shared quickly."
+        },
+        {
+          "q": "He should of checked the facts.",
+          "a": "He should have checked the facts."
+        },
+        {
+          "q": "Many students is confused.",
+          "a": "Many students are confused."
+        },
+        {
+          "q": "They was discussing fake news.",
+          "a": "They were discussing fake news."
+        },
+        {
+          "q": "The editor explain clearly.",
+          "a": "The editor explains clearly."
+        },
+        {
+          "q": "She has wrote a report.",
+          "a": "She has written a report."
+        },
+        {
+          "q": "This informations are useful.",
+          "a": "This information is useful."
+        },
+        {
+          "q": "I didn't knew the source.",
+          "a": "I didn't know the source."
+        },
+        {
+          "q": "He is more smarter now.",
+          "a": "He is smarter now."
+        },
+        {
+          "q": "They has completed the task.",
+          "a": "They have completed the task."
+        },
+        {
+          "q": "The class have finished.",
+          "a": "The class has finished."
+        }
+      ],
+      "d": [
+        {
+          "q": "Transform: 'People share misinformation quickly.' Start with: Misinformation...",
+          "a": "Misinformation is shared quickly by people."
+        },
+        {
+          "q": "Transform: 'Because she verified the source, the report was trusted.' Start with: The report...",
+          "a": "The report was trusted because she verified the source."
+        },
+        {
+          "q": "Transform to passive: 'The team published the article yesterday.'",
+          "a": "The article was published by the team yesterday."
+        },
+        {
+          "q": "Transform using 'although': 'The news looked real, it was fake.'",
+          "a": "Although the news looked real, it was fake."
+        },
+        {
+          "q": "Transform using 'not only...but also': 'He checks facts. He checks images.'",
+          "a": "He not only checks facts but also checks images."
+        },
+        {
+          "q": "Transform to reported speech: 'She said, “I trust this source.”'",
+          "a": "She said that she trusted that source."
+        },
+        {
+          "q": "Transform to comparative: 'This source is reliable. That source is less reliable.'",
+          "a": "This source is more reliable than that source."
+        },
+        {
+          "q": "Transform: 'If students think critically, they avoid fake news.' Start with: Students...",
+          "a": "Students avoid fake news if they think critically."
+        },
+        {
+          "q": "Transform to passive: 'The teacher praised the article.'",
+          "a": "The article was praised by the teacher."
+        },
+        {
+          "q": "Transform using 'so...that': 'The claim was shocking. Everyone shared it.'",
+          "a": "The claim was so shocking that everyone shared it."
+        }
+      ],
+      "e": [
+        {
+          "q": "Build sentence: students / must / verify / every source / before / sharing / online",
+          "a": "Students must verify every source before sharing online."
+        },
+        {
+          "q": "Build sentence: the journalist / wrote / a balanced report / about / the issue",
+          "a": "The journalist wrote a balanced report about the issue."
+        },
+        {
+          "q": "Build sentence: many readers / were misled / by / the false headline",
+          "a": "Many readers were misled by the false headline."
+        },
+        {
+          "q": "Build sentence: our class / created / a podcast / on media literacy",
+          "a": "Our class created a podcast on media literacy."
+        },
+        {
+          "q": "Build sentence: she / carefully / compared / two different sources",
+          "a": "She carefully compared two different sources."
+        },
+        {
+          "q": "Build sentence: fake stories / spread / faster / than / real reports",
+          "a": "Fake stories spread faster than real reports."
+        },
+        {
+          "q": "Build sentence: the editor / rejected / the article / due to / weak evidence",
+          "a": "The editor rejected the article due to weak evidence."
+        },
+        {
+          "q": "Build sentence: pupils / should / question / sensational claims",
+          "a": "Pupils should question sensational claims."
+        },
+        {
+          "q": "Build sentence: we / discussed / responsible posting / in class",
+          "a": "We discussed responsible posting in class."
+        },
+        {
+          "q": "Build sentence: the campaign / raised / public awareness",
+          "a": "The campaign raised public awareness."
+        }
+      ],
+      "f": [
+        {
+          "q": "The report was highly ___ and easy to understand.",
+          "opts": [
+            "confusing",
+            "informative",
+            "silent",
+            "hidden"
+          ],
+          "ans": 1
+        },
+        {
+          "q": "Students should ___ sources before sharing.",
+          "opts": [
+            "ignore",
+            "delete",
+            "verify",
+            "guess"
+          ],
+          "ans": 2
+        },
+        {
+          "q": "The fake post went ___ overnight.",
+          "opts": [
+            "viral",
+            "quiet",
+            "slow",
+            "invisible"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "The editor demanded stronger ___ for the claim.",
+          "opts": [
+            "evidence",
+            "emotion",
+            "rumor",
+            "noise"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "Critical thinking helps people detect ___.",
+          "opts": [
+            "weather",
+            "fiction",
+            "misinformation",
+            "sunlight"
+          ],
+          "ans": 2
+        },
+        {
+          "q": "A ___ headline is designed to attract clicks.",
+          "opts": [
+            "balanced",
+            "sensational",
+            "boring",
+            "private"
+          ],
+          "ans": 1
+        },
+        {
+          "q": "The speaker gave a ___ argument.",
+          "opts": [
+            "persuasive",
+            "empty",
+            "broken",
+            "random"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "Reliable articles include proper ___.",
+          "opts": [
+            "citations",
+            "jokes",
+            "stickers",
+            "ads"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "Online users should act ___.",
+          "opts": [
+            "carelessly",
+            "responsibly",
+            "angrily",
+            "secretly"
+          ],
+          "ans": 1
+        },
+        {
+          "q": "The class held a ___ about media ethics.",
+          "opts": [
+            "discussion",
+            "vacation",
+            "silence",
+            "mistake"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "The newsroom works under strict ___.",
+          "opts": [
+            "guidelines",
+            "guesses",
+            "rumors",
+            "memes"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "She corrected the article with great ___.",
+          "opts": [
+            "accuracy",
+            "noise",
+            "panic",
+            "delay"
+          ],
+          "ans": 0
+        }
+      ],
+      "g": [
+        "The article was shared.",
+        "Students shared the post.",
+        "The reporter asked questions.",
+        "The interview ended.",
+        "The audience reacted.",
+        "The claim spread online.",
+        "The editor corrected errors.",
+        "The video gained attention.",
+        "The source was unclear.",
+        "The team checked facts.",
+        "The headline misled readers.",
+        "The class discussed ethics."
+      ],
+      "h": [
+        "Social media influences opinions.",
+        "People should verify information.",
+        "The school launched a media campaign.",
+        "A rumor can cause panic.",
+        "Journalists have social responsibility.",
+        "Digital platforms spread news quickly.",
+        "Young users need media literacy.",
+        "False headlines attract attention.",
+        "Fact-checking protects the public.",
+        "Clear writing builds trust.",
+        "Online debates can become toxic.",
+        "Readers should evaluate bias."
+      ],
+      "i": [
+        "Discuss how social media shapes communication and society. Include one benefit, one risk, and your view on responsible use.",
+        "Write about whether young people should trust online news. Explain your reasons with examples and suggest good verification habits."
+      ]
+    },
+    "zene": {
+      "a": [
+        {
+          "q": "By next term, she ___ (complete) three media projects.",
+          "a": "will have completed"
+        },
+        {
+          "q": "The editor ___ (review) the article before publishing.",
+          "a": "had reviewed"
+        },
+        {
+          "q": "They ___ (discuss) fake news now.",
+          "a": "are discussing"
+        },
+        {
+          "q": "He ___ (not verify) the source yesterday.",
+          "a": "did not verify"
+        },
+        {
+          "q": "Students ___ (learn) media literacy since January.",
+          "a": "have been learning"
+        },
+        {
+          "q": "If she ___ (fact-check), she would avoid mistakes.",
+          "a": "fact-checked"
+        },
+        {
+          "q": "The report ___ (write) by the class monitor.",
+          "a": "was written"
+        },
+        {
+          "q": "By 8 pm, they ___ (upload) the video.",
+          "a": "had uploaded"
+        },
+        {
+          "q": "I ___ (watch) the interview when you called.",
+          "a": "was watching"
+        },
+        {
+          "q": "He usually ___ (cite) reliable sources.",
+          "a": "cites"
+        },
+        {
+          "q": "The anchor ___ (speak) confidently every day.",
+          "a": "speaks"
+        },
+        {
+          "q": "Tomorrow, we ___ (present) our findings.",
+          "a": "will present"
+        }
+      ],
+      "b": [
+        {
+          "q": "The article lacked ___ and evidence. (CREDIBLE)",
+          "a": "credibility"
+        },
+        {
+          "q": "Her explanation was clear and ___. (LOGIC)",
+          "a": "logical"
+        },
+        {
+          "q": "They reacted with great ___. (RESPONSIBLE)",
+          "a": "responsibility"
+        },
+        {
+          "q": "The post became ___ within hours. (VIRUS)",
+          "a": "viral"
+        },
+        {
+          "q": "The class had a meaningful ___. (DISCUSS)",
+          "a": "discussion"
+        },
+        {
+          "q": "He responded ___. (PROFESSION)",
+          "a": "professionally"
+        },
+        {
+          "q": "The journalist acted with ___. (HONEST)",
+          "a": "honesty"
+        },
+        {
+          "q": "The report was highly ___. (INFORM)",
+          "a": "informative"
+        },
+        {
+          "q": "We need better media ___. (AWARE)",
+          "a": "awareness"
+        },
+        {
+          "q": "Her comment was quite ___. (THOUGHT)",
+          "a": "thoughtful"
+        },
+        {
+          "q": "The speaker gave a ___ response. (PERSUADE)",
+          "a": "persuasive"
+        },
+        {
+          "q": "The editor made a quick ___. (DECIDE)",
+          "a": "decision"
+        }
+      ],
+      "c": [
+        {
+          "q": "She don't trust that website.",
+          "a": "She doesn't trust that website."
+        },
+        {
+          "q": "The news were shared quickly.",
+          "a": "The news was shared quickly."
+        },
+        {
+          "q": "He should of checked the facts.",
+          "a": "He should have checked the facts."
+        },
+        {
+          "q": "Many students is confused.",
+          "a": "Many students are confused."
+        },
+        {
+          "q": "They was discussing fake news.",
+          "a": "They were discussing fake news."
+        },
+        {
+          "q": "The editor explain clearly.",
+          "a": "The editor explains clearly."
+        },
+        {
+          "q": "She has wrote a report.",
+          "a": "She has written a report."
+        },
+        {
+          "q": "This informations are useful.",
+          "a": "This information is useful."
+        },
+        {
+          "q": "I didn't knew the source.",
+          "a": "I didn't know the source."
+        },
+        {
+          "q": "He is more smarter now.",
+          "a": "He is smarter now."
+        },
+        {
+          "q": "They has completed the task.",
+          "a": "They have completed the task."
+        },
+        {
+          "q": "The class have finished.",
+          "a": "The class has finished."
+        }
+      ],
+      "d": [
+        {
+          "q": "Transform: 'People share misinformation quickly.' Start with: Misinformation...",
+          "a": "Misinformation is shared quickly by people."
+        },
+        {
+          "q": "Transform: 'Because she verified the source, the report was trusted.' Start with: The report...",
+          "a": "The report was trusted because she verified the source."
+        },
+        {
+          "q": "Transform to passive: 'The team published the article yesterday.'",
+          "a": "The article was published by the team yesterday."
+        },
+        {
+          "q": "Transform using 'although': 'The news looked real, it was fake.'",
+          "a": "Although the news looked real, it was fake."
+        },
+        {
+          "q": "Transform using 'not only...but also': 'He checks facts. He checks images.'",
+          "a": "He not only checks facts but also checks images."
+        },
+        {
+          "q": "Transform to reported speech: 'She said, “I trust this source.”'",
+          "a": "She said that she trusted that source."
+        },
+        {
+          "q": "Transform to comparative: 'This source is reliable. That source is less reliable.'",
+          "a": "This source is more reliable than that source."
+        },
+        {
+          "q": "Transform: 'If students think critically, they avoid fake news.' Start with: Students...",
+          "a": "Students avoid fake news if they think critically."
+        },
+        {
+          "q": "Transform to passive: 'The teacher praised the article.'",
+          "a": "The article was praised by the teacher."
+        },
+        {
+          "q": "Transform using 'so...that': 'The claim was shocking. Everyone shared it.'",
+          "a": "The claim was so shocking that everyone shared it."
+        }
+      ],
+      "e": [
+        {
+          "q": "Build sentence: students / must / verify / every source / before / sharing / online",
+          "a": "Students must verify every source before sharing online."
+        },
+        {
+          "q": "Build sentence: the journalist / wrote / a balanced report / about / the issue",
+          "a": "The journalist wrote a balanced report about the issue."
+        },
+        {
+          "q": "Build sentence: many readers / were misled / by / the false headline",
+          "a": "Many readers were misled by the false headline."
+        },
+        {
+          "q": "Build sentence: our class / created / a podcast / on media literacy",
+          "a": "Our class created a podcast on media literacy."
+        },
+        {
+          "q": "Build sentence: she / carefully / compared / two different sources",
+          "a": "She carefully compared two different sources."
+        },
+        {
+          "q": "Build sentence: fake stories / spread / faster / than / real reports",
+          "a": "Fake stories spread faster than real reports."
+        },
+        {
+          "q": "Build sentence: the editor / rejected / the article / due to / weak evidence",
+          "a": "The editor rejected the article due to weak evidence."
+        },
+        {
+          "q": "Build sentence: pupils / should / question / sensational claims",
+          "a": "Pupils should question sensational claims."
+        },
+        {
+          "q": "Build sentence: we / discussed / responsible posting / in class",
+          "a": "We discussed responsible posting in class."
+        },
+        {
+          "q": "Build sentence: the campaign / raised / public awareness",
+          "a": "The campaign raised public awareness."
+        }
+      ],
+      "f": [
+        {
+          "q": "The report was highly ___ and easy to understand.",
+          "opts": [
+            "confusing",
+            "informative",
+            "silent",
+            "hidden"
+          ],
+          "ans": 1
+        },
+        {
+          "q": "Students should ___ sources before sharing.",
+          "opts": [
+            "ignore",
+            "delete",
+            "verify",
+            "guess"
+          ],
+          "ans": 2
+        },
+        {
+          "q": "The fake post went ___ overnight.",
+          "opts": [
+            "viral",
+            "quiet",
+            "slow",
+            "invisible"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "The editor demanded stronger ___ for the claim.",
+          "opts": [
+            "evidence",
+            "emotion",
+            "rumor",
+            "noise"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "Critical thinking helps people detect ___.",
+          "opts": [
+            "weather",
+            "fiction",
+            "misinformation",
+            "sunlight"
+          ],
+          "ans": 2
+        },
+        {
+          "q": "A ___ headline is designed to attract clicks.",
+          "opts": [
+            "balanced",
+            "sensational",
+            "boring",
+            "private"
+          ],
+          "ans": 1
+        },
+        {
+          "q": "The speaker gave a ___ argument.",
+          "opts": [
+            "persuasive",
+            "empty",
+            "broken",
+            "random"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "Reliable articles include proper ___.",
+          "opts": [
+            "citations",
+            "jokes",
+            "stickers",
+            "ads"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "Online users should act ___.",
+          "opts": [
+            "carelessly",
+            "responsibly",
+            "angrily",
+            "secretly"
+          ],
+          "ans": 1
+        },
+        {
+          "q": "The class held a ___ about media ethics.",
+          "opts": [
+            "discussion",
+            "vacation",
+            "silence",
+            "mistake"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "The newsroom works under strict ___.",
+          "opts": [
+            "guidelines",
+            "guesses",
+            "rumors",
+            "memes"
+          ],
+          "ans": 0
+        },
+        {
+          "q": "She corrected the article with great ___.",
+          "opts": [
+            "accuracy",
+            "noise",
+            "panic",
+            "delay"
+          ],
+          "ans": 0
+        }
+      ],
+      "g": [
+        "The boy read news.",
+        "The class watched videos.",
+        "The teacher explained fake news.",
+        "The website showed a story.",
+        "The girl checked facts.",
+        "The students wrote a report.",
+        "The interview was short.",
+        "The post was popular.",
+        "The news sounded strange.",
+        "The team asked questions.",
+        "The message spread quickly.",
+        "The school gave advice."
+      ],
+      "h": [
+        "Fake news is harmful.",
+        "Children use social media daily.",
+        "We should check before sharing.",
+        "A clear message is important.",
+        "The school taught online safety.",
+        "Friends share links quickly.",
+        "Good writers use simple words.",
+        "The internet can teach us.",
+        "People believe headlines easily.",
+        "Smart readers ask questions.",
+        "Photos can be edited.",
+        "Truth matters online."
+      ],
+      "i": [
+        "Discuss how social media shapes communication and society. Include one benefit, one risk, and your view on responsible use.",
+        "Write about whether young people should trust online news. Explain your reasons with examples and suggest good verification habits."
+      ]
+    }
+  }
+}

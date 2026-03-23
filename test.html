@@ -184,24 +184,46 @@ BANK.zenz.g = BANK.zenz.g.map(s=>s.replace("published","shared"));
 BANK.zene.g = ["The boy read news.","The class watched videos.","The teacher explained fake news.","The website showed a story.","The girl checked facts.","The students wrote a report.","The interview was short.","The post was popular.","The news sounded strange.","The team asked questions.","The message spread quickly.","The school gave advice."];
 BANK.zene.h = ["Fake news is harmful.","Children use social media daily.","We should check before sharing.","A clear message is important.","The school taught online safety.","Friends share links quickly.","Good writers use simple words.","The internet can teach us.","People believe headlines easily.","Smart readers ask questions.","Photos can be edited.","Truth matters online."];
 
-function generateSet(levelKey){
-  const b=BANK[levelKey]||BANK.zenv;
+function generateSet(levelKey, bankOverride){
+  const src = bankOverride || BANK;
+  const b=src[levelKey]||src.zenv;
   return {
     a:pick(b.a,10), b:pick(b.b,10), c:pick(b.c,10), d:pick(b.d,10), e:pick(b.e,10), f:pick(b.f,10),
     g:pick(b.g,10), h:pick(b.h,10), i:b.i[Math.floor(Math.random()*b.i.length)]
   };
 }
 
-function startTest(){
+function validateLevelBank(lb){
+  if(!lb) return false;
+  const req=['a','b','c','d','e','f','g','h','i'];
+  return req.every(k=>Array.isArray(lb[k]) && lb[k].length>=10);
+}
+
+async function loadQuestionBankFromJsonBin(){
+  try{
+    const res=await fetch(`${API}/b/${BIN_ID}/latest`,{headers:{'X-Master-Key':MKEY,'X-Bin-Meta':'false'},cache:'no-store'});
+    if(!res.ok) return null;
+    const data=await res.json();
+    const qb = data.questionBank;
+    if(!qb || !validateLevelBank(qb.zenv) || !validateLevelBank(qb.zenz) || !validateLevelBank(qb.zene)) return null;
+    return qb;
+  }catch(e){ return null; }
+}
+
+async function startTest(){
   const raw=document.getElementById('studentName').value.trim();
   const p=profileFromName(raw);
   if(!p){document.getElementById('gateErr').textContent='Use one of these names: ZenV, ZenZ, ZenE';return;}
+  document.getElementById('gateErr').textContent='';
   studentName=raw; currentProfile=p; startTime=new Date();
-  questionSet=generateSet(p.key);
+
+  const remoteQB = await loadQuestionBankFromJsonBin();
+  questionSet=generateSet(p.key, remoteQB || BANK);
+
   document.getElementById('gate').style.display='none';
   document.getElementById('main').style.display='block';
   document.getElementById('studentTag').textContent='Student: '+studentName;
-  document.getElementById('levelTag').textContent='Level: '+p.level;
+  document.getElementById('levelTag').textContent='Level: '+p.level + (remoteQB ? ' · Bank: JSONBin' : ' · Bank: Local fallback');
   renderAllSections();
   restoreLocal();
   fetchAndRestore();
