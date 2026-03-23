@@ -206,9 +206,11 @@ async function loadQuestionBankFromJsonBin(){
     const data=await res.json();
     const qb = data.questionBank;
     if(!qb || !validateLevelBank(qb.zenv) || !validateLevelBank(qb.zenz) || !validateLevelBank(qb.zene)) return null;
-    return qb;
+    return data;
   }catch(e){ return null; }
 }
+
+function sgDate(){ return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Singapore'}).format(new Date()); }
 
 async function startTest(){
   const raw=document.getElementById('studentName').value.trim();
@@ -217,13 +219,18 @@ async function startTest(){
   document.getElementById('gateErr').textContent='';
   studentName=raw; currentProfile=p; startTime=new Date();
 
-  const remoteQB = await loadQuestionBankFromJsonBin();
-  questionSet=generateSet(p.key, remoteQB || BANK);
+  const remoteData = await loadQuestionBankFromJsonBin();
+  const remoteQB = remoteData ? remoteData.questionBank : null;
+  const today = sgDate();
+  const assigned = remoteData && remoteData.dailyAssignments && remoteData.dailyAssignments[today] ? remoteData.dailyAssignments[today][p.key] : null;
+
+  questionSet = assigned || generateSet(p.key, remoteQB || BANK);
 
   document.getElementById('gate').style.display='none';
   document.getElementById('main').style.display='block';
   document.getElementById('studentTag').textContent='Student: '+studentName;
-  document.getElementById('levelTag').textContent='Level: '+p.level + (remoteQB ? ' · Bank: JSONBin' : ' · Bank: Local fallback');
+  const srcTag = assigned ? 'Assigned set (no repeat)' : (remoteQB ? 'Bank: JSONBin' : 'Bank: Local fallback');
+  document.getElementById('levelTag').textContent='Level: '+p.level + ' · ' + srcTag;
   renderAllSections();
   restoreLocal();
   fetchAndRestore();
