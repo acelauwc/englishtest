@@ -150,6 +150,14 @@ textarea.ta.bad{border-color:var(--err)}
 </style>
 </head>
 <body>
+<script>
+// Runs before body renders — hide gate immediately if name in URL
+(function(){
+  if(new URLSearchParams(window.location.search).get('name')){
+    document.write('<style>#nameGate{display:none!important}</style>');
+  }
+})();
+</script>
 
 <div id="nameGate">
   <div class="name-box">
@@ -1559,6 +1567,9 @@ async function checkParaAI() {
 
 // ── INIT: runs after ALL functions are defined ────────────────────────────────
 window.onload = function(){
+  // AUTO-START: if name in URL, begin test immediately
+  var urlName = new URLSearchParams(window.location.search).get('name');
+  if(urlName){ beginTest(urlName); }
   // Wire Part I word counter
   var i1 = document.getElementById("i1");
   if(i1) i1.addEventListener("input", function(){
