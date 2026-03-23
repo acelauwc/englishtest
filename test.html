@@ -254,7 +254,7 @@ function renderAllSections(){
     sectionHtml('h','Composition Sentence Practice (smart check)',()=>questionSet.h.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div>${x}</div><textarea id='h${i+1}'></textarea><div id='hfb${i+1}' class='fb'></div></div>`).join(''))+
     sectionHtml('i','Paragraph Writing (target 200–250 words)',()=>`<div class='q'><div>${questionSet.i}</div><textarea id='i1' style='min-height:180px'></textarea><div class='fb' id='iWord'>Words: 0 / Target 200–250</div><div id='ifb1' class='fb'></div></div>`);
 
-  document.querySelectorAll('input,textarea').forEach(n=>n.addEventListener('input',()=>{if(n.id==='i1')updateParagraphCount();updateProgress();}));
+  document.querySelectorAll('input,textarea').forEach(n=>n.addEventListener('input',()=>{if(n.id==='i1')updateParagraphCount();updateProgress();saveDraftLocalOnly();}));
 }
 
 function pickMcq(q,idx){
@@ -262,6 +262,7 @@ function pickMcq(q,idx){
   for(let j=0;j<4;j++)document.getElementById(`f${q}_${j}`).classList.remove('sel');
   document.getElementById(`f${q}_${idx}`).classList.add('sel');
   updateProgress();
+  saveDraftLocalOnly();
 }
 
 function setFb(id,msg){const el=document.getElementById(id);if(el)el.textContent=msg||'';}
@@ -415,10 +416,7 @@ function buildSubmission(){
   const afScore=['a','b','c','d','e','f'].reduce((s,p)=>s+(sectionScores[p]||0),0);
   const pct=Math.round((afScore/60)*100);
   const dur=startTime?Math.max(1,Math.round((Date.now()-startTime.getTime())/60000))+" min":"N/A";
-  const allAnswers={};
-  ['a','b','c','d','e','g','h'].forEach(p=>{for(let i=1;i<=10;i++){allAnswers[p+i]=(document.getElementById(p+i)?.value||'').trim();}});
-  for(let i=1;i<=10;i++) allAnswers['f'+i]=answers['f'+i]!==undefined?answers['f'+i]:"";
-  allAnswers.i1=(document.getElementById('i1')?.value||'').trim();
+  const allAnswers=collectCurrentAnswers();
 
   return {
     name:studentName,
@@ -437,6 +435,25 @@ function buildSubmission(){
 
 function saveLocal(data){try{localStorage.setItem(SKEY+"_"+currentProfile.key,JSON.stringify(data));}catch(e){}}
 function loadLocal(){try{const d=localStorage.getItem(SKEY+"_"+currentProfile.key);return d?JSON.parse(d):null;}catch(e){return null;}}
+
+function saveDraftLocalOnly(){
+  if(!currentProfile) return;
+  const draft={
+    name:studentName,
+    studentGrade:currentProfile.grade,
+    answers:collectCurrentAnswers(),
+    sectionScores
+  };
+  saveLocal(draft);
+}
+
+function collectCurrentAnswers(){
+  const allAnswers={};
+  ['a','b','c','d','e','g','h'].forEach(p=>{for(let i=1;i<=10;i++){allAnswers[p+i]=(document.getElementById(p+i)?.value||'').trim();}});
+  for(let i=1;i<=10;i++) allAnswers['f'+i]=answers['f'+i]!==undefined?answers['f'+i]:"";
+  allAnswers.i1=(document.getElementById('i1')?.value||'').trim();
+  return allAnswers;
+}
 
 function restoreLocal(){
   const s=loadLocal(); if(!s||!s.answers) return;
