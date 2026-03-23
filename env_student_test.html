@@ -154,10 +154,11 @@ textarea.ta.bad{border-color:var(--err)}
 <div id="nameGate">
   <div class="name-box">
     <div class="badge">Environment &amp; Climate Change</div>
-    <h2>Advanced Level Test</h2>
-    <p>Enter your full name to begin. Your progress saves after each part so you never lose your work.</p>
-    <input class="big" id="nameInput" placeholder="Your full name..." maxlength="80" autocomplete="name">
-    <div class="err-msg" id="nameErr">Please enter your full name.</div>
+    <h2>Welcome!</h2>
+    <p>Enter your name to begin. The test will be personalised to your level automatically.</p>
+    <input class="big" id="nameInput" placeholder="Your name..." maxlength="80" autocomplete="name">
+    <div class="err-msg" id="nameErr">Please enter your name to continue.</div>
+    <div id="profilePreview" style="display:none;margin-bottom:14px;padding:10px 14px;border-radius:8px;font-size:13px;font-family:var(--mono);border:1px solid var(--border)"></div>
     <button class="btn-primary" onclick="startTest()">Begin Test &#8594;</button>
   </div>
 </div>
@@ -173,9 +174,12 @@ textarea.ta.bad{border-color:var(--err)}
   </div>
 
   <div class="hdr">
-    <div class="badge">Advanced Level &middot; Environment &amp; Climate Change</div>
+    <div class="badge" id="levelBadge">Environment &amp; Climate Change</div>
     <h1>English Language <span>Assessment</span></h1>
-    <div class="student-tag"><span class="lbl">Student:</span><span class="nm" id="dispName">&mdash;</span></div>
+    <div style="display:flex;align-items:center;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px">
+      <div class="student-tag"><span class="lbl">Student:</span><span class="nm" id="dispName">&mdash;</span></div>
+      <div class="student-tag" id="levelTag" style="display:none"><span class="lbl">Level:</span><span class="nm" id="dispLevel">&mdash;</span></div>
+    </div>
   </div>
   <div class="dash">
     <div class="dash-card"><div class="v" id="dScore">0</div><div class="l">Score</div></div>
@@ -187,104 +191,8 @@ textarea.ta.bad{border-color:var(--err)}
     <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
   </div>
 
-  <!-- PART A -->
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('a')"><span class="sec-tag">PART A</span><div><div class="sec-title">Verb Forms (Tenses)</div><div class="sec-sub">Fill in the correct form of the verb in brackets</div></div><span class="sec-arrow open" id="arr-a">&#9660;</span></div>
-    <div class="sec-body open" id="body-a">
-      <div class="qb"><div class="qnum">Question 1</div><div class="qtext">Environmental activists ______ (march) through the capital city last Saturday to demand urgent climate action.</div><input class="fill" id="a1" placeholder="Type your answer..." data-ans="marched" data-hint="This action happened and was completed at a specific time in the past. What tense uses a specific past time signal?" data-rule="Simple Past = base verb + -ed for regular verbs. 'Last Saturday' is a specific past time signal."></div>
-      <div class="qb"><div class="qnum">Question 2</div><div class="qtext">The government ______ (introduce) several renewable energy initiatives since the Paris Agreement was signed.</div><input class="fill" id="a2" placeholder="Type your answer..." data-ans="has introduced" data-hint="This action started in the past and its results are still relevant now. Which tense connects past actions to the present?" data-rule="Present Perfect = has/have + past participle. 'Since the Paris Agreement' signals a connection from a past point to now."></div>
-      <div class="qb"><div class="qnum">Question 3</div><div class="qtext">By the time the environmental report was released, the committee ______ (review) all the data thoroughly.</div><input class="fill" id="a3" placeholder="Type your answer..." data-ans="had reviewed" data-hint="This action was completed BEFORE another past action. Which tense goes further back in the past?" data-rule="Past Perfect = had + past participle. Use when one past action was completed before another past event."></div>
-      <div class="qb"><div class="qnum">Question 4</div><div class="qtext">Scientists ______ (monitor) the melting of Arctic ice caps for over three decades now.</div><input class="fill" id="a4" placeholder="Type your answer..." data-ans="have been monitoring" data-hint="This action started in the past and is still ongoing right now, emphasising the continuous duration of effort." data-rule="Present Perfect Continuous = have/has + been + verb-ing. 'For over three decades now' signals an ongoing action from the past."></div>
-      <div class="qb"><div class="qnum">Question 5</div><div class="qtext">The energy minister ______ (announce) the construction of fifty new solar farms next week.</div><input class="fill" id="a5" placeholder="Type your answer..." data-ans="will announce" data-hint="This is a scheduled future event. Use the simple future tense." data-rule="Simple Future = will + base verb. Used for planned or scheduled future events."></div>
-      <div class="qb"><div class="qnum">Question 6</div><div class="qtext">While researchers ______ (collect) soil samples in the rainforest, they discovered a new species of plant.</div><input class="fill" id="a6" placeholder="Type your answer..." data-ans="were collecting" data-hint="An ongoing past action was happening when something else occurred. What tense shows an action in progress in the past?" data-rule="Past Continuous = was/were + verb-ing. Shows an action in progress when another event interrupted or occurred simultaneously."></div>
-      <div class="qb"><div class="qnum">Question 7</div><div class="qtext">By 2050, rising sea levels ______ (displace) an estimated 200 million people from coastal areas.</div><input class="fill" id="a7" placeholder="Type your answer..." data-ans="will have displaced" data-hint="This will be completed before a specific point in the future. Think future + perfect combination." data-rule="Future Perfect = will + have + past participle. For actions that will be completed before a specific future deadline."></div>
-      <div class="qb"><div class="qnum">Question 8</div><div class="qtext">The conservation team ______ (plant) trees in the deforested region since the project began last spring.</div><input class="fill" id="a8" placeholder="Type your answer..." data-ans="has been planting" data-hint="This ongoing action started at a specific past point and is still continuing now, emphasising the continuity." data-rule="Present Perfect Continuous = has/have + been + verb-ing. 'Since the project began' signals the start of an ongoing action."></div>
-      <div class="qb"><div class="qnum">Question 9</div><div class="qtext">The glacier ______ (retreat) steadily for years when scientists first began documenting the changes.</div><input class="fill" id="a9" placeholder="Type your answer..." data-ans="had been retreating" data-hint="This action was already ongoing before another past point. Think past perfect + continuous combination." data-rule="Past Perfect Continuous = had + been + verb-ing. Shows an ongoing action that was already in progress before another past point."></div>
-      <div class="qb"><div class="qnum">Question 10</div><div class="qtext">Unless carbon emissions ______ (reduce) significantly, global temperatures will continue to rise.</div><input class="fill" id="a10" placeholder="Type your answer..." data-ans="are reduced" data-hint="This is a conditional clause using passive voice. The 'unless' clause refers to a future condition but uses which tense?" data-rule="In conditional sentences with 'unless', use Present Simple Passive (are/is + past participle) in the condition clause even when referring to the future."></div>
-      <button class="btn-check" onclick="checkFill('a',10)">Check Part A</button>
-    </div>
-  </div>
-
-  <!-- PART B -->
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('b')"><span class="sec-tag">PART B</span><div><div class="sec-title">Word Forms</div><div class="sec-sub">Use the correct form of the word in brackets</div></div><span class="sec-arrow" id="arr-b">&#9660;</span></div>
-    <div class="sec-body" id="body-b">
-      <div class="qb"><div class="qnum">Q1</div><div class="qtext">The ______ of natural habitats has led to a dramatic decline in biodiversity worldwide. (DESTROY)</div><input class="fill" id="b1" placeholder="Type your answer..." data-ans="destruction" data-hint="A noun is needed as the subject. What noun form comes from 'destroy'?" data-rule="DESTROY (verb) → DESTRUCTION (noun). The suffix '-tion' creates nouns from verbs."></div>
-      <div class="qb"><div class="qnum">Q2</div><div class="qtext">Scientists must act ______ to prevent irreversible damage to our planet's ecosystems. (DECIDE)</div><input class="fill" id="b2" placeholder="Type your answer..." data-ans="decisively" data-hint="The word modifies 'act' — it needs to be an adverb. Build from DECIDE step by step." data-rule="DECIDE → DECISIVE (adj) → DECISIVELY (adverb). Add '-ly' to the adjective form."></div>
-      <div class="qb"><div class="qnum">Q3</div><div class="qtext">The ______ impact of climate change on agriculture threatens food security for billions. (DEVASTATE)</div><input class="fill" id="b3" placeholder="Type your answer..." data-ans="devastating" data-hint="The word describes 'impact' — it needs to be an adjective. Which participial form of 'devastate' acts as an adjective?" data-rule="DEVASTATE (verb) → DEVASTATING (adjective). The -ing participial form describes something that causes devastation."></div>
-      <div class="qb"><div class="qnum">Q4</div><div class="qtext">The government must ensure the ______ of natural resources for future generations. (PRESERVE)</div><input class="fill" id="b4" placeholder="Type your answer..." data-ans="preservation" data-hint="A noun is needed after 'the'. What noun form comes from 'preserve'?" data-rule="PRESERVE (verb) → PRESERVATION (noun). The suffix '-ation' creates nouns from verbs."></div>
-      <div class="qb"><div class="qnum">Q5</div><div class="qtext">The delegate spoke ______ about the need for immediate international cooperation on emissions. (PASSION)</div><input class="fill" id="b5" placeholder="Type your answer..." data-ans="passionately" data-hint="The word describes how the delegate spoke — it needs to be an adverb." data-rule="PASSION (noun) → PASSIONATE (adj) → PASSIONATELY (adverb). Add '-ly' to the adjective."></div>
-      <div class="qb"><div class="qnum">Q6</div><div class="qtext">The ______ of the new carbon tax policy was welcomed by environmental groups. (IMPLEMENT)</div><input class="fill" id="b6" placeholder="Type your answer..." data-ans="implementation" data-hint="A noun is needed as the subject. What noun form comes from 'implement'?" data-rule="IMPLEMENT (verb) → IMPLEMENTATION (noun). The suffix '-ation' creates nouns from verbs."></div>
-      <div class="qb"><div class="qnum">Q7</div><div class="qtext">The effects of ocean acidification are ______ more severe each passing decade. (GROW)</div><input class="fill" id="b7" placeholder="Type your answer..." data-ans="increasingly" data-hint="The word modifies 'more severe' — it needs to be an adverb meaning 'more and more'." data-rule="GROW → INCREASING (adj) → INCREASINGLY (adverb). 'Increasingly' means 'more and more', used before comparatives."></div>
-      <div class="qb"><div class="qnum">Q8</div><div class="qtext">The ______ between pollution levels and respiratory illness rates is well-established. (RELATE)</div><input class="fill" id="b8" placeholder="Type your answer..." data-ans="relationship" data-hint="A noun is needed after 'the'. What noun form comes from 'relate'?" data-rule="RELATE (verb) → RELATIONSHIP (noun). The suffix '-ship' creates nouns expressing a connection between things."></div>
-      <div class="qb"><div class="qnum">Q9</div><div class="qtext">Environmentalists argued ______ that corporations must be held accountable for carbon emissions. (PERSUADE)</div><input class="fill" id="b9" placeholder="Type your answer..." data-ans="persuasively" data-hint="The word modifies 'argued' — it needs to be an adverb. Build from PERSUADE step by step." data-rule="PERSUADE → PERSUASIVE (adj) → PERSUASIVELY (adverb). Add '-ly' to the adjective form."></div>
-      <div class="qb"><div class="qnum">Q10</div><div class="qtext">The ______ of plastic waste in our oceans poses a serious threat to marine ecosystems. (ACCUMULATE)</div><input class="fill" id="b10" placeholder="Type your answer..." data-ans="accumulation" data-hint="A noun is needed as the subject. What noun form comes from 'accumulate'?" data-rule="ACCUMULATE (verb) → ACCUMULATION (noun). The suffix '-ion' creates nouns from verbs."></div>
-      <button class="btn-check" onclick="checkFill('b',10)">Check Part B</button>
-    </div>
-  </div>
-
-  <!-- PART C -->
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('c')"><span class="sec-tag">PART C</span><div><div class="sec-title">Error Correction</div><div class="sec-sub">Each sentence has one error — rewrite it correctly</div></div><span class="sec-arrow" id="arr-c">&#9660;</span></div>
-    <div class="sec-body" id="body-c">
-      <div class="qb"><div class="qnum">Q1</div><div class="qtext"><em>The number of endangered species have increased alarmingly in the past fifty years.</em></div><textarea class="ta" id="c1" placeholder="Rewrite the correct sentence..." data-ans="The number of endangered species has increased alarmingly in the past fifty years." data-hint="Look carefully at the subject. Is 'the number' singular or plural?" data-rule="'The number of + plural noun' takes a SINGULAR verb (has). 'A number of species HAVE' uses plural — a different meaning."></textarea></div>
-      <div class="qb"><div class="qnum">Q2</div><div class="qtext"><em>Despite of rising sea levels, many coastal communities refuse to relocate inland.</em></div><textarea class="ta" id="c2" placeholder="Rewrite the correct sentence..." data-ans="Despite rising sea levels, many coastal communities refuse to relocate inland." data-hint="'Despite' is a preposition that stands alone. What word must NOT follow it?" data-rule="Use 'despite + noun phrase' OR 'in spite of + noun phrase'. Never 'despite of' — always incorrect."></textarea></div>
-      <div class="qb"><div class="qnum">Q3</div><div class="qtext"><em>The government should of invested in renewable energy decades ago.</em></div><textarea class="ta" id="c3" placeholder="Rewrite the correct sentence..." data-ans="The government should have invested in renewable energy decades ago." data-hint="After a modal verb like 'should', what helping verb must follow? 'Of' is never a verb." data-rule="Modal + HAVE + past participle. 'Should of' is always wrong — it must be 'should HAVE'."></textarea></div>
-      <div class="qb"><div class="qnum">Q4</div><div class="qtext"><em>Neither the factory owners nor the government was willing to reduce carbon emissions.</em></div><textarea class="ta" id="c4" placeholder="Rewrite the correct sentence..." data-ans="Neither the factory owners nor the government was willing to reduce carbon emissions." data-hint="With 'neither...nor', which noun determines the verb — the one before or after 'nor'?" data-rule="With 'neither...nor', the verb agrees with the CLOSER subject. 'The government' is singular → 'was' is actually correct here. Check other errors carefully."></textarea></div>
-      <div class="qb"><div class="qnum">Q5</div><div class="qtext"><em>The rainforest, along with thousands of animal species, are under serious threat from deforestation.</em></div><textarea class="ta" id="c5" placeholder="Rewrite the correct sentence..." data-ans="The rainforest, along with thousands of animal species, is under serious threat from deforestation." data-hint="What is the true subject? The phrase 'along with thousands of animal species' adds information but does not change the subject." data-rule="Phrases like 'along with', 'as well as', 'together with' do NOT make the subject plural. Main subject = 'the rainforest' (singular) → 'is'."></textarea></div>
-      <div class="qb"><div class="qnum">Q6</div><div class="qtext"><em>Researchers have been study the effects of microplastics on marine life for several years.</em></div><textarea class="ta" id="c6" placeholder="Rewrite the correct sentence..." data-ans="Researchers have been studying the effects of microplastics on marine life for several years." data-hint="Look at the verb form after 'have been'. What form must always follow 'been' in this tense?" data-rule="Present Perfect Continuous = have/has + been + VERB-ING. 'Study' must become 'studying'."></textarea></div>
-      <div class="qb"><div class="qnum">Q7</div><div class="qtext"><em>The country lacks of sufficient funding to transition fully to clean energy sources.</em></div><textarea class="ta" id="c7" placeholder="Rewrite the correct sentence..." data-ans="The country lacks sufficient funding to transition fully to clean energy sources." data-hint="'Lacks' is a transitive verb. Does it need a preposition before its object?" data-rule="'Lack' takes a direct object with NO preposition. Say 'lacks something', never 'lacks of something'."></textarea></div>
-      <div class="qb"><div class="qnum">Q8</div><div class="qtext"><em>If world leaders had signed the climate agreement earlier, global warming can have been slowed significantly.</em></div><textarea class="ta" id="c8" placeholder="Rewrite the correct sentence..." data-ans="If world leaders had signed the climate agreement earlier, global warming could have been slowed significantly." data-hint="This is a third conditional sentence (past unreal). Check both clauses — do they match the correct pattern?" data-rule="Third conditional: If + had + past participle → would/could/might + have + past participle. Both clauses must match."></textarea></div>
-      <div class="qb"><div class="qnum">Q9</div><div class="qtext"><em>The climate report, which have been compiled by over 200 scientists, warns of catastrophic consequences.</em></div><textarea class="ta" id="c9" placeholder="Rewrite the correct sentence..." data-ans="The climate report, which has been compiled by over 200 scientists, warns of catastrophic consequences." data-hint="Look at the relative clause. What does 'which' refer to, and is it singular or plural?" data-rule="'Which' refers to 'the climate report' (singular). The relative clause verb must agree: 'which HAS been compiled'."></textarea></div>
-      <div class="qb"><div class="qnum">Q10</div><div class="qtext"><em>More awareness about the effects of climate change are needed among young people.</em></div><textarea class="ta" id="c10" placeholder="Rewrite the correct sentence..." data-ans="More awareness about the effects of climate change is needed among young people." data-hint="'Awareness' is an uncountable noun. What verb form do uncountable nouns always take?" data-rule="'Awareness' is uncountable. Always use a singular verb: 'awareness IS', never 'awareness ARE'."></textarea></div>
-      <button class="btn-check" onclick="checkTA('c',10)">Check Part C</button>
-    </div>
-  </div>
-
-  <!-- PART D -->
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('d')"><span class="sec-tag">PART D</span><div><div class="sec-title">Sentence Transformation</div><div class="sec-sub">Rewrite each sentence as instructed without changing its meaning</div></div><span class="sec-arrow" id="arr-d">&#9660;</span></div>
-    <div class="sec-body" id="body-d">
-      <div class="qb"><div class="qnum">Q1</div><div class="qtext">The factory released toxic chemicals into the river last year.<br><span class="qsub">(Change to Passive Voice)</span></div><textarea class="ta" id="d1" placeholder="Rewrite here..." data-ans="Toxic chemicals were released into the river by the factory last year." data-hint="The object 'toxic chemicals' becomes the new subject. Use was/were + past participle." data-rule="Passive: Object + was/were + past participle + by + agent. Plural subject 'toxic chemicals' → 'were released'."></textarea></div>
-      <div class="qb"><div class="qnum">Q2</div><div class="qtext">She is a passionate environmentalist. She has campaigned against deforestation for ten years.<br><span class="qsub">(Join using: who)</span></div><textarea class="ta" id="d2" placeholder="Rewrite here..." data-ans="She is a passionate environmentalist who has campaigned against deforestation for ten years." data-hint="Use 'who' to introduce a relative clause that gives more information about the person." data-rule="Relative clause with 'who' is used for people. Place 'who + verb' directly after the noun it describes."></textarea></div>
-      <div class="qb"><div class="qnum">Q3</div><div class="qtext">The drought was very severe. It destroyed all the crops in the region.<br><span class="qsub">(Join using: so...that)</span></div><textarea class="ta" id="d3" placeholder="Rewrite here..." data-ans="The drought was so severe that it destroyed all the crops in the region." data-hint="'So...that' shows cause and result. Place 'so' before the adjective and 'that' before the result clause." data-rule="So + adjective + that + result clause. This structure emphasises degree and consequence."></textarea></div>
-      <div class="qb"><div class="qnum">Q4</div><div class="qtext">The environmentalist said, "We will fight to protect our forests until our last breath."<br><span class="qsub">(Change to Reported Speech)</span></div><textarea class="ta" id="d4" placeholder="Rewrite here..." data-ans="The environmentalist said that they would fight to protect their forests until their last breath." data-hint="Change pronouns, tense and remove inverted commas. What does 'will' become in reported speech?" data-rule="Reported speech: 'will' → 'would', 'we' → 'they', 'our' → 'their', present → past. Remove quotes and add 'that'."></textarea></div>
-      <div class="qb"><div class="qnum">Q5</div><div class="qtext">The pollution of the river was so extreme that it killed all aquatic life.<br><span class="qsub">(Begin with: Such)</span></div><textarea class="ta" id="d5" placeholder="Rewrite here..." data-ans="Such was the extent of the river pollution that it killed all aquatic life." data-hint="'Such' at the beginning requires inversion. Think of a noun form to replace the adjective phrase." data-rule="Such + was/were + the + noun + that... Formal inversion for emphasis. Use a noun phrase after 'the'."></textarea></div>
-      <div class="qb"><div class="qnum">Q6</div><div class="qtext">Although global temperatures are rising rapidly, many countries have not reduced their emissions.<br><span class="qsub">(Begin with: Despite)</span></div><textarea class="ta" id="d6" placeholder="Rewrite here..." data-ans="Despite the rapid rise in global temperatures, many countries have not reduced their emissions." data-hint="'Despite' must be followed by a noun phrase, not a clause. Convert the 'although' clause into a noun phrase." data-rule="'Despite' + noun phrase. 'global temperatures are rising rapidly' → 'the rapid rise in global temperatures'."></textarea></div>
-      <div class="qb"><div class="qnum">Q7</div><div class="qtext">The scientist asked, "Has the deforestation rate slowed down this year?"<br><span class="qsub">(Change to Reported Speech)</span></div><textarea class="ta" id="d7" placeholder="Rewrite here..." data-ans="The scientist asked whether the deforestation rate had slowed down that year." data-hint="This is a yes/no question in reported speech. Which word replaces the question structure?" data-rule="Reported yes/no questions use 'whether' or 'if'. Tense shifts: 'has slowed' → 'had slowed'. 'This year' → 'that year'."></textarea></div>
-      <div class="qb"><div class="qnum">Q8</div><div class="qtext">It is vital that all nations commit to net-zero emissions by 2050.<br><span class="qsub">(Begin with: All nations)</span></div><textarea class="ta" id="d8" placeholder="Rewrite here..." data-ans="All nations must commit to net-zero emissions by 2050." data-hint="'It is vital that' expresses strong necessity. Replace the whole structure with a modal verb on the new subject." data-rule="'It is vital that + subject + verb' → 'Subject + must + verb'. Both express strong obligation."></textarea></div>
-      <div class="qb"><div class="qnum">Q9</div><div class="qtext">The scientists completed their research. They presented their findings to the UN.<br><span class="qsub">(Join using: having)</span></div><textarea class="ta" id="d9" placeholder="Rewrite here..." data-ans="Having completed their research, the scientists presented their findings to the UN." data-hint="'Having + past participle' shows one action is completed before another begins. Which action comes first?" data-rule="'Having + past participle' = perfect participle clause. The first completed action uses this form; the second uses simple past."></textarea></div>
-      <div class="qb"><div class="qnum">Q10</div><div class="qtext">Deforestation has destroyed millions of hectares of tropical rainforest.<br><span class="qsub">(Change to Passive Voice)</span></div><textarea class="ta" id="d10" placeholder="Rewrite here..." data-ans="Millions of hectares of tropical rainforest have been destroyed by deforestation." data-hint="The object becomes the subject. The tense is Present Perfect — what is the passive form for a plural subject?" data-rule="Present Perfect Passive: subject + have/has + been + past participle + by + agent. Plural subject → 'have been destroyed'."></textarea></div>
-      <button class="btn-check" onclick="checkTA('d',10)">Check Part D</button>
-    </div>
-  </div>
-
-  <!-- PART E -->
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('e')"><span class="sec-tag">PART E</span><div><div class="sec-title">Sentence Building</div><div class="sec-sub">Rearrange the words to form a correct sentence</div></div><span class="sec-arrow" id="arr-e">&#9660;</span></div>
-    <div class="sec-body" id="body-e">
-      <div class="qb"><div class="qnum">Q1</div><div class="qtext qwords">climate / the / represents / change / greatest / threat / of / the / time / our</div><textarea class="ta" id="e1" placeholder="Write the sentence..." data-ans="Climate change represents the greatest threat of our time." data-hint="Start with 'Climate change' as the subject. Find the main verb and build the predicate." data-rule="Subject + verb + predicate. 'The greatest threat of our time' is the predicate noun phrase."></textarea></div>
-      <div class="qb"><div class="qnum">Q2</div><div class="qtext qwords">despite / agreements / international / deforestation / many / continues / at / alarming / rate / an</div><textarea class="ta" id="e2" placeholder="Write the sentence..." data-ans="Despite many international agreements, deforestation continues at an alarming rate." data-hint="'Despite' introduces a concession. The main clause states the contrasting ongoing reality." data-rule="Despite + noun phrase, + main clause. 'Many international agreements' is the noun phrase after 'despite'."></textarea></div>
-      <div class="qb"><div class="qnum">Q3</div><div class="qtext qwords">nations / have / the / pledged / emissions / to / reduce / developed / carbon / their / significantly</div><textarea class="ta" id="e3" placeholder="Write the sentence..." data-ans="The developed nations have pledged to reduce their carbon emissions significantly." data-hint="Subject: 'The developed nations'. Verb: Present Perfect. The sentence involves a pledge about a future action." data-rule="Subject + have/has + past participle + infinitive. 'Have pledged to reduce' = committed to reducing."></textarea></div>
-      <div class="qb"><div class="qnum">Q4</div><div class="qtext qwords">only / damage / environmental / through / can / sustained / be / reversed / cooperation / international</div><textarea class="ta" id="e4" placeholder="Write the sentence..." data-ans="Environmental damage can only be reversed through sustained international cooperation." data-hint="This is a passive sentence. 'Environmental damage' is the subject. 'Only' typically comes after the modal verb." data-rule="Subject + modal + only + be + past participle + through + noun phrase."></textarea></div>
-      <div class="qb"><div class="qnum">Q5</div><div class="qtext qwords">the / threatened / pollution / has / air / health / of / millions</div><textarea class="ta" id="e5" placeholder="Write the sentence..." data-ans="Air pollution has threatened the health of millions." data-hint="Subject: 'Air pollution'. Verb: Present Perfect active. Object: 'the health of millions'." data-rule="Subject + has/have + past participle + object. 'Has threatened' = Present Perfect active."></textarea></div>
-      <div class="qb"><div class="qnum">Q6</div><div class="qtext qwords">it / all / that / is / factories / essential / reduce / their / are / emissions</div><textarea class="ta" id="e6" placeholder="Write the sentence..." data-ans="It is essential that all factories reduce their emissions." data-hint="This formal structure starts with 'It is + adjective + that'. Arrange the that-clause carefully." data-rule="It + is + adjective (essential) + that + subject (all factories) + verb (reduce their emissions)."></textarea></div>
-      <div class="qb"><div class="qnum">Q7</div><div class="qtext qwords">the / praised / organisation / scientists / environmental / for / groundbreaking / their / research</div><textarea class="ta" id="e7" placeholder="Write the sentence..." data-ans="The organisation praised the environmental scientists for their groundbreaking research." data-hint="Find who is doing the praising (subject) and who is being praised (object). 'For' introduces the reason." data-rule="Subject + verb + object + for + noun phrase. 'Praised...for' shows the reason for praise."></textarea></div>
-      <div class="qb"><div class="qnum">Q8</div><div class="qtext qwords">had / the / submitted / scientists / report / their / the / before / deadline / passed</div><textarea class="ta" id="e8" placeholder="Write the sentence..." data-ans="The scientists had submitted their report before the deadline passed." data-hint="One action happened before another in the past. Which action uses Past Perfect and which uses Simple Past?" data-rule="Past Perfect (had + past participle) for the earlier action; Simple Past for the later action."></textarea></div>
-      <div class="qb"><div class="qnum">Q9</div><div class="qtext qwords">being / of / the / addressed / causes / environmental / are / root / poverty / and / degradation</div><textarea class="ta" id="e9" placeholder="Write the sentence..." data-ans="The root causes of environmental degradation, poverty and inequality, are being addressed." data-hint="Subject: 'The root causes of environmental degradation'. The verb is passive and continuous. 'Poverty and inequality' are examples." data-rule="Subject + are + being + past participle. The appositive in commas elaborates on 'root causes'."></textarea></div>
-      <div class="qb"><div class="qnum">Q10</div><div class="qtext qwords">no / will / thrive / civilisation / without / clean / access / air / to / and / water</div><textarea class="ta" id="e10" placeholder="Write the sentence..." data-ans="No civilisation will thrive without access to clean air and water." data-hint="Start with 'No' to create a negative subject. Future simple verb followed by a 'without' phrase." data-rule="No + noun + will + verb + without + noun phrase. 'Without access to clean air and water' is the prepositional phrase."></textarea></div>
-      <button class="btn-check" onclick="checkTA('e',10)">Check Part E</button>
-    </div>
-  </div>
-
-  <!-- PART F -->
-  <div class="section">
-    <div class="sec-hdr" onclick="toggle('f')"><span class="sec-tag">PART F</span><div><div class="sec-title">Vocabulary &mdash; Choose the Best Word</div><div class="sec-sub">Select the most appropriate option</div></div><span class="sec-arrow" id="arr-f">&#9660;</span></div>
-    <div class="sec-body" id="body-f">
-      <div id="mcq-container"></div>
-      <button class="btn-check" onclick="checkMCQ()">Check Part F</button>
-    </div>
-  </div>
+  <!-- PARTS A-F: Dynamically rendered based on student profile -->
+  <div id="dynamicParts"></div>
 
   <!-- PART G -->
   <div class="section">
@@ -322,8 +230,8 @@ textarea.ta.bad{border-color:var(--err)}
         <button class="check-ai-btn" id="ai-btn-g10" onclick="checkAI('g',10)"><span class="ai-spinner" id="ai-spin-g10" style="display:none"></span>&#129302; Check with AI</button>
         <div class="ai-fb" id="ai-fb-g10"><div class="ai-top" id="ai-top-g10"></div><div class="ai-body" id="ai-body-g10"></div></div></div>
       <div style="margin-top:6px">
-        <button class="check-all-btn" id="check-all-g" onclick="checkAllAI('g')">&#129302; Check All Part G with AI</button>
-        <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:8px">AI will check grammar, vocabulary and give suggestions</div>
+        <button class="btn-check" id="check-all-g" onclick="checkAllAndSubmit('g')">&#129302; Check &amp; Submit Part G</button>
+        <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:8px">AI checks grammar &amp; vocabulary, then saves to dashboard</div>
       </div>
     </div>
   </div>
@@ -363,8 +271,8 @@ textarea.ta.bad{border-color:var(--err)}
         <button class="check-ai-btn" id="ai-btn-h10" onclick="checkAI('h',10)"><span class="ai-spinner" id="ai-spin-h10" style="display:none"></span>&#129302; Check with AI</button>
         <div class="ai-fb" id="ai-fb-h10"><div class="ai-top" id="ai-top-h10"></div><div class="ai-body" id="ai-body-h10"></div></div></div>
       <div style="margin-top:6px">
-        <button class="check-all-btn" id="check-all-h" onclick="checkAllAI('h')">&#129302; Check All Part H with AI</button>
-        <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:8px">AI will check grammar, vocabulary and give suggestions</div>
+        <button class="btn-check" id="check-all-h" onclick="checkAllAndSubmit('h')">&#129302; Check &amp; Submit Part H</button>
+        <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:8px">AI checks grammar &amp; vocabulary, then saves to dashboard</div>
       </div>
     </div>
   </div>
@@ -389,7 +297,7 @@ textarea.ta.bad{border-color:var(--err)}
         <span id="wc">Words: 0</span><span>Target: 100&ndash;140 words</span>
       </div>
       <div style="margin-top:14px">
-        <button class="check-all-btn" id="check-para-btn" onclick="checkParaAI()">&#129302; Check My Paragraph with AI</button>
+        <button class="check-all-btn" id="check-para-btn" onclick="checkAndSubmitPara()">&#129302; Check &amp; Submit Part I</button>
       </div>
       <div class="para-ai-fb" id="para-ai-fb">
         <div class="para-ai-top" id="para-ai-top"></div>
@@ -401,11 +309,7 @@ textarea.ta.bad{border-color:var(--err)}
     </div>
   </div>
 
-  <div class="submit-sec">
-    <h3>Submit Your Test</h3>
-    <p>Your answers and results will be saved permanently. Your teacher will be able to review everything in the dashboard.</p>
-    <button class="btn-submit" id="submitBtn" onclick="submitAll()">Submit &amp; Save Results</button>
-  </div>
+
 </div>
 
 <div id="resultModal">
@@ -421,6 +325,354 @@ textarea.ta.bad{border-color:var(--err)}
 </div>
 
 <script>
+// ── STUDENT PROFILES ─────────────────────────────────────────────────────────
+// Each student gets their own set of questions, hints, and feedback style
+// System identifies student by name on login
+
+const STUDENT_PROFILES = {
+
+  // ── ZenV — Secondary 2 ───────────────────────────────────────────────────
+  "ZenV": {
+    level: "Secondary 2",
+    grade: "S2",
+    colour: "#34d399",
+    feedbackStyle: "strict",   // Full grammar rule + no hand-holding
+    hintLevel: "minimal",      // Short hints, expected to figure out more
+    welcome: "Welcome back, ZenV. Secondary 2 level — Advanced test.",
+    parts: {
+      A: {
+        title: "Verb Forms (Tenses)",
+        subtitle: "Fill in the correct form of the verb in brackets",
+        questions: [
+          { q: "Environmental activists ______ (march) through the capital city last Saturday to demand urgent climate action.", ans: "marched", hint: "Specific past time signal present.", rule: "Simple Past = base verb + -ed. 'Last Saturday' signals a completed past action." },
+          { q: "The government ______ (introduce) several renewable energy initiatives since the Paris Agreement was signed.", ans: "has introduced", hint: "Past action still relevant now — 'since' is the key word.", rule: "Present Perfect = has/have + past participle. 'Since' connects a past point to the present." },
+          { q: "By the time the environmental report was released, the committee ______ (review) all the data thoroughly.", ans: "had reviewed", hint: "One past action happened before another past event.", rule: "Past Perfect = had + past participle. Used for an action completed before another past event." },
+          { q: "Scientists ______ (monitor) the melting of Arctic ice caps for over three decades now.", ans: "have been monitoring", hint: "Ongoing from past to now — duration emphasised.", rule: "Present Perfect Continuous = have/has + been + verb-ing. 'For over three decades now' signals ongoing duration." },
+          { q: "The energy minister ______ (announce) the construction of fifty new solar farms next week.", ans: "will announce", hint: "Planned future event.", rule: "Simple Future = will + base verb. Used for scheduled future events." },
+          { q: "While researchers ______ (collect) soil samples in the rainforest, they discovered a new species of plant.", ans: "were collecting", hint: "Ongoing action interrupted by another event.", rule: "Past Continuous = was/were + verb-ing. Shows an action in progress when another event occurred." },
+          { q: "By 2050, rising sea levels ______ (displace) an estimated 200 million people from coastal areas.", ans: "will have displaced", hint: "Completed before a future point.", rule: "Future Perfect = will + have + past participle. For actions completed before a future deadline." },
+          { q: "The conservation team ______ (plant) trees in the deforested region since the project began last spring.", ans: "has been planting", hint: "Ongoing action from a past point until now.", rule: "Present Perfect Continuous = has/have + been + verb-ing. 'Since the project began' signals the start." },
+          { q: "The glacier ______ (retreat) steadily for years when scientists first began documenting the changes.", ans: "had been retreating", hint: "Already ongoing before another past point.", rule: "Past Perfect Continuous = had + been + verb-ing. Shows action already in progress before a past point." },
+          { q: "Unless carbon emissions ______ (reduce) significantly, global temperatures will continue to rise.", ans: "are reduced", hint: "Conditional clause — passive form, present tense.", rule: "In 'unless' conditionals, use Present Simple Passive (are/is + past participle) in the condition clause." }
+        ]
+      },
+      B: {
+        title: "Word Forms",
+        subtitle: "Use the correct form of the word in brackets",
+        questions: [
+          { q: "The ______ of natural habitats has led to a dramatic decline in biodiversity worldwide. (DESTROY)", ans: "destruction", hint: "Noun needed as subject.", rule: "DESTROY → DESTRUCTION (noun). Suffix '-tion' creates nouns from verbs." },
+          { q: "Scientists must act ______ to prevent irreversible damage to our planet's ecosystems. (DECIDE)", ans: "decisively", hint: "Adverb modifying 'act'.", rule: "DECIDE → DECISIVE (adj) → DECISIVELY (adverb)." },
+          { q: "The ______ impact of climate change on agriculture threatens food security for billions. (DEVASTATE)", ans: "devastating", hint: "Adjective describing 'impact'.", rule: "DEVASTATE → DEVASTATING (adjective). -ing participial form." },
+          { q: "The government must ensure the ______ of natural resources for future generations. (PRESERVE)", ans: "preservation", hint: "Noun after 'the'.", rule: "PRESERVE → PRESERVATION (noun). Suffix '-ation'." },
+          { q: "The delegate spoke ______ about the need for immediate international cooperation on emissions. (PASSION)", ans: "passionately", hint: "Adverb describing how the delegate spoke.", rule: "PASSION → PASSIONATE → PASSIONATELY." },
+          { q: "The ______ of the new carbon tax policy was welcomed by environmental groups. (IMPLEMENT)", ans: "implementation", hint: "Noun as subject.", rule: "IMPLEMENT → IMPLEMENTATION (noun). Suffix '-ation'." },
+          { q: "The effects of ocean acidification are ______ more severe each passing decade. (GROW)", ans: "increasingly", hint: "Adverb before comparative 'more severe'.", rule: "GROW → INCREASING → INCREASINGLY. Means 'more and more'." },
+          { q: "The ______ between pollution levels and respiratory illness rates is well-established. (RELATE)", ans: "relationship", hint: "Noun after 'the'.", rule: "RELATE → RELATIONSHIP. Suffix '-ship' expresses connection." },
+          { q: "Environmentalists argued ______ that corporations must be held accountable for carbon emissions. (PERSUADE)", ans: "persuasively", hint: "Adverb describing how they argued.", rule: "PERSUADE → PERSUASIVE → PERSUASIVELY." },
+          { q: "The ______ of plastic waste in our oceans poses a serious threat to marine ecosystems. (ACCUMULATE)", ans: "accumulation", hint: "Noun as subject.", rule: "ACCUMULATE → ACCUMULATION. Suffix '-ion'." }
+        ]
+      },
+      C: {
+        title: "Error Correction",
+        subtitle: "Each sentence has one grammatical error — rewrite it correctly",
+        questions: [
+          { q: "The number of endangered species have increased alarmingly in the past fifty years.", ans: "The number of endangered species has increased alarmingly in the past fifty years.", hint: "Subject-verb agreement: 'the number' is singular.", rule: "'The number of + plural noun' takes a SINGULAR verb. Compare: 'A number of species HAVE' is plural." },
+          { q: "Despite of rising sea levels, many coastal communities refuse to relocate inland.", ans: "Despite rising sea levels, many coastal communities refuse to relocate inland.", hint: "'Despite' does not take 'of' directly.", rule: "Use 'despite + noun phrase' or 'in spite of + noun phrase'. Never 'despite of'." },
+          { q: "The government should of invested in renewable energy decades ago.", ans: "The government should have invested in renewable energy decades ago.", hint: "What word follows a modal verb?", rule: "Modal + HAVE + past participle. 'Should of' is always wrong — must be 'should HAVE'." },
+          { q: "The rainforest, along with thousands of animal species, are under serious threat from deforestation.", ans: "The rainforest, along with thousands of animal species, is under serious threat from deforestation.", hint: "What is the true subject of this sentence?", rule: "'Along with' does not change the subject. Main subject = 'the rainforest' (singular) → 'is'." },
+          { q: "Researchers have been study the effects of microplastics on marine life for several years.", ans: "Researchers have been studying the effects of microplastics on marine life for several years.", hint: "What form follows 'have been'?", rule: "Present Perfect Continuous = have/has + been + VERB-ING. 'Study' → 'studying'." },
+          { q: "The country lacks of sufficient funding to transition fully to clean energy sources.", ans: "The country lacks sufficient funding to transition fully to clean energy sources.", hint: "'Lacks' is transitive — does it need 'of'?", rule: "'Lack' takes a direct object with no preposition. 'Lacks something' not 'lacks of something'." },
+          { q: "If world leaders had signed the climate agreement earlier, global warming can have been slowed significantly.", ans: "If world leaders had signed the climate agreement earlier, global warming could have been slowed significantly.", hint: "Third conditional — check the result clause modal.", rule: "Third conditional: If + had + past participle → would/could/might + have + past participle." },
+          { q: "The climate report, which have been compiled by over 200 scientists, warns of catastrophic consequences.", ans: "The climate report, which has been compiled by over 200 scientists, warns of catastrophic consequences.", hint: "What does 'which' refer to?", rule: "'Which' refers to 'the climate report' (singular) → 'which HAS been compiled'." },
+          { q: "More awareness about the effects of climate change are needed among young people.", ans: "More awareness about the effects of climate change is needed among young people.", hint: "'Awareness' — countable or uncountable?", rule: "'Awareness' is uncountable. Always use singular verb: 'awareness IS'." },
+          { q: "Neither the factory owners nor the government were willing to reduce carbon emissions.", ans: "Neither the factory owners nor the government was willing to reduce carbon emissions.", hint: "With 'neither...nor', which subject determines the verb?", rule: "With 'neither...nor', verb agrees with the CLOSER subject. 'The government' is singular → 'was'." }
+        ]
+      },
+      D: {
+        title: "Sentence Transformation",
+        subtitle: "Rewrite each sentence as instructed without changing its meaning",
+        questions: [
+          { q: ["The factory released toxic chemicals into the river last year.", "(Change to Passive Voice)"], ans: "Toxic chemicals were released into the river by the factory last year.", hint: "Object becomes subject. Past tense passive.", rule: "Passive: Object + was/were + past participle + by + agent." },
+          { q: ["She is a passionate environmentalist. She has campaigned against deforestation for ten years.", "(Join using: who)"], ans: "She is a passionate environmentalist who has campaigned against deforestation for ten years.", hint: "'Who' introduces a relative clause about a person.", rule: "Relative clause with 'who' placed directly after the noun it describes." },
+          { q: ["The drought was very severe. It destroyed all the crops in the region.", "(Join using: so...that)"], ans: "The drought was so severe that it destroyed all the crops in the region.", hint: "So + adjective + that + result clause.", rule: "So...that shows cause and result. Emphasises degree." },
+          { q: ["The environmentalist said, \"We will fight to protect our forests until our last breath.\"", "(Change to Reported Speech)"], ans: "The environmentalist said that they would fight to protect their forests until their last breath.", hint: "Tense shift: will → would. Pronoun shift: we → they.", rule: "Reported speech: 'will' → 'would', 'we' → 'they', 'our' → 'their'. Remove quotes, add 'that'." },
+          { q: ["The pollution of the river was so extreme that it killed all aquatic life.", "(Begin with: Such)"], ans: "Such was the extent of the river pollution that it killed all aquatic life.", hint: "Such + was + the + noun + that... Formal inversion.", rule: "Such was the + noun phrase + that... Use noun form after 'the'." },
+          { q: ["Although global temperatures are rising rapidly, many countries have not reduced their emissions.", "(Begin with: Despite)"], ans: "Despite the rapid rise in global temperatures, many countries have not reduced their emissions.", hint: "'Despite' needs a noun phrase, not a clause.", rule: "'Despite' + noun phrase. Convert 'although' clause to noun phrase." },
+          { q: ["The scientist asked, \"Has the deforestation rate slowed down this year?\"", "(Change to Reported Speech)"], ans: "The scientist asked whether the deforestation rate had slowed down that year.", hint: "Yes/no question → 'whether'. Tense shifts back.", rule: "Reported yes/no questions use 'whether'. 'has slowed' → 'had slowed'. 'this year' → 'that year'." },
+          { q: ["It is vital that all nations commit to net-zero emissions by 2050.", "(Begin with: All nations)"], ans: "All nations must commit to net-zero emissions by 2050.", hint: "'It is vital that' expresses necessity — replace with modal.", rule: "'It is vital that + subject + verb' → 'Subject + must + verb'." },
+          { q: ["The scientists completed their research. They presented their findings to the UN.", "(Join using: having)"], ans: "Having completed their research, the scientists presented their findings to the UN.", hint: "'Having + past participle' for the earlier completed action.", rule: "'Having + past participle' = perfect participle clause. First action complete before second." },
+          { q: ["Deforestation has destroyed millions of hectares of tropical rainforest.", "(Change to Passive Voice)"], ans: "Millions of hectares of tropical rainforest have been destroyed by deforestation.", hint: "Present Perfect Passive. Plural subject.", rule: "Present Perfect Passive: subject + have/has + been + past participle + by + agent." }
+        ]
+      },
+      E: {
+        title: "Sentence Building",
+        subtitle: "Rearrange the words to form a correct sentence",
+        questions: [
+          { q: "climate / the / represents / change / greatest / threat / of / the / time / our", ans: "Climate change represents the greatest threat of our time.", hint: "'Climate change' is the subject. Build from there.", rule: "Subject + verb + predicate noun phrase." },
+          { q: "despite / agreements / international / deforestation / many / continues / at / alarming / rate / an", ans: "Despite many international agreements, deforestation continues at an alarming rate.", hint: "'Despite' starts a concession phrase followed by main clause.", rule: "Despite + noun phrase, + main clause." },
+          { q: "nations / have / the / pledged / emissions / to / reduce / developed / carbon / their / significantly", ans: "The developed nations have pledged to reduce their carbon emissions significantly.", hint: "Present Perfect. 'Pledged to reduce' = committed to reducing.", rule: "Subject + have + past participle + infinitive." },
+          { q: "only / damage / environmental / through / can / sustained / be / reversed / cooperation / international", ans: "Environmental damage can only be reversed through sustained international cooperation.", hint: "Passive sentence. 'Only' comes after the modal.", rule: "Subject + modal + only + be + past participle + through + noun phrase." },
+          { q: "the / threatened / pollution / has / air / health / of / millions", ans: "Air pollution has threatened the health of millions.", hint: "Present Perfect active.", rule: "Subject + has/have + past participle + object." },
+          { q: "it / all / that / is / factories / essential / reduce / their / are / emissions", ans: "It is essential that all factories reduce their emissions.", hint: "Formal 'It is + adjective + that' structure.", rule: "It + is + adjective + that + subject + verb." },
+          { q: "the / praised / organisation / scientists / environmental / for / groundbreaking / their / research", ans: "The organisation praised the environmental scientists for their groundbreaking research.", hint: "Subject + praised + object + for + reason.", rule: "Subject + verb + object + for + noun phrase." },
+          { q: "had / the / submitted / scientists / report / their / the / before / deadline / passed", ans: "The scientists had submitted their report before the deadline passed.", hint: "Past Perfect for the earlier action.", rule: "Past Perfect (had + past participle) for the earlier action; Simple Past for the later." },
+          { q: "being / of / the / addressed / causes / environmental / are / root / poverty / and / degradation", ans: "The root causes of environmental degradation, poverty and inequality, are being addressed.", hint: "Passive continuous. Appositive in commas.", rule: "Subject + are + being + past participle. Appositive elaborates on subject." },
+          { q: "no / will / thrive / civilisation / without / clean / access / air / to / and / water", ans: "No civilisation will thrive without access to clean air and water.", hint: "Negative subject 'No' + future simple + without phrase.", rule: "No + noun + will + verb + without + noun phrase." }
+        ]
+      },
+      F: {
+        questions: [
+          { q: "The ______ of greenhouse gases into the atmosphere is the primary driver of global warming.", opts: ["emission","omission","commission","permission"], ans: 0, hint: "Release of gases into environment.", rule: "EMISSION = production and release of gases. Key environmental vocabulary." },
+          { q: "The government implemented ______ measures to protect the endangered rainforest from further destruction.", opts: ["stringent","lenient","ambiguous","redundant"], ans: 0, hint: "Very strict and demanding measures.", rule: "STRINGENT = strict, precise, and exacting. Opposite of 'lenient'." },
+          { q: "Access to clean water and air is considered a fundamental environmental ______.", opts: ["rite","right","might","plight"], ans: 1, hint: "Moral or legal entitlement.", rule: "RIGHT = a moral or legal entitlement." },
+          { q: "The conference reached a ______ decision to phase out coal-powered energy by 2035.", opts: ["ambiguous","contentious","unilateral","unanimous"], ans: 3, hint: "All nations agreed.", rule: "UNANIMOUS = agreed upon by all." },
+          { q: "The ______ of freshwater resources is one of the most serious consequences of climate change.", opts: ["surplus","clarity","scarcity","disparity"], ans: 2, hint: "Severe shortage.", rule: "SCARCITY = severe shortage." },
+          { q: "Environmental groups urged the government to ______ all subsidies for fossil fuel companies.", opts: ["diminish","admonish","abandon","abolish"], ans: 3, hint: "Completely and formally end.", rule: "ABOLISH = formally put an end to something entirely." },
+          { q: "The new policy aims to ______ the damage caused by decades of industrial pollution.", opts: ["aggravate","alleviate","alienate","allocate"], ans: 1, hint: "Make the damage less severe.", rule: "ALLEVIATE = make a problem less severe. 'Aggravate' = worsen." },
+          { q: "The activist's documentary was highly ______, convincing millions to change their consumption habits.", opts: ["redundant","divisive","ambivalent","persuasive"], ans: 3, hint: "Able to convince others.", rule: "PERSUASIVE = able to persuade or convince." },
+          { q: "The international climate treaty was formally ______ by all member nations at the summit.", opts: ["clarified","justified","notified","ratified"], ans: 3, hint: "Formally approved, making it legally binding.", rule: "RATIFY = give formal consent to a treaty." },
+          { q: "The conservation team's ______ efforts over three decades helped bring the species back from extinction.", opts: ["reckless","restless","helpless","relentless"], ans: 3, hint: "Never giving up, constant determination.", rule: "RELENTLESS = constant and determined, never stopping." }
+        ]
+      }
+    }
+  },
+
+  // ── ZenZ — Secondary 1 ───────────────────────────────────────────────────
+  "ZenZ": {
+    level: "Secondary 1",
+    grade: "S1",
+    colour: "#60a5fa",
+    feedbackStyle: "moderate",  // Explains errors clearly with examples
+    hintLevel: "moderate",      // Hints give tense name and a small clue
+    welcome: "Welcome back, ZenZ. Secondary 1 level — let's do your best!",
+    parts: {
+      A: {
+        title: "Verb Forms (Tenses)",
+        subtitle: "Fill in the correct form of the verb in brackets",
+        questions: [
+          { q: "The scientist ______ (discover) a new type of plant in the rainforest last month.", ans: "discovered", hint: "'Last month' tells you this happened in the past. Use Simple Past.", rule: "Simple Past = verb + -ed for regular verbs. Use it when something happened at a specific time in the past." },
+          { q: "The government ______ (build) three new recycling centres since last year.", ans: "has built", hint: "This started in the past and is still happening now. Use Present Perfect.", rule: "Present Perfect = has/have + past participle. Use 'since' as a clue — it connects the past to now." },
+          { q: "By the time the volunteers arrived, the flood ______ (destroy) many homes.", ans: "had destroyed", hint: "The flood happened BEFORE the volunteers arrived. Use Past Perfect.", rule: "Past Perfect = had + past participle. Use when one past action happened before another." },
+          { q: "The children ______ (collect) rubbish at the beach for three hours now.", ans: "have been collecting", hint: "They started collecting and are still doing it now. Use Present Perfect Continuous.", rule: "Present Perfect Continuous = have/has + been + verb-ing. It shows an action that started in the past and is still going on." },
+          { q: "The school ______ (organise) an environmental campaign next Friday.", ans: "will organise", hint: "This is a plan for the future. Use Simple Future.", rule: "Simple Future = will + base verb. Use it for plans or scheduled events in the future." },
+          { q: "While the students ______ (plant) trees, it started to rain heavily.", ans: "were planting", hint: "The planting was happening when the rain started. Use Past Continuous.", rule: "Past Continuous = was/were + verb-ing. Use it for an action that was in progress when something else happened." },
+          { q: "By next year, the factory ______ (stop) all its carbon emissions.", ans: "will have stopped", hint: "This will be finished before a point in the future. Use Future Perfect.", rule: "Future Perfect = will + have + past participle. Use it for actions that will be completed before a future time." },
+          { q: "The community group ______ (clean) the river since early this morning.", ans: "has been cleaning", hint: "They started cleaning this morning and are still doing it. Use Present Perfect Continuous.", rule: "Present Perfect Continuous = has/have + been + verb-ing. 'Since early this morning' tells you when it started." },
+          { q: "The oil ______ (spread) across the ocean for two weeks when the rescue team finally arrived.", ans: "had been spreading", hint: "The oil was already spreading before the team arrived. Use Past Perfect Continuous.", rule: "Past Perfect Continuous = had + been + verb-ing. Shows an ongoing action already happening before a past point." },
+          { q: "If we ______ (not reduce) our plastic use, our oceans will continue to suffer.", ans: "do not reduce", hint: "This is a real future condition. Use Simple Present in the 'if' clause.", rule: "In Type 1 conditionals, use Simple Present in the 'if' clause and Simple Future in the result clause." }
+        ]
+      },
+      B: {
+        title: "Word Forms",
+        subtitle: "Use the correct form of the word in brackets",
+        questions: [
+          { q: "The ______ of trees in the forest has caused many animals to lose their homes. (CUT)", ans: "cutting", hint: "A noun is needed after 'the'. What noun form comes from 'cut'?", rule: "CUT → CUTTING (noun). Gerund form (-ing) can work as a noun." },
+          { q: "It is very ______ to throw rubbish into the river. (HARM)", ans: "harmful", hint: "An adjective is needed after 'very'. What adjective comes from 'harm'?", rule: "HARM → HARMFUL (adjective). The suffix '-ful' means 'full of' or 'causing'." },
+          { q: "The students worked ______ to keep their school compound clean. (HARD)", ans: "hard", hint: "The word describes how the students worked. Is 'hard' already an adverb?", rule: "'Hard' can be both an adjective and an adverb — no '-ly' needed." },
+          { q: "The ______ of the river is getting worse every year because of factories nearby. (POLLUTE)", ans: "pollution", hint: "A noun is needed as the subject. What noun comes from 'pollute'?", rule: "POLLUTE → POLLUTION (noun). Suffix '-ion' creates nouns from verbs." },
+          { q: "We must be ______ with our use of water and electricity. (CARE)", ans: "careful", hint: "An adjective is needed after 'be'. What adjective comes from 'care'?", rule: "CARE → CAREFUL (adjective). Suffix '-ful' creates adjectives." },
+          { q: "The ______ of solar panels across the country took several years. (INSTALL)", ans: "installation", hint: "A noun is needed as the subject. What noun comes from 'install'?", rule: "INSTALL → INSTALLATION (noun). Suffix '-ation' creates nouns from verbs." },
+          { q: "The weather has been ______ hot this year, which scientists say is caused by global warming. (UNUSUAL)", ans: "unusually", hint: "The word modifies 'hot' — it needs to be an adverb.", rule: "UNUSUAL → UNUSUALLY (adverb). Add '-ly' to form the adverb." },
+          { q: "There is a strong ______ between the use of fossil fuels and rising temperatures. (CONNECT)", ans: "connection", hint: "A noun is needed after 'a strong'. What noun comes from 'connect'?", rule: "CONNECT → CONNECTION (noun). Suffix '-ion' creates nouns from verbs." },
+          { q: "The new recycling programme has been very ______ in reducing waste. (SUCCESS)", ans: "successful", hint: "An adjective is needed after 'very'. What adjective comes from 'success'?", rule: "SUCCESS → SUCCESSFUL (adjective). Suffix '-ful' creates adjectives." },
+          { q: "Many people showed great ______ for protecting the environment during the campaign. (ENTHUSIASTIC)", ans: "enthusiasm", hint: "A noun is needed after 'great'. What noun comes from 'enthusiastic'?", rule: "ENTHUSIASTIC (adj) → ENTHUSIASM (noun). Key word family to know." }
+        ]
+      },
+      C: {
+        title: "Error Correction",
+        subtitle: "Each sentence has one mistake — rewrite the sentence correctly",
+        questions: [
+          { q: "The amount of plastic bags thrown away have increased over the years.", ans: "The amount of plastic bags thrown away has increased over the years.", hint: "Is 'the amount' singular or plural? Choose the correct verb.", rule: "'The amount of + noun' takes a SINGULAR verb (has). Think of it like 'the quantity IS'." },
+          { q: "Despite of the heavy rain, the volunteers continued cleaning the beach.", ans: "Despite the heavy rain, the volunteers continued cleaning the beach.", hint: "What word should follow 'despite'? It is NOT 'of'.", rule: "Use 'despite + noun phrase'. Never use 'despite of' — it is always incorrect." },
+          { q: "She should of switched off the lights before leaving the classroom.", ans: "She should have switched off the lights before leaving the classroom.", hint: "'Should' is a modal verb. What word must come after it?", rule: "Modal + HAVE + past participle. 'Should of' is a common mistake — always write 'should HAVE'." },
+          { q: "The forest, together with the animals living in it, are in great danger.", ans: "The forest, together with the animals living in it, is in great danger.", hint: "What is the real subject of this sentence? Ignore the phrase in commas.", rule: "'Together with' does not change the subject. 'The forest' is singular → 'is'." },
+          { q: "My classmates have been collecting recyclable items since two weeks.", ans: "My classmates have been collecting recyclable items for two weeks.", hint: "Which word is used with a period of time — 'since' or 'for'?", rule: "Use 'FOR' with a period of time (two weeks). Use 'SINCE' with a point in time (Monday, 2020)." },
+          { q: "The school garden lack water because nobody remembered to turn on the sprinklers.", ans: "The school garden lacks water because nobody remembered to turn on the sprinklers.", hint: "Is 'the school garden' singular or plural? Check the verb.", rule: "Singular subject 'The school garden' → 'lacks' (add -s for third person singular present)." },
+          { q: "If we had recycled more, less rubbish can end up in the ocean.", ans: "If we had recycled more, less rubbish would have ended up in the ocean.", hint: "This is a past unreal condition. Both clauses must match the third conditional pattern.", rule: "Third conditional: If + had + past participle → would + have + past participle." },
+          { q: "The poster on climate change, which were made by the students, won first prize.", ans: "The poster on climate change, which was made by the students, won first prize.", hint: "What does 'which' refer to? Is it singular or plural?", rule: "'Which' refers to 'the poster' (singular) → 'which WAS made'." },
+          { q: "More information about recycling are available at the school notice board.", ans: "More information about recycling is available at the school notice board.", hint: "'Information' — can you count it? What verb should it take?", rule: "'Information' is uncountable. Always use singular verb: 'information IS'." },
+          { q: "Neither the teacher nor the students was aware of the upcoming environmental event.", ans: "Neither the teacher nor the students were aware of the upcoming environmental event.", hint: "With 'neither...nor', which subject determines the verb — the one before or after 'nor'?", rule: "With 'neither...nor', the verb agrees with the CLOSER subject. 'The students' is plural → 'were'." }
+        ]
+      },
+      D: {
+        title: "Sentence Transformation",
+        subtitle: "Rewrite each sentence as instructed",
+        questions: [
+          { q: ["The students planted fifty trees in the school garden last week.", "(Change to Passive Voice)"], ans: "Fifty trees were planted in the school garden by the students last week.", hint: "The object 'fifty trees' becomes the new subject. Use 'were' + past participle.", rule: "Passive (Past): Object + were + past participle + by + agent." },
+          { q: ["She loves the environment. She volunteers at a nature reserve every weekend.", "(Join using: who)"], ans: "She is someone who loves the environment and volunteers at a nature reserve every weekend.", hint: "Use 'who' to connect the two sentences about the same person.", rule: "Relative clause: who + verb describes the person. Join two sentences about the same subject." },
+          { q: ["The rubbish problem was very serious. The whole beach was affected.", "(Join using: so...that)"], ans: "The rubbish problem was so serious that the whole beach was affected.", hint: "So + adjective + that + result.", rule: "So + adjective + that + result clause. Shows degree and consequence." },
+          { q: ["The teacher said, \"You must not litter in the school compound.\"", "(Change to Reported Speech)"], ans: "The teacher said that we must not litter in the school compound.", hint: "Change 'you' to 'we'. Remove inverted commas and add 'that'.", rule: "Reported speech: 'you' → 'we/they'. Remove quotes and add 'that'. 'Must' stays the same." },
+          { q: ["The flood caused so much damage that hundreds of families had to move out.", "(Begin with: Such)"], ans: "Such was the damage caused by the flood that hundreds of families had to move out.", hint: "Such + was + the + noun + that... Move the noun to after 'the'.", rule: "Such was the + noun + that... Formal structure for emphasis." },
+          { q: ["Although it was raining, the students continued their eco-walk.", "(Begin with: Despite)"], ans: "Despite the rain, the students continued their eco-walk.", hint: "'Despite' must be followed by a noun, not a clause.", rule: "'Despite' + noun phrase. 'Although it was raining' becomes 'the rain'." },
+          { q: ["The teacher asked, \"Did you turn off the lights before leaving?\"", "(Change to Reported Speech)"], ans: "The teacher asked whether we had turned off the lights before leaving.", hint: "Yes/no question → use 'whether'. Tense shifts back one step.", rule: "Reported yes/no questions: whether + subject + past tense verb." },
+          { q: ["It is important that every student takes part in the recycling programme.", "(Begin with: Every student)"], ans: "Every student must take part in the recycling programme.", hint: "'It is important that' expresses necessity. Replace with a modal verb.", rule: "'It is important that + subject + verb' → 'Subject + must + verb'." },
+          { q: ["The students finished their project. They presented it to the class.", "(Join using: After)"], ans: "After finishing their project, the students presented it to the class.", hint: "'After + verb-ing' shows one action happened before another.", rule: "After + verb-ing + main clause. The -ing clause shows the earlier action." },
+          { q: ["People are cutting down trees in the Amazon every day.", "(Change to Passive Voice)"], ans: "Trees in the Amazon are being cut down every day.", hint: "Present Continuous Passive. What is 'people' cutting down?", rule: "Present Continuous Passive: object + are/is + being + past participle." }
+        ]
+      },
+      E: {
+        title: "Sentence Building",
+        subtitle: "Rearrange the words to form a correct sentence",
+        questions: [
+          { q: "pollution / one / is / of / problems / the / biggest / environmental / today", ans: "Pollution is one of the biggest environmental problems today.", hint: "Start with 'Pollution' as the subject.", rule: "Subject + verb + predicate. 'One of the biggest environmental problems today' is the predicate." },
+          { q: "students / the / collected / bags / plastic / beach / from / the / fifty", ans: "The students collected fifty plastic bags from the beach.", hint: "Subject: 'the students'. Verb: 'collected'. Object: '50 plastic bags'.", rule: "Subject + verb + object + place. Keep numbers before nouns." },
+          { q: "we / should / water / turn / off / when / are / the / brushing / tap / teeth / our", ans: "We should turn off the tap when we are brushing our teeth.", hint: "Main clause first, then the 'when' clause.", rule: "Subject + modal + verb + object, when + subject + verb." },
+          { q: "the / recycling / has / programme / school / very / the / successful / been", ans: "The school recycling programme has been very successful.", hint: "Subject: 'the school recycling programme'. Verb: 'has been'.", rule: "Subject + has/have + been + adjective. Present Perfect with 'been'." },
+          { q: "cutting / trees / down / causes / habitats / animals / for / loss / of", ans: "Cutting down trees causes loss of habitats for animals.", hint: "Start with the gerund 'cutting down trees' as the subject.", rule: "Gerund phrase + verb + object. 'Cutting down trees' is the subject." },
+          { q: "important / very / it / that / is / clean / water / we / keep / our", ans: "It is very important that we keep our water clean.", hint: "'It is + adjective + that' structure.", rule: "It + is + adjective + that + subject + verb + object." },
+          { q: "the / praised / teacher / for / students / their / effort / recycling", ans: "The teacher praised the students for their recycling effort.", hint: "Subject + praised + object + for + reason.", rule: "Subject + verb + object + for + noun phrase." },
+          { q: "the / had / left / students / classroom / before / the / the / bell / rang", ans: "The students had left the classroom before the bell rang.", hint: "Past Perfect for the earlier action.", rule: "Subject + had + past participle + before + Simple Past." },
+          { q: "environment / the / protecting / is / everyone's / responsibility", ans: "Protecting the environment is everyone's responsibility.", hint: "Start with the gerund 'protecting'.", rule: "Gerund phrase as subject + is + noun." },
+          { q: "will / civilisation / no / survive / clean / without / water", ans: "No civilisation will survive without clean water.", hint: "Start with 'No civilisation'.", rule: "No + noun + will + verb + without + noun." }
+        ]
+      },
+      F: {
+        questions: [
+          { q: "The factory releases harmful ______ into the air every day.", opts: ["emissions","omissions","solutions","explosions"], ans: 0, hint: "This word means gases released into the atmosphere.", rule: "EMISSIONS = gases or other substances released into the environment." },
+          { q: "The government introduced ______ rules to stop factories from polluting the river.", opts: ["lenient","weak","strict","soft"], ans: 2, hint: "These rules are tough and must be followed.", rule: "STRICT = demanding that rules are obeyed. Opposite of lenient." },
+          { q: "Every child has the ______ to breathe clean air and drink clean water.", opts: ["rite","right","write","might"], ans: 1, hint: "This word means something you are entitled to.", rule: "RIGHT (noun) = something a person is entitled to by law or morally." },
+          { q: "All the students ______ agreed that the school should have a recycling bin in every class.", opts: ["rarely","never","unanimously","partially"], ans: 2, hint: "Every single student agreed — no one disagreed.", rule: "UNANIMOUSLY = with everyone agreeing. All members of a group." },
+          { q: "There is a ______ of clean water in many countries, especially during droughts.", opts: ["surplus","shortage","solution","source"], ans: 1, hint: "There is not enough clean water.", rule: "SHORTAGE = when there is not enough of something. Similar to scarcity." },
+          { q: "The town council decided to ______ the use of plastic bags in all supermarkets.", opts: ["encourage","allow","ban","support"], ans: 2, hint: "They stopped people from using plastic bags.", rule: "BAN = to officially stop something from being used or done." },
+          { q: "The new park will ______ the quality of life for people living in the city.", opts: ["worsen","reduce","improve","lower"], ans: 2, hint: "The park will make things better.", rule: "IMPROVE = to make something better." },
+          { q: "The environmental talk was very ______ and many students changed their habits afterwards.", opts: ["boring","persuasive","confusing","unhelpful"], ans: 1, hint: "It changed people's minds and behaviour.", rule: "PERSUASIVE = able to convince people to think or act differently." },
+          { q: "The new law was ______ by the parliament after many months of debate.", opts: ["rejected","approved","ignored","delayed"], ans: 1, hint: "The parliament said yes to the law.", rule: "APPROVED = officially accepted or agreed to." },
+          { q: "The volunteers worked ______ to clean up the park, even though it took the whole day.", opts: ["lazily","carelessly","relentlessly","unwillingly"], ans: 2, hint: "They kept working without stopping.", rule: "RELENTLESSLY = in a constant and determined way, without stopping." }
+        ]
+      }
+    }
+  },
+
+  // ── ZenE — Primary 6 ─────────────────────────────────────────────────────
+  "ZenE": {
+    level: "Primary 6",
+    grade: "P6",
+    colour: "#f97316",
+    feedbackStyle: "gentle",   // Encouraging, very detailed explanations
+    hintLevel: "detailed",     // Full hint with example and step-by-step guide
+    welcome: "Welcome, ZenE! You can do it — take your time with each question!",
+    parts: {
+      A: {
+        title: "Verb Forms (Tenses)",
+        subtitle: "Fill in the correct form of the verb in brackets",
+        questions: [
+          { q: "Last Sunday, our class ______ (visit) the Botanic Gardens to learn about plants.", ans: "visited", hint: "'Last Sunday' = something that happened in the past. Change 'visit' to its past form by adding -ed.", rule: "Simple Past: add -ed to the verb (visit → visited). Use this when something happened at a specific time in the past." },
+          { q: "The school ______ (collect) over 500 kg of paper for recycling since January.", ans: "has collected", hint: "The collecting started in January and the result is important now. Use 'has' + past form of 'collect'.", rule: "Present Perfect = has/have + past participle. 'Since January' means it started then and is still relevant now." },
+          { q: "When the teacher arrived, the pupils ______ (already finish) their posters about the environment.", ans: "had already finished", hint: "The pupils finished BEFORE the teacher arrived. Use 'had' + past form of 'finish'.", rule: "Past Perfect = had + past participle. Use when one past action happened BEFORE another past action." },
+          { q: "The gardener ______ (water) the plants for an hour. He is not done yet.", ans: "has been watering", hint: "He started watering one hour ago and is STILL watering now. Use 'has been' + verb-ing.", rule: "Present Perfect Continuous = has/have + been + verb-ing. Shows an action that started in the past and is still happening." },
+          { q: "Our school ______ (start) a new composting project next month.", ans: "will start", hint: "This hasn't happened yet — it is a plan for the future. Use 'will' + base verb.", rule: "Simple Future = will + base verb. Use 'will' when something is planned for the future." },
+          { q: "While my mother ______ (cook) dinner, I watered the plants in our garden.", ans: "was cooking", hint: "Cooking was happening at the same time as watering. Use 'was' + verb-ing.", rule: "Past Continuous = was/were + verb-ing. Use when one action was in progress while another happened." },
+          { q: "By the time we finish primary school, we ______ (learn) many ways to protect the environment.", ans: "will have learned", hint: "This will be finished before we finish primary school. Use 'will have' + past form of 'learn'.", rule: "Future Perfect = will + have + past participle. Use for actions that will be complete before a future point." },
+          { q: "The pupils ______ (pick up) litter along the canal for the past two hours.", ans: "have been picking up", hint: "They started two hours ago and are still picking up litter now. Use 'have been' + verb-ing.", rule: "Present Perfect Continuous = have/has + been + verb-ing. Shows an ongoing action that started in the past." },
+          { q: "It ______ (rain) for three days before the sun finally came out again.", ans: "had been raining", hint: "The rain was ongoing before the sun came out. Use 'had been' + verb-ing.", rule: "Past Perfect Continuous = had + been + verb-ing. Shows an ongoing action that was already happening before a past event." },
+          { q: "If we ______ (not waste) water, there will be enough for everyone.", ans: "do not waste", hint: "This is a real possibility in the future. In the 'if' part, use simple present tense.", rule: "Type 1 Conditional: If + Simple Present, will + base verb. Use for real future possibilities." }
+        ]
+      },
+      B: {
+        title: "Word Forms",
+        subtitle: "Change the word in brackets to fit the sentence",
+        questions: [
+          { q: "We must take care of our ______ so that animals and plants can survive. (ENVIRONMENT)", ans: "environment", hint: "No change needed — 'environment' is already a noun that fits perfectly.", rule: "ENVIRONMENT (noun). Sometimes the word given is already in the correct form!" },
+          { q: "It is ______ to drop litter in public places. (ACCEPT)", ans: "unacceptable", hint: "The sentence says it is wrong to litter. Add a negative prefix and suffix to 'accept'.", rule: "ACCEPT → ACCEPTABLE (adj) → UNACCEPTABLE (adj with 'un-' prefix meaning 'not'). Something that is not acceptable." },
+          { q: "The pupils cleaned the playground ______ before the teachers arrived. (THOROUGH)", ans: "thoroughly", hint: "This word tells us HOW they cleaned. It needs to be an adverb.", rule: "THOROUGH (adj) → THOROUGHLY (adverb). Add '-ly' to make an adverb from an adjective." },
+          { q: "We need to find a ______ to the problem of too much plastic waste. (SOLVE)", ans: "solution", hint: "A noun is needed after 'a'. What noun comes from 'solve'?", rule: "SOLVE (verb) → SOLUTION (noun). The suffix '-tion' changes a verb into a noun." },
+          { q: "The poster reminded everyone to be ______ when using water. (CARE)", ans: "careful", hint: "An adjective is needed after 'be'. Think: full of care = ?", rule: "CARE → CAREFUL (adjective). The suffix '-ful' means 'full of'." },
+          { q: "The ______ of the river took many months of hard work by volunteers. (CLEAN)", ans: "cleaning", hint: "A noun is needed after 'the'. Use the -ing form of 'clean' as a noun.", rule: "CLEAN → CLEANING (noun/gerund). The -ing form can act as a noun." },
+          { q: "Everyone was very ______ when they heard the news about the new nature park. (EXCITE)", ans: "excited", hint: "An adjective describing how people FELT. Use the -ed form.", rule: "EXCITE → EXCITED (adjective). Use -ed form when describing feelings people have." },
+          { q: "There is a clear ______ between cutting down trees and the loss of wildlife. (RELATE)", ans: "relationship", hint: "A noun is needed after 'a clear'. What noun comes from 'relate'?", rule: "RELATE → RELATIONSHIP (noun). The '-ship' suffix creates a noun showing a connection." },
+          { q: "The pupils gave a very ______ speech about saving the environment. (IMPRESS)", ans: "impressive", hint: "An adjective is needed before 'speech'. What adjective comes from 'impress'?", rule: "IMPRESS (verb) → IMPRESSIVE (adjective). The '-ive' suffix creates adjectives." },
+          { q: "We have a ______ to take care of the environment for future generations. (RESPONSIBLE)", ans: "responsibility", hint: "A noun is needed after 'a'. What noun comes from 'responsible'?", rule: "RESPONSIBLE (adj) → RESPONSIBILITY (noun). The '-ity' suffix creates nouns from adjectives." }
+        ]
+      },
+      C: {
+        title: "Error Correction",
+        subtitle: "Each sentence has one mistake — rewrite the sentence correctly",
+        questions: [
+          { q: "The number of birds in our garden have decreased because of the pollution.", ans: "The number of birds in our garden has decreased because of the pollution.", hint: "Read the subject carefully. 'The number' is ONE number — it is singular. Change 'have' to the correct form.", rule: "'The number of + noun' is singular. Use 'has' not 'have'. (The number HAS = one number.)" },
+          { q: "Despite of the hot weather, we continued our nature walk.", ans: "Despite the hot weather, we continued our nature walk.", hint: "'Despite' already means 'even though'. You do NOT need 'of' after it.", rule: "Correct: 'despite + noun phrase'. Wrong: 'despite of'. Simply remove 'of'." },
+          { q: "We should of brought more water bottles on the camping trip.", ans: "We should have brought more water bottles on the camping trip.", hint: "'Should' is followed by 'have', not 'of'. Say it aloud: 'should have'.", rule: "Modal verbs (should, could, would) are followed by 'HAVE', not 'of'. 'Should of' is always wrong." },
+          { q: "The park, together with the garden, are a great place to relax.", ans: "The park, together with the garden, is a great place to relax.", hint: "The subject is 'the park'. The phrase 'together with the garden' is extra information. 'The park' is one park.", rule: "When a phrase like 'together with', 'as well as', or 'along with' is added, the verb still agrees with the MAIN subject." },
+          { q: "My sister has been interested in recycling since three years.", ans: "My sister has been interested in recycling for three years.", hint: "Three years is a PERIOD of time, not a point in time. Which word — 'since' or 'for' — goes with a period of time?", rule: "Use 'FOR' with periods of time (three years, two hours). Use 'SINCE' with points in time (Monday, 2020)." },
+          { q: "Our school garden lack a water hose to water the plants properly.", ans: "Our school garden lacks a water hose to water the plants properly.", hint: "'Our school garden' is one garden — it is singular. What happens to the verb when the subject is singular?", rule: "For singular subjects, add -s to the present tense verb: 'lack' → 'lacks'." },
+          { q: "If we had used less plastic, the ocean can have been cleaner today.", ans: "If we had used less plastic, the ocean could have been cleaner today.", hint: "This talks about something that did NOT happen in the past. The result must use 'could have', not 'can have'.", rule: "Third conditional (past unreal): If + had + past participle, + would/could/might + have + past participle." },
+          { q: "The project on recycling, which were started by the pupils, won an award.", ans: "The project on recycling, which was started by the pupils, won an award.", hint: "What is 'which' referring to? 'The project' is one project — it is singular.", rule: "'Which' refers to 'the project' (singular). Use 'was' not 'were'." },
+          { q: "More information about the competition are shown on the school website.", ans: "More information about the competition is shown on the school website.", hint: "You cannot count 'information' — it has no plural form. It always takes a singular verb.", rule: "'Information' is uncountable. Always use 'is', never 'are': 'the information IS'." },
+          { q: "Neither Tom nor his friends was present at the environmental talk.", ans: "Neither Tom nor his friends were present at the environmental talk.", hint: "Look at the noun closest to the verb — 'his friends'. Is 'his friends' singular or plural?", rule: "With 'neither...nor', the verb agrees with the noun CLOSEST to it. 'His friends' is plural → use 'were'." }
+        ]
+      },
+      D: {
+        title: "Sentence Transformation",
+        subtitle: "Rewrite each sentence as instructed",
+        questions: [
+          { q: ["The pupils watered the plants in the school garden this morning.", "(Change to Passive Voice)"], ans: "The plants in the school garden were watered by the pupils this morning.", hint: "Find the object — 'the plants'. It becomes the new subject. Use 'were' because 'the plants' is plural.", rule: "Passive Voice (Past): Object + were + past participle + by + subject." },
+          { q: ["She is an eco-warrior. She recycles everything at home.", "(Join using: who)"], ans: "She is an eco-warrior who recycles everything at home.", hint: "Use 'who' to add more information about the person.", rule: "'Who' introduces a relative clause about a person. Place it right after the noun it describes." },
+          { q: ["The rubbish bin was very full. It could not close properly.", "(Join using: so...that)"], ans: "The rubbish bin was so full that it could not close properly.", hint: "So + adjective + that + result. The adjective is 'full'.", rule: "So + adjective + that + result shows the degree of something and its consequence." },
+          { q: ["My teacher said, \"You must bring a recycled item to school tomorrow.\"", "(Change to Reported Speech)"], ans: "My teacher said that I had to bring a recycled item to school the next day.", hint: "Change: 'you' → 'I', 'must' → 'had to', 'tomorrow' → 'the next day'. Remove inverted commas.", rule: "Reported speech: 'you' → 'I', 'must' → 'had to', 'tomorrow' → 'the next day'. Add 'that', remove quotes." },
+          { q: ["The storm caused a lot of damage. Many trees fell down.", "(Begin with: Such)"], ans: "Such was the damage caused by the storm that many trees fell down.", hint: "Such + was + the + noun (damage) + that + result.", rule: "Such was the + noun + that + result. A formal way to show cause and effect." },
+          { q: ["Although it was tiring, the pupils finished the clean-up activity.", "(Begin with: Despite)"], ans: "Despite the tiredness, the pupils finished the clean-up activity.", hint: "'Despite' must be followed by a noun. Change 'it was tiring' into the noun 'the tiredness'.", rule: "'Despite' + noun phrase. Convert the 'although' clause into a noun." },
+          { q: ["The teacher asked, \"Did you remember to water the plants today?\"", "(Change to Reported Speech)"], ans: "The teacher asked whether I had remembered to water the plants that day.", hint: "This is a yes/no question. Use 'whether'. Change 'did you remember' → 'I had remembered'.", rule: "Reported yes/no questions: whether + subject + past tense verb. 'Today' → 'that day'." },
+          { q: ["It is important that every pupil switches off the lights when leaving the classroom.", "(Begin with: Every pupil)"], ans: "Every pupil must switch off the lights when leaving the classroom.", hint: "'It is important that' = strong advice. Replace with 'must'.", rule: "'It is important that + subject + verb' → 'Subject + must + base verb'." },
+          { q: ["The pupils finished their recycling project. They showed it to the whole school.", "(Join using: After)"], ans: "After finishing their recycling project, the pupils showed it to the whole school.", hint: "'After' + verb-ing shows the first action. Then write the second action.", rule: "After + verb-ing, subject + verb. The -ing action happened first." },
+          { q: ["People are throwing rubbish into the river every day.", "(Change to Passive Voice)"], ans: "Rubbish is being thrown into the river every day.", hint: "The object 'rubbish' becomes the subject. Use 'is being thrown' (present continuous passive).", rule: "Present Continuous Passive: object + is/are + being + past participle." }
+        ]
+      },
+      E: {
+        title: "Sentence Building",
+        subtitle: "Rearrange the words to make a correct sentence",
+        questions: [
+          { q: "we / environment / should / the / protect / all", ans: "We should all protect the environment.", hint: "Start with 'We'. The modal verb 'should' comes next.", rule: "Subject + should + adverb + verb + object." },
+          { q: "pupils / picked / the / from / litter / the / up / park", ans: "The pupils picked up the litter from the park.", hint: "Subject: 'the pupils'. Verb: 'picked up'. Object: 'the litter'.", rule: "Subject + verb + object + place." },
+          { q: "off / turn / you / should / taps / the / after / using / water", ans: "You should turn off the taps after using water.", hint: "Start with 'You'. Modal verb 'should' comes next.", rule: "Subject + should + verb + object + time clause." },
+          { q: "recycling / programme / has / the / very / school / successful / been", ans: "The school recycling programme has been very successful.", hint: "Subject: 'the school recycling programme'. Verb: 'has been'.", rule: "Subject + has/have + been + adjective." },
+          { q: "cuts / down / destroys / trees / habitats / cutting / animal", ans: "Cutting down trees destroys animal habitats.", hint: "Start with the gerund phrase 'cutting down trees'.", rule: "Gerund phrase + verb + object." },
+          { q: "important / it / everyone / that / litter / is / does / not", ans: "It is important that everyone does not litter.", hint: "Start with 'It is important that'.", rule: "It + is + adjective + that + subject + verb." },
+          { q: "teacher / students / praised / the / their / for / the / efforts", ans: "The teacher praised the students for their efforts.", hint: "Subject: 'The teacher'. Object: 'the students'. Reason: 'for their efforts'.", rule: "Subject + verb + object + for + noun phrase." },
+          { q: "the / had / pupils / the / the / before / finished / rang / bell / project", ans: "The pupils had finished the project before the bell rang.", hint: "Use 'had finished' for the earlier action.", rule: "Subject + had + past participle + before + Simple Past." },
+          { q: "environment / the / protecting / everyone's / is / duty", ans: "Protecting the environment is everyone's duty.", hint: "Start with the gerund 'Protecting'.", rule: "Gerund phrase + is + noun." },
+          { q: "not / will / there / clean / be / if / water / we / it / waste", ans: "There will not be clean water if we waste it.", hint: "Start with 'There will not be'.", rule: "There + will + not + be + noun + if + subject + verb." }
+        ]
+      },
+      F: {
+        questions: [
+          { q: "The smoke from the factory is a type of air ______.", opts: ["emission","solution","protection","reduction"], ans: 0, hint: "This word means something released into the air.", rule: "EMISSION = a gas or substance that is released into the air." },
+          { q: "Our school has ______ rules about throwing rubbish on the ground.", opts: ["weak","careless","strict","relaxed"], ans: 2, hint: "The rules must be followed — they are tough.", rule: "STRICT = demanding that rules are followed. We have strict rules = the rules must be obeyed." },
+          { q: "Every person has the ______ to live in a clean and safe environment.", opts: ["rite","write","right","might"], ans: 2, hint: "This word means something you are entitled to.", rule: "RIGHT (noun) = something you are entitled to. Every person has the RIGHT to clean air." },
+          { q: "All the pupils ______ agreed to keep the classroom clean.", opts: ["never","sometimes","unanimously","rarely"], ans: 2, hint: "Every single pupil agreed — no one said no.", rule: "UNANIMOUSLY = when everyone agrees. Not even one person disagrees." },
+          { q: "There is a ______ of clean water in some countries, so people do not have enough to drink.", opts: ["lot","surplus","shortage","supply"], ans: 2, hint: "There is not enough clean water.", rule: "SHORTAGE = when there is not enough of something that is needed." },
+          { q: "The town council decided to ______ the burning of rubbish in the neighbourhood.", opts: ["allow","encourage","ban","support"], ans: 2, hint: "They said people are NOT allowed to burn rubbish.", rule: "BAN = to officially forbid something. To ban = to say it is not allowed." },
+          { q: "Planting more trees will ______ the air quality in our city.", opts: ["worsen","improve","reduce","harm"], ans: 1, hint: "Trees make the air better — which word means 'to make better'?", rule: "IMPROVE = to make something better. Trees IMPROVE air quality." },
+          { q: "The nature documentary was very ______ and made me want to protect animals.", opts: ["boring","persuasive","confusing","unhelpful"], ans: 1, hint: "The documentary made you want to do something — it changed your mind.", rule: "PERSUASIVE = able to make someone change their mind or take action." },
+          { q: "The new recycling plan was ______ by the school principal at the assembly.", opts: ["rejected","announced","ignored","forgotten"], ans: 1, hint: "The principal told everyone about it at assembly.", rule: "ANNOUNCED = made known publicly. The principal ANNOUNCED the plan to everyone." },
+          { q: "The pupils worked ______ to finish cleaning the garden before it got dark.", opts: ["lazily","slowly","relentlessly","unwillingly"], ans: 2, hint: "They kept working hard without stopping.", rule: "RELENTLESSLY = without stopping, in a constant and determined way." }
+        ]
+      }
+    }
+  }
+};
+
+// Names that map to profiles (case-insensitive)
+const NAME_MAP = {
+  "zenv": "ZenV",
+  "zenZ": "ZenZ",  
+  "zenz": "ZenZ",
+  "zene": "ZenE"
+};
+
+function getProfile(name) {
+  if (!name) return null;
+  const key = name.toLowerCase().replace(/\s+/g,"");
+  // Exact match first
+  for (const [k, v] of Object.entries(NAME_MAP)) {
+    if (key === k.toLowerCase()) return STUDENT_PROFILES[v];
+  }
+  // Partial match
+  for (const [k, v] of Object.entries(NAME_MAP)) {
+    if (key.includes(k.toLowerCase())) return STUDENT_PROFILES[v];
+  }
+  return null; // Unknown student — will use default test
+}
+
+
 const BIN_ID="69babf10b7ec241ddc7d652f";
 const MASTER_KEY="$2a$10$GeOyXKViWuf6OsSoiA9eT.bifbFDXJ/AsilT9KSjMz.2Ibg5mPDGS";
 const API="https://api.jsonbin.io/v3";
@@ -440,6 +692,7 @@ const MCQ=[
 ];
 
 const sectionScores={a:0,b:0,c:0,d:0,e:0,f:0};
+const sectionChecked={a:false,b:false,c:false,d:false,e:false,f:false};
 const mcqSel={};
 let studentName="",startTime=null;
 
@@ -460,27 +713,138 @@ function buildSubmission(isFinal){
   const score=Object.values(sectionScores).reduce((a,b)=>a+b,0);
   const pct=Math.round((score/60)*100);
   const duration=startTime?Math.round((new Date()-startTime)/60000)+" min":"N/A";
-  return{name:studentName,submittedAt:new Date().toLocaleString("en-MY",{dateStyle:"medium",timeStyle:"short"}),duration,score,pct,sectionScores:{...sectionScores},answers:collectAnswers(),isDraft:!isFinal,testTheme:"Environment & Climate Change"};
+  // Detect if any open-ended part has identical answers (flag for teacher)
+  const ans = collectAnswers();
+  const duplicateFlags = {};
+  ["g","h"].forEach(p=>{
+    const vals = Array.from({length:10},(_,i)=>( ans[p+(i+1)]||"").trim().toLowerCase().replace(/\s+/g," "));
+    const filled = vals.filter(v=>v.length>0);
+    const unique = new Set(filled);
+    if(filled.length>=5 && unique.size<=2) duplicateFlags[p]="duplicate";
+    else if(filled.length>=5 && new Set(vals.map(v=>v.split(" ").slice(0,8).join(" "))).size<=2) duplicateFlags[p]="similar";
+  });
+  return{name:studentName,submittedAt:new Date().toLocaleString("en-MY",{dateStyle:"medium",timeStyle:"short"}),duration,score,pct,sectionScores:{...sectionScores},answers:ans,isDraft:!isFinal,testTheme:"Environment & Climate Change",studentLevel:currentProfile?currentProfile.level:"Unknown",studentGrade:currentProfile?currentProfile.grade:"?",duplicateFlags};
 }
 
-// ── AUTO-SAVE (triggered silently after each check) ──────
+// ── ROBUST SAVE WITH RETRY ────────────────────────────────
 async function autoSave(part){
   setStatus("saving","Saving Part "+part.toUpperCase()+"...");
-  const localData=buildSubmission(false);
-  saveLocal(localData);
-  let ok=false;
-  try{
-    const getRes=await fetch(`${API}/b/${BIN_ID}/latest`,{headers:{"X-Master-Key":MASTER_KEY,"X-Bin-Meta":"false"}});
-    const existing=await getRes.json();
-    let subs=Array.isArray(existing.submissions)?existing.submissions:[];
-    const draftIdx=subs.findIndex(s=>s.name===studentName&&s.isDraft);
-    const draft={...localData,isDraft:true,partChecked:part.toUpperCase(),savedAt:new Date().toLocaleString("en-MY",{dateStyle:"medium",timeStyle:"short"})};
-    if(draftIdx>=0)subs[draftIdx]=draft;else subs.push(draft);
-    const putRes=await fetch(`${API}/b/${BIN_ID}`,{method:"PUT",headers:{"Content-Type":"application/json","X-Master-Key":MASTER_KEY},body:JSON.stringify({submissions:subs})});
-    if(putRes.ok)ok=true;
-  }catch(e){ok=false;}
-  if(ok){setStatus("saved","Part "+part.toUpperCase()+" saved ✓");setLastSaved();}
-  else{setStatus("error","Saved locally — will sync when online");}
+  const localData = buildSubmission(false);
+  saveLocal(localData); // Always save locally first
+  const ok = await pushToServer(localData);
+  if(ok){ setStatus("saved","Part "+part.toUpperCase()+" saved ✓"); setLastSaved(); }
+  else{
+    setStatus("error","Save failed — tap button again to retry");
+    // Show a persistent retry notice
+    const ls = document.getElementById("lastSaved");
+    if(ls) ls.innerHTML = `<button onclick="retrySave()" style="font-family:var(--mono);font-size:10px;padding:4px 10px;background:var(--err);color:#fff;border:none;border-radius:4px;cursor:pointer">↻ Retry Save</button>`;
+  }
+}
+
+// ── CORE SERVER PUSH — with 3 retries and exponential backoff ────────────────
+async function pushToServer(data, retries=3){
+  for(let attempt=1; attempt<=retries; attempt++){
+    try{
+      // Step 1: GET current bin
+      const getRes = await fetch(`${API}/b/${BIN_ID}/latest`,{
+        headers:{"X-Master-Key":MASTER_KEY,"X-Bin-Meta":"false"}
+      });
+      if(!getRes.ok) throw new Error("GET failed: "+getRes.status);
+      const existing = await getRes.json();
+      let subs = Array.isArray(existing.submissions) ? existing.submissions : [];
+
+      // Step 2: Update or insert this student's entry
+      // Match on name + isDraft — replace draft, or add new final
+      if(data.isDraft){
+        const idx = subs.findIndex(s=>s.name===data.name && s.isDraft===true);
+        if(idx>=0) subs[idx] = data;
+        else subs.push(data);
+      } else {
+        // Final submission — remove all drafts for this student and add final
+        subs = subs.filter(s=>!(s.name===data.name && s.isDraft===true));
+        // Also remove any previous final for same student+theme+date (avoid duplicates)
+        const today = new Date().toLocaleDateString("en-MY");
+        subs = subs.filter(s=>!(s.name===data.name && !s.isDraft && (s.submittedAt||"").includes(today)));
+        subs.push(data);
+      }
+
+      // Step 3: PUT back
+      const putRes = await fetch(`${API}/b/${BIN_ID}`,{
+        method:"PUT",
+        headers:{"Content-Type":"application/json","X-Master-Key":MASTER_KEY},
+        body:JSON.stringify({submissions:subs})
+      });
+      if(!putRes.ok) throw new Error("PUT failed: "+putRes.status);
+      return true; // Success!
+
+    } catch(e){
+      console.warn(`Save attempt ${attempt} failed:`, e.message);
+      if(attempt < retries){
+        // Wait before retrying: 1s, 2s, 4s
+        await new Promise(r=>setTimeout(r, 1000 * Math.pow(2, attempt-1)));
+      }
+    }
+  }
+  return false; // All retries failed
+}
+// ── RETRY SAVE — called from error button ────────────────────────────────────
+async function retrySave(){
+  setStatus("saving","Retrying save...");
+  const localData = loadLocal();
+  if(!localData){ setStatus("error","No local data found."); return; }
+  const ok = await pushToServer(localData);
+  if(ok){ setStatus("saved","Saved successfully ✓"); setLastSaved(); }
+  else{ setStatus("error","Still failing — check internet connection"); }
+}
+
+
+// ── CHECK & SUBMIT — called by each part's button ─────────────────────────
+async function checkAndSubmit(part, type){
+  // Run the appropriate check first
+  if(type==="fill") checkFill(part,10);
+  else if(type==="ta") checkTA(part,10);
+  else if(type==="mcq") checkMCQ();
+  // Save to server
+  await autoSave(part);
+  // Check if all parts done
+  checkIfComplete();
+}
+
+async function checkAndSubmitPara(){
+  await checkParaAI();
+  await autoSave("i");
+  checkIfComplete();
+}
+
+function checkIfComplete(){
+  // Count how many parts have been checked
+  const checkedParts = Object.values(sectionScores).filter(s=>s>0).length;
+  const hasAnswers = ["a","b","c","d","e","f"].every(p=>{
+    for(let i=1;i<=10;i++){
+      const el = document.getElementById(p+i);
+      if(el && el.value.trim()) return true;
+    }
+    return false;
+  });
+  // Show final result modal if all 6 auto-checked parts have been submitted
+  if(["a","b","c","d","e","f"].every(p=>sectionScores[p]!==undefined)){
+    const allChecked = ["a","b","c","d","e","f"].every(p=>sectionChecked[p]);
+    if(allChecked) showFinalResult();
+  }
+}
+
+function showFinalResult(){
+  const score=Object.values(sectionScores).reduce((a,b)=>a+b,0);
+  const pct=Math.round((score/60)*100);
+  const col=sc(pct);
+  document.getElementById("resScore").textContent=score+"/60";
+  document.getElementById("resScore").style.color=col;
+  document.getElementById("resSaved").style.cssText=`background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.25);color:#34d399`;
+  document.getElementById("resSaved").textContent="✓ All parts saved! Your teacher can see your full results.";
+  const msg=pct>=85?"Excellent work! Your command of environmental English is impressive.":pct>=70?"Well done! Strong grammar skills with room to grow further.":pct>=55?"Good effort! Focus on verb tenses and sentence structure.":"Keep going! Review the grammar rules in the hints carefully.";
+  document.getElementById("resMsg").textContent=msg;
+  document.getElementById("resGrid").innerHTML=["a","b","c","d","e","f"].map(p=>`<div class="res-item"><div class="v" style="color:${sc((sectionScores[p]||0)*10)}">${sectionScores[p]||0}/10</div><div class="l">Part ${p.toUpperCase()}</div></div>`).join("");
+  document.getElementById("resultModal").classList.add("open");
 }
 
 // ── RESTORE ───────────────────────────────────────────
@@ -546,8 +910,7 @@ function checkFill(pfx,n){
     el.classList.remove("ok","bad");el.classList.add(correct?"ok":"bad");
     showFb(pfx+i,correct);if(correct)score++;
   }
-  sectionScores[pfx]=score;updateDash();
-  autoSave(pfx);
+  sectionScores[pfx]=score;sectionChecked[pfx]=true;updateDash();
 }
 function checkTA(pfx,n){
   let score=0;
@@ -559,12 +922,13 @@ function checkTA(pfx,n){
     el.classList.remove("ok","bad");el.classList.add(correct?"ok":"bad");
     showFb(pfx+i,correct);if(correct)score++;
   }
-  sectionScores[pfx]=score;updateDash();
-  autoSave(pfx);
+  sectionScores[pfx]=score;sectionChecked[pfx]=true;updateDash();
 }
 function checkMCQ(){
   let score=0;
-  MCQ.forEach((q,i)=>{
+  const mcqData = (currentProfile && currentProfile.parts && currentProfile.parts.F)
+    ? currentProfile.parts.F.questions : MCQ;
+  mcqData.forEach((q,i)=>{
     const qn=i+1,sel=mcqSel[qn];
     const okEl=document.getElementById("fb-ok-f"+qn),badEl=document.getElementById("fb-bad-f"+qn);
     if(sel===undefined){if(okEl)okEl.style.display="none";if(badEl)badEl.style.display="none";return;}
@@ -573,8 +937,7 @@ function checkMCQ(){
     if(correct){if(okEl)okEl.style.display="block";if(badEl)badEl.style.display="none";score++;}
     else{if(okEl)okEl.style.display="none";if(badEl)badEl.style.display="block";}
   });
-  sectionScores.f=score;updateDash();
-  autoSave('f');
+  sectionScores.f=score;sectionChecked.f=true;updateDash();
 }
 
 // ── PROGRESS ──────────────────────────────────────────
@@ -605,34 +968,173 @@ function collectAnswers(){
 }
 
 // ── START ─────────────────────────────────────────────
+let currentProfile = null;
+
+// Show profile preview as they type name
+document.addEventListener("DOMContentLoaded", ()=>{
+  const inp = document.getElementById("nameInput");
+  if(inp) inp.addEventListener("input", ()=>{
+    const p = getProfile(inp.value.trim());
+    const preview = document.getElementById("profilePreview");
+    if(p && inp.value.trim().length >= 3){
+      preview.style.display="block";
+      preview.style.borderColor = p.colour;
+      preview.style.color = p.colour;
+      preview.innerHTML = "&#128075; " + p.welcome;
+    } else {
+      preview.style.display="none";
+    }
+  });
+});
+
 function startTest(){
   const val=document.getElementById("nameInput").value.trim();
   if(val.length<2){document.getElementById("nameErr").style.display="block";return;}
-  studentName=val;startTime=new Date();
+  studentName=val; startTime=new Date();
+  
+  // Detect profile
+  currentProfile = getProfile(val);
+  
   document.getElementById("nameGate").style.display="none";
   document.getElementById("mainTest").style.display="block";
   document.getElementById("dispName").textContent=studentName;
+  
+  if(currentProfile){
+    document.getElementById("levelBadge").textContent = currentProfile.level + " · Environment & Climate Change";
+    document.getElementById("levelBadge").style.borderColor = currentProfile.colour;
+    document.getElementById("levelBadge").style.color = currentProfile.colour;
+    document.getElementById("levelTag").style.display="inline-flex";
+    document.getElementById("dispLevel").textContent = currentProfile.level;
+    document.getElementById("dispLevel").style.color = currentProfile.colour;
+  }
+  
+  // Render dynamic parts A-F based on profile
+  renderDynamicParts();
+  
   const saved=loadLocal();
   if(saved&&saved.name===studentName&&saved.answers)document.getElementById("restoreBanner").style.display="flex";
 }
 document.addEventListener("keydown",e=>{if(e.key==="Enter"&&document.getElementById("nameGate").style.display!=="none")startTest();});
+
+// ── DYNAMIC PART RENDERING ────────────────────────────────────────────────
+function renderDynamicParts(){
+  const container = document.getElementById("dynamicParts");
+  if(!container) return;
+  const p = currentProfile;
+  if(!p){ container.innerHTML = "<p style='color:var(--err);font-family:var(--mono);padding:20px'>Unknown student name. Please ask your teacher.</p>"; return; }
+  
+  let html = "";
+  
+  // Parts A, B — fill-in inputs
+  ["A","B"].forEach(part=>{
+    const pd = p.parts[part];
+    html += renderFillSection(part, pd);
+  });
+  
+  // Parts C, D, E — textareas
+  ["C","D","E"].forEach(part=>{
+    const pd = p.parts[part];
+    html += renderTASection(part, pd);
+  });
+  
+  // Part F — MCQ
+  html += renderMCQSection(p.parts.F);
+  
+  container.innerHTML = html;
+  
+  // Attach input listeners
+  container.querySelectorAll("input.fill,textarea.ta").forEach(el=>el.addEventListener("input",updateProgress));
+}
+
+function renderFillSection(part, pd){
+  const pid = part.toLowerCase();
+  let qs = pd.questions.map((q,i)=>`
+    <div class="qb">
+      <div class="qnum">Question ${i+1}</div>
+      <div class="qtext">${q.q}</div>
+      <input class="fill" id="${pid}${i+1}" placeholder="Type your answer..." 
+        data-ans="${q.ans}" data-hint="${escAttr(q.hint)}" data-rule="${escAttr(q.rule)}">
+    </div>`).join("");
+  return `<div class="section">
+    <div class="sec-hdr" onclick="toggle('${pid}')">
+      <span class="sec-tag">PART ${part}</span>
+      <div><div class="sec-title">${pd.title}</div><div class="sec-sub">${pd.subtitle}</div></div>
+      <span class="sec-arrow${part==="A"?" open":""}" id="arr-${pid}">&#9660;</span>
+    </div>
+    <div class="sec-body${part==="A"?" open":""}" id="body-${pid}">
+      ${qs}
+      <button class="btn-check" onclick="checkAndSubmit('${pid}','fill')">Check &amp; Submit Part ${part}</button>
+    </div>
+  </div>`;
+}
+
+function renderTASection(part, pd){
+  const pid = part.toLowerCase();
+  let qs = pd.questions.map((q,i)=>{
+    const qtext = Array.isArray(q.q)
+      ? `${q.q[0]}<br><span class="qsub">${q.q[1]}</span>`
+      : (part==="C" ? `<em>${q.q}</em>` : (part==="E" ? `<span class="qwords">${q.q}</span>` : q.q));
+    return `<div class="qb">
+      <div class="qnum">Q${i+1}</div>
+      <div class="qtext">${qtext}</div>
+      <textarea class="ta" id="${pid}${i+1}" placeholder="Write your answer here..."
+        data-ans="${escAttr(q.ans)}" data-hint="${escAttr(q.hint)}" data-rule="${escAttr(q.rule)}"></textarea>
+    </div>`;
+  }).join("");
+  const titles = {C:"Error Correction",D:"Sentence Transformation",E:"Sentence Building"};
+  const subs = {C:"Each sentence has one error — rewrite it correctly",D:"Rewrite each sentence as instructed",E:"Rearrange the words to form a correct sentence"};
+  const checkFn = part==="E" ? "checkTA" : "checkTA";
+  return `<div class="section">
+    <div class="sec-hdr" onclick="toggle('${pid}')">
+      <span class="sec-tag">PART ${part}</span>
+      <div><div class="sec-title">${titles[part]}</div><div class="sec-sub">${subs[part]}</div></div>
+      <span class="sec-arrow" id="arr-${pid}">&#9660;</span>
+    </div>
+    <div class="sec-body" id="body-${pid}">
+      ${qs}
+      <button class="btn-check" onclick="checkAndSubmit('${pid}','ta')">Check &amp; Submit Part ${part}</button>
+    </div>
+  </div>`;
+}
+
+function renderMCQSection(fd){
+  let qs = fd.questions.map((q,i)=>{
+    const opts = q.opts.map((o,j)=>`<div class="mcq-opt" id="opt-f${i+1}-${j}" onclick="selMCQ(${i+1},${j})"><div class="opt-l">${"ABCD"[j]}</div>${o}</div>`).join("");
+    return `<div class="qb" id="qb-f${i+1}">
+      <div class="qnum">Q${i+1}</div>
+      <div class="qtext">${q.q}</div>
+      <div class="mcq-grid" id="mcq-${i+1}">${opts}</div>
+      <div class="fb-correct" id="fb-ok-f${i+1}">&#10003; Correct! Well done.</div>
+      <div class="fb-wrong" id="fb-bad-f${i+1}">
+        <div class="fb-wrong-top">&#10007; Not quite &mdash; read the hints and try again.</div>
+        <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">${q.hint}</div></div>
+        <div class="fb-rule"><div class="lbl">&#128216; Vocabulary Rule</div><div class="txt">${q.rule}</div></div>
+      </div>
+    </div>`;
+  }).join("");
+  return `<div class="section">
+    <div class="sec-hdr" onclick="toggle('f')">
+      <span class="sec-tag">PART F</span>
+      <div><div class="sec-title">Vocabulary &mdash; Choose the Best Word</div><div class="sec-sub">Select the most appropriate option</div></div>
+      <span class="sec-arrow" id="arr-f">&#9660;</span>
+    </div>
+    <div class="sec-body" id="body-f">
+      ${qs}
+      <button class="btn-check" onclick="checkAndSubmit('f','mcq')">Check &amp; Submit Part F</button>
+    </div>
+  </div>`;
+}
+
+function escAttr(s){ return (s||"").replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
 
 // ── SUBMIT ────────────────────────────────────────────
 async function submitAll(){
   const btn=document.getElementById("submitBtn");
   btn.disabled=true;btn.textContent="Saving...";
   checkFill("a",10);checkFill("b",10);checkTA("c",10);checkTA("d",10);checkTA("e",10);checkMCQ();
-  const submission=buildSubmission(true);
-  let saved=false;
-  try{
-    const getRes=await fetch(`${API}/b/${BIN_ID}/latest`,{headers:{"X-Master-Key":MASTER_KEY,"X-Bin-Meta":"false"}});
-    const existing=await getRes.json();
-    let subs=Array.isArray(existing.submissions)?existing.submissions:[];
-    subs=subs.filter(s=>!(s.name===studentName&&s.isDraft));
-    subs.push(submission);
-    const putRes=await fetch(`${API}/b/${BIN_ID}`,{method:"PUT",headers:{"Content-Type":"application/json","X-Master-Key":MASTER_KEY},body:JSON.stringify({submissions:subs})});
-    if(putRes.ok){saved=true;clearLocal();}
-  }catch(e){saved=false;}
+  const submission = buildSubmission(true);
+  const saved = await pushToServer(submission);
+  if(saved) clearLocal();
   const score=Object.values(sectionScores).reduce((a,b)=>a+b,0);
   const pct=Math.round((score/60)*100);
   const col=sc(pct);
@@ -654,7 +1156,8 @@ const H_QUESTIONS=['The weather is getting worse.','Many animals are dying.','Th
 const LT_API = "https://api.languagetool.org/v2/check";
 
 // Track which example sentences have been revealed to the student
-const shownExamples = {};  // e.g. { "g1": "The enormous iceberg...", "h3": "..." }
+const shownExamples = {};  // tracks shown example sentences per question
+const submittedAnswers = {};  // tracks all answers submitted so far for duplicate detection
 
 // Check sentence length & complexity
 function analyseComplexity(text, part) {
@@ -701,6 +1204,24 @@ async function checkAI(part, qnum) {
         The example sentence is there to <strong>guide your thinking</strong>, not to be copied. 
         Please write your own original sentence using your own words and ideas.<br><br>
         <span style="color:var(--warn)">Tip: Think about what you know about the topic. Use the example's <em>structure</em> as inspiration but choose different words and details.</span>
+      </div>`;
+      return;
+    }
+  }
+
+  // ── SAME-AS-PREVIOUS DETECTION ──────────────────────────────────
+  if(qnum > 1){
+    const prevVal = (document.getElementById(part+(qnum-1))||{}).value||"";
+    const prevNorm = prevVal.trim().toLowerCase().replace(/\s+/g," ");
+    if(prevNorm.length > 10 && normVal === prevNorm){
+      const fb2 = document.getElementById("ai-fb-"+part+qnum);
+      const top2 = document.getElementById("ai-top-"+part+qnum);
+      const body2 = document.getElementById("ai-body-"+part+qnum);
+      fb2.className = "ai-fb show incorrect";
+      top2.innerHTML = "&#9888; This is the same as your previous answer.";
+      body2.innerHTML = `<div style="background:rgba(248,113,113,.08);border-left:3px solid var(--err);padding:10px 13px;border-radius:0 6px 6px 0;font-size:13px;line-height:1.7">
+        Each question has a different original sentence. You must write a <strong>different, unique expansion</strong> for each one.
+        <br><br><span style="color:var(--warn)">Look at the original sentence for Q${qnum} and write something specific to it.</span>
       </div>`;
       return;
     }
@@ -831,8 +1352,44 @@ function getExample(part, qnum) {
   return examples[(qnum-1)] || "Try expanding the sentence with more details, adjectives, and a subordinate clause.";
 }
 
+async function checkAllAndSubmit(part) {
+  await checkAllAI(part);
+  await autoSave(part);
+}
+
 async function checkAllAI(part) {
   const btn = document.getElementById("check-all-"+part);
+
+  // ── PRE-FLIGHT: detect duplicate answers before checking ─────
+  const answers = [];
+  for(let i=1; i<=10; i++){
+    const val = (document.getElementById(part+i)||{}).value||"";
+    answers.push(val.trim().toLowerCase().replace(/\s+/g," "));
+  }
+  const filledAnswers = answers.filter(a=>a.length>0);
+
+  // Check 1: Are all filled answers identical?
+  const uniqueAnswers = new Set(filledAnswers);
+  if(filledAnswers.length >= 5 && uniqueAnswers.size <= 2){
+    showDuplicateWarning(part, "identical");
+    return;
+  }
+
+  // Check 2: Are >60% of answers suspiciously similar (same first 8 words)?
+  const prefixes = filledAnswers.map(a=>a.split(" ").slice(0,8).join(" "));
+  const uniquePrefixes = new Set(prefixes);
+  if(filledAnswers.length >= 5 && uniquePrefixes.size <= 2){
+    showDuplicateWarning(part, "similar");
+    return;
+  }
+
+  // Check 3: Are any answers too short (under 5 words)?
+  const tooShort = answers.map((a,i)=>a.length>0&&a.split(" ").length<5 ? i+1 : null).filter(Boolean);
+  if(tooShort.length >= 5){
+    showQualityWarning(part, tooShort);
+    return;
+  }
+
   btn.disabled = true;
   btn.innerHTML = "Checking... please wait";
   for (let i=1; i<=10; i++) {
@@ -840,8 +1397,84 @@ async function checkAllAI(part) {
     if (val) { await checkAI(part, i); await new Promise(r=>setTimeout(r,600)); }
   }
   btn.disabled = false;
-  btn.innerHTML = "&#129302; Check All Part " + part.toUpperCase();
+  btn.innerHTML = "&#129302; Check &amp; Submit Part " + part.toUpperCase();
   autoSave(part);
+}
+
+function showDuplicateWarning(part, type){
+  // Show a prominent warning in the section
+  const bodyEl = document.getElementById("body-"+part);
+  const existingWarn = document.getElementById("dup-warn-"+part);
+  if(existingWarn) existingWarn.remove();
+
+  const warn = document.createElement("div");
+  warn.id = "dup-warn-"+part;
+  warn.style.cssText = "background:rgba(248,113,113,.1);border:2px solid var(--err);border-radius:10px;padding:18px 20px;margin-bottom:16px;";
+  warn.innerHTML = `
+    <div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--err);margin-bottom:10px">
+      &#9888;&#65039; Duplicate Answers Detected
+    </div>
+    <div style="font-size:13px;line-height:1.75;color:var(--text);margin-bottom:12px">
+      ${type==="identical"
+        ? "You have written the <strong>same sentence for every question</strong>. This is not acceptable."
+        : "Your answers are <strong>too similar to each other</strong>. Each question requires a different, original sentence."}
+    </div>
+    <div style="font-size:13px;line-height:1.75;color:var(--text);margin-bottom:12px">
+      Each question has a <strong>different original sentence</strong> that you need to expand or rewrite. 
+      Read each one carefully and write a unique sentence that relates specifically to that sentence.
+    </div>
+    <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--warn)">
+      &#128161; <strong>Tip:</strong> Look at each question's original sentence. Ask yourself: <em>Who? What? When? Where? Why? How?</em> 
+      Use descriptive words (adjectives and adverbs) and add a clause with words like <em>"because", "although", "which", "when"</em>.
+    </div>
+    <button onclick="dismissWarning('${part}')" style="margin-top:12px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:8px 18px;background:var(--accent);color:#000;border:none;border-radius:6px;cursor:pointer;text-transform:uppercase">
+      I Understand — Let Me Redo My Answers
+    </button>`;
+  bodyEl.insertBefore(warn, bodyEl.firstChild);
+  warn.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function showQualityWarning(part, shortQnums){
+  const bodyEl = document.getElementById("body-"+part);
+  const existingWarn = document.getElementById("dup-warn-"+part);
+  if(existingWarn) existingWarn.remove();
+
+  const warn = document.createElement("div");
+  warn.id = "dup-warn-"+part;
+  warn.style.cssText = "background:rgba(245,158,11,.08);border:2px solid var(--warn);border-radius:10px;padding:18px 20px;margin-bottom:16px;";
+  warn.innerHTML = `
+    <div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--warn);margin-bottom:10px">
+      &#9888;&#65039; Answers Too Short
+    </div>
+    <div style="font-size:13px;line-height:1.75;color:var(--text);margin-bottom:12px">
+      Questions <strong>${shortQnums.join(", ")}</strong> have answers that are too short (fewer than 5 words). 
+      These questions require a <strong>complete, expanded sentence</strong> — not a phrase.
+    </div>
+    <div style="background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--a3)">
+      &#128216; <strong>Reminder:</strong> Each answer should be at least 12–15 words. 
+      Add adjectives, adverbs, and a clause to expand the original sentence properly.
+    </div>
+    <button onclick="dismissWarning('${part}')" style="margin-top:12px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:8px 18px;background:var(--accent);color:#000;border:none;border-radius:6px;cursor:pointer;text-transform:uppercase">
+      I Understand — Let Me Improve My Answers
+    </button>`;
+  bodyEl.insertBefore(warn, bodyEl.firstChild);
+  warn.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function dismissWarning(part){
+  const warn = document.getElementById("dup-warn-"+part);
+  if(warn) warn.remove();
+  // Clear all answers in this part so student must redo them
+  for(let i=1;i<=10;i++){
+    const el = document.getElementById(part+i);
+    if(el){ el.value=""; el.classList.remove("ok","bad"); }
+  }
+  // Clear any AI feedback
+  for(let i=1;i<=10;i++){
+    const fb = document.getElementById("ai-fb-"+part+i);
+    if(fb){ fb.className="ai-fb"; fb.querySelector(".ai-top").innerHTML=""; fb.querySelector(".ai-body").innerHTML=""; }
+  }
+  updateProgress();
 }
 
 // Paragraph checker for Part I

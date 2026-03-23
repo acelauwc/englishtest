@@ -53,9 +53,9 @@ body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(
 
 /* TABLE */
 .tbl-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.tbl-head{display:grid;grid-template-columns:2fr 1.1fr 0.9fr 0.6fr 0.6fr 0.6fr 0.6fr 0.6fr 0.6fr 0.7fr;background:var(--surf);border-bottom:1px solid var(--border)}
+.tbl-head{display:grid;grid-template-columns:2fr 1.1fr 0.9fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.6fr;background:var(--surf);border-bottom:1px solid var(--border)}
 .th{padding:10px 12px;font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
-.tbl-row{display:grid;grid-template-columns:2fr 1.1fr 0.9fr 0.6fr 0.6fr 0.6fr 0.6fr 0.6fr 0.6fr 0.7fr;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.tbl-row{display:grid;grid-template-columns:2fr 1.1fr 0.9fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.6fr;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
 .tbl-row:last-child{border-bottom:none}
 .tbl-row:hover{background:rgba(52,211,153,.04)}
 .td{padding:12px 12px;display:flex;align-items:center;font-size:12px}
@@ -176,7 +176,7 @@ body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(
 
 @media(max-width:700px){
   .stats{grid-template-columns:1fr 1fr}
-  .tbl-head,.tbl-row{grid-template-columns:2fr 0.9fr 0.7fr 0.7fr}
+  .tbl-head,.tbl-row{grid-template-columns:2fr 0.9fr 0.7fr 0.6fr}
   .th:nth-child(n+5),.td:nth-child(n+5):not(:last-child){display:none}
   .ov-grid,.sec-grid{grid-template-columns:1fr 1fr}
   .sw-grid{grid-template-columns:1fr}
@@ -219,6 +219,12 @@ body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(
     </div>
     <div class="toolbar">
       <input type="text" id="searchInput" placeholder="🔍 Search by name..." oninput="renderTable()">
+      <select id="levelFilter" onchange="renderTable()">
+        <option value="">All Levels</option>
+        <option value="S2">ZenV — Sec 2</option>
+        <option value="S1">ZenZ — Sec 1</option>
+        <option value="P6">ZenE — Pri 6</option>
+      </select>
       <select id="sortSel" onchange="renderTable()">
         <option value="time">Latest First</option>
         <option value="score-desc">Highest Score</option>
@@ -315,6 +321,13 @@ const SECTION_TIPS={
   f:"Build vocabulary through reading. Study words in context — learn not just meanings but also collocations (words that go together naturally)."
 };
 
+function levelColour(grade){
+  if(!grade) return "var(--a2)";
+  if(grade==="S2") return "#34d399";
+  if(grade==="S1") return "#60a5fa";
+  if(grade==="P6") return "#f97316";
+  return "var(--a2)";
+}
 function norm(s){return(s||"").toLowerCase().replace(/[^a-z0-9 ',]/g,"").replace(/\s+/g," ").trim()}
 function sc(pct){return pct>=80?"#34d399":pct>=60?"#fbbf24":"#f87171"}
 function initials(name){return(name||"?").split(" ").map(w=>w[0]).slice(0,2).join("").toUpperCase()}
@@ -325,17 +338,27 @@ let allSubs=[], currentStudent=null;
 // ── LOAD ─────────────────────────────────────────────────────────────────────
 async function loadData(){
   document.getElementById("metaTxt").textContent="Refreshing...";
-  try{
-    const res=await fetch(`${API}/b/${BIN_ID}/latest`,{headers:{"X-Master-Key":MASTER_KEY,"X-Bin-Meta":"false"}});
-    const data=await res.json();
-    allSubs=Array.isArray(data.submissions)?data.submissions:[];
-    renderAll();
-    const finals=allSubs.filter(s=>!s.isDraft);
-    const drafts=allSubs.filter(s=>s.isDraft);
-    const now=new Date().toLocaleTimeString("en-MY",{hour:"2-digit",minute:"2-digit"});
-    document.getElementById("metaTxt").textContent=`Refreshed ${now} · ${finals.length} submitted · ${drafts.length} in progress`;
-  }catch(e){
-    document.getElementById("metaTxt").textContent="Error loading — check connection.";
+  // Retry up to 3 times with backoff
+  for(let attempt=1; attempt<=3; attempt++){
+    try{
+      const res=await fetch(`${API}/b/${BIN_ID}/latest`,{
+        headers:{"X-Master-Key":MASTER_KEY,"X-Bin-Meta":"false"},
+        cache:"no-store"  // Always get fresh data, never cached
+      });
+      if(!res.ok) throw new Error("HTTP "+res.status);
+      const data=await res.json();
+      allSubs=Array.isArray(data.submissions)?data.submissions:[];
+      renderAll();
+      const finals=allSubs.filter(s=>!s.isDraft);
+      const drafts=allSubs.filter(s=>s.isDraft);
+      const now=new Date().toLocaleTimeString("en-MY",{hour:"2-digit",minute:"2-digit"});
+      document.getElementById("metaTxt").textContent=`Refreshed ${now} · ${finals.length} submitted · ${drafts.length} in progress`;
+      return; // Success — stop retrying
+    }catch(e){
+      console.warn("Load attempt "+attempt+" failed:",e.message);
+      if(attempt<3) await new Promise(r=>setTimeout(r,1500*attempt));
+      else document.getElementById("metaTxt").textContent=`Load failed — retrying in 30s (${e.message})`;
+    }
   }
 }
 
@@ -383,7 +406,8 @@ function renderStats(){
 function renderTable(){
   const q=(document.getElementById("searchInput").value||"").toLowerCase();
   const sort=document.getElementById("sortSel").value;
-  let finals=allSubs.filter(s=>!s.isDraft&&(s.name||"").toLowerCase().includes(q));
+  const lvlF = document.getElementById("levelFilter") ? document.getElementById("levelFilter").value : "";
+  let finals=allSubs.filter(s=>!s.isDraft&&(s.name||"").toLowerCase().includes(q)&&(!lvlF||s.studentGrade===lvlF));
 
   // Compute scores
   finals=finals.map(s=>{const ss=scoreStudent(s);const score=Object.values(ss).reduce((a,b)=>a+b,0);return{...s,_ss:ss,_score:score,_pct:Math.round((score/60)*100)};});
@@ -394,15 +418,23 @@ function renderTable(){
   const wrap=document.getElementById("tblWrap");
   if(!finals.length){wrap.innerHTML=`<div class="empty"><div class="icon">${allSubs.filter(s=>!s.isDraft).length?"🔍":"📭"}</div><h3>${allSubs.filter(s=>!s.isDraft).length?"No matches":"No submissions yet"}</h3><p>Students need to open the test and submit.</p></div>`;return;}
 
-  let html=`<div class="tbl-head"><div class="th">Student</div><div class="th">Submitted</div><div class="th">Total</div><div class="th">A</div><div class="th">B</div><div class="th">C</div><div class="th">D</div><div class="th">E</div><div class="th">F</div><div class="th"></div></div>`;
+  let html=`<div class="tbl-head"><div class="th">Student</div><div class="th">Submitted</div><div class="th">Total</div><div class="th">A</div><div class="th">B</div><div class="th">C</div><div class="th">D</div><div class="th">E</div><div class="th">F</div><div class="th" style="color:var(--a3)">G</div><div class="th" style="color:var(--a3)">H</div><div class="th" style="color:var(--a3)">I</div><div class="th"></div></div>`;
   finals.forEach((s,idx)=>{
     const pct=s._pct,init=initials(s.name);
     html+=`<div class="tbl-row" onclick="showDetail('${(s.name||'').replace(/'/g,"\\'")}')">
-      <div class="td name-td"><div class="avatar">${init}</div>${s.name||"Unknown"}</div>
+      <div class="td name-td"><div class="avatar" style="background:linear-gradient(135deg,${levelColour(s.studentGrade)},var(--accent))">${init}</div><div><div style="display:flex;align-items:center;gap:6px">${s.name||"Unknown"}${s.duplicateFlags&&Object.keys(s.duplicateFlags).length>0?`<span style="background:rgba(248,113,113,.15);border:1px solid rgba(248,113,113,.4);color:var(--err);font-family:var(--mono);font-size:9px;padding:1px 6px;border-radius:3px;letter-spacing:1px">DUPLICATE</span>`:""}</div>${s.studentGrade?`<span style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px">${s.studentLevel||""}</span>`:""}</div></div>
       <div class="td" style="font-size:11px;color:var(--muted);font-family:var(--mono)">${(s.submittedAt||"").replace(", "," ")}</div>
       <div class="td score-td"><span style="font-family:var(--mono);font-size:13px;font-weight:700;color:${sc(pct)}">${s._score}/60 <span style="font-size:10px;opacity:.6">(${pct}%)</span></span><div class="mini-bar"><div class="mini-fill" style="width:${pct}%;background:${sc(pct)}"></div></div></div>
       ${["a","b","c","d","e","f"].map(p=>`<div class="td"><span class="sec-sc" style="color:${sc((s._ss[p]||0)*10)}">${s._ss[p]||0}/10</span></div>`).join("")}
-      <div class="td"><button class="btn-view" onclick="event.stopPropagation();showDetail('${(s.name||'').replace(/'/g,"\\'")}')">View →</button></div>
+      ${["g","h","i"].map(p=>{
+        const wordCount = p==="i"
+          ? ((s.answers||{}).i1||"").trim().split(/\s+/).filter(w=>w).length
+          : Array.from({length:10},(_,i)=>(s.answers||{})[p+(i+1)]||"").filter(v=>v.trim()).length;
+        const label = p==="i" ? wordCount+"w" : wordCount+"/10";
+        const col = wordCount>0?"var(--a3)":"var(--muted)";
+        return `<div class="td"><span style="font-family:var(--mono);font-size:11px;color:${col}">${label}</span></div>`;
+      }).join("")}
+      <div class="td" style="justify-content:center"><button class="btn-view" onclick="event.stopPropagation();showDetail('${(s.name||'').replace(/'/g,"\\'")}')">View →</button></div>
     </div>`;
   });
   wrap.innerHTML=html;
@@ -522,8 +554,11 @@ function showDetail(name){
   const latest=studentSubs[studentSubs.length-1];
   const init=initials(name);
   document.getElementById("detAvatar").textContent=init;
+  const lc = levelColour(latest.studentGrade);
+  document.getElementById("detAvatar").style.background=`linear-gradient(135deg,${lc},var(--accent))`;
   document.getElementById("detName").textContent=name;
-  document.getElementById("detMeta").textContent=`${studentSubs.length} test${studentSubs.length!==1?"s":""} completed · Latest: ${latest.submittedAt||"N/A"}`;
+  const lvl = latest.studentLevel ? ` · Level: ${latest.studentLevel}` : "";
+  document.getElementById("detMeta").textContent=`${studentSubs.length} test${studentSubs.length!==1?"s":""} completed · Latest: ${latest.submittedAt||"N/A"}${lvl}`;
 
   // Score all submissions
   const allScored=studentSubs.map(s=>{const ss=scoreStudent(s);const score=Object.values(ss).reduce((a,b)=>a+b,0);return{...s,_ss:ss,_score:score,_pct:Math.round((score/60)*100)};});
@@ -547,16 +582,34 @@ function renderProfileOverview(allScored){
   const avgScore=Math.round(allScored.reduce((a,s)=>a+s._score,0)/allScored.length);
   const best=Math.max(...allScored.map(s=>s._score));
   const pct=latest._pct;
-  // Cumulative section averages
   const secAvg={};
   ["a","b","c","d","e","f"].forEach(p=>{secAvg[p]=allScored.reduce((a,s)=>a+(s._ss[p]||0),0)/allScored.length;});
   const trend=allScored.length>1?(allScored[allScored.length-1]._score>allScored[0]._score?"📈 Improving":"📉 Needs attention"):"—";
+  // Count open-ended answered
+  const latestAns = latest.answers||{};
+  const gAns = Array.from({length:10},(_,i)=>latestAns["g"+(i+1)]||"").filter(v=>v.trim()).length;
+  const hAns = Array.from({length:10},(_,i)=>latestAns["h"+(i+1)]||"").filter(v=>v.trim()).length;
+  const iWords = (latestAns.i1||"").trim().split(/\s+/).filter(w=>w).length;
 
   document.getElementById("profile-overview").innerHTML=`
     <div class="ov-grid">
-      <div class="ov-card"><div class="v" style="color:${sc(pct)}">${latest._score}/60</div><div class="l">Latest Score</div></div>
+      <div class="ov-card"><div class="v" style="color:${sc(pct)}">${latest._score}/60</div><div class="l">Latest Score (A–F)</div></div>
       <div class="ov-card"><div class="v" style="color:${sc(Math.round(avgScore/60*100))}">${avgScore}/60</div><div class="l">Average Score</div></div>
       <div class="ov-card"><div class="v" style="color:${sc(Math.round(best/60*100))}">${best}/60</div><div class="l">Best Score</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px">
+      <div style="background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.2);border-radius:8px;padding:12px;text-align:center">
+        <div style="font-family:var(--mono);font-size:20px;font-weight:700;color:var(--a3)">${gAns}/10</div>
+        <div style="font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:3px">Part G answered</div>
+      </div>
+      <div style="background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.2);border-radius:8px;padding:12px;text-align:center">
+        <div style="font-family:var(--mono);font-size:20px;font-weight:700;color:var(--a3)">${hAns}/10</div>
+        <div style="font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:3px">Part H answered</div>
+      </div>
+      <div style="background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.2);border-radius:8px;padding:12px;text-align:center">
+        <div style="font-family:var(--mono);font-size:20px;font-weight:700;color:var(--a3)">${iWords}w</div>
+        <div style="font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:3px">Part I words</div>
+      </div>
     </div>
     <div style="margin-bottom:16px;padding:12px 16px;background:var(--card);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:space-between;font-size:13px">
       <span style="color:var(--muted)">Progress trend</span>
@@ -652,12 +705,27 @@ function renderProfileAnswers(s){
       <div class="ans-section"><h4>${t}</h4>${AnsRows(p,ma)}</div>`).join("")}
     <div class="ans-section"><h4>Part F — Vocabulary MCQ</h4>${McqRows()}</div>
     ${[["g","Part G — Sentence Expansion"],["h","Part H — Composition Practice"]].map(([p,t])=>`
-      <div class="ans-section"><h4>${t} <span style="font-size:10px;color:var(--a2)">(Teacher-marked)</span></h4>
-      ${Array.from({length:10},(_,i)=>{const given=ans[p+(i+1)]||"";return`<div class="ans-row r-open"><div class="ans-qn">Q${i+1}</div><div class="ans-given">${given||"<em style='color:var(--muted)'>No answer</em>"}</div><div class="ans-status" style="color:var(--a3)">—</div></div>`;}).join("")}
-      </div>`).join("")}
-    <div class="ans-section"><h4>Part I — Paragraph Writing <span style="font-size:10px;color:var(--a2)">(Teacher-marked)</span></h4>
+      <div class="ans-section">
+      <h4>${t} <span style="font-size:10px;color:var(--a2)">(Teacher-marked — add your score below)</span>
+      ${s.duplicateFlags&&s.duplicateFlags[p]?`<span style="background:rgba(248,113,113,.15);border:1px solid rgba(248,113,113,.4);color:var(--err);font-family:var(--mono);font-size:9px;padding:2px 8px;border-radius:3px;margin-left:8px">⚠ ${s.duplicateFlags[p]==="duplicate"?"IDENTICAL ANSWERS":"VERY SIMILAR ANSWERS"}</span>`:""}
+      </h4>
+      ${s.duplicateFlags&&s.duplicateFlags[p]?`<div style="background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:13px;color:var(--err)">&#9888; This student submitted ${s.duplicateFlags[p]==="duplicate"?"identical":"very similar"} answers for all questions in this section. Please review carefully and consider asking the student to redo this section.</div>`:""}
+      <div style="display:grid;gap:10px">
+      ${Array.from({length:10},(_,i)=>{
+        const given=ans[p+(i+1)]||"";
+        const qLabels={g:["The iceberg melted.","Sea levels rose.","Scientists warned governments.","The coral reef died.","The flood devastated the village.","Nations disagreed at the summit.","Renewable energy expanded.","The activist protested.","Wildlife habitats disappeared.","The agreement was reached."],h:["The weather is getting worse.","Many animals are dying.","The air in the city is bad.","People wasted a lot of energy.","The government made new environment rules.","Plastic is a big problem in the ocean.","Scientists found worrying results.","Young people started caring about the environment.","Trees were cut down in the forest.","The temperature went up every year."]};
+        const original = qLabels[p]?qLabels[p][i]:"";
+        return`<div style="background:rgba(96,165,250,.04);border:1px solid rgba(96,165,250,.15);border-radius:8px;padding:12px 14px">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:4px">Q${i+1} — Original: <em>${original}</em></div>
+          <div style="font-size:13px;color:${given?"var(--text)":"var(--muted)"};line-height:1.65">${given||"No answer provided."}</div>
+        </div>`;}).join("")}
+      </div></div>`).join("")}
+    <div class="ans-section"><h4>Part I — Paragraph Writing <span style="font-size:10px;color:var(--a2)">(Teacher-marked — add your score below)</span></h4>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;font-family:var(--mono)">
+        <span style="color:var(--a2)">Topic: The Most Urgent Environmental Challenge Facing the World Today</span>
+        <span style="color:${(ans.i1||"").trim().split(/\s+/).filter(w=>w).length>=80?"var(--ok)":"var(--warn)"}">Words: ${(ans.i1||"").trim().split(/\s+/).filter(w=>w).length} (target: 100–140)</span>
+      </div>
       <div class="para-box">${ans.i1||"No answer provided."}</div>
-      <div style="font-size:11px;color:var(--muted);font-family:var(--mono)">Words: ${(ans.i1||"").trim().split(/\s+/).filter(w=>w).length}</div>
     </div>`;
 }
 
@@ -705,7 +773,7 @@ async function confirmReset(){
   }catch(e){alert("Could not clear. Check connection.");}
 }
 
-window.addEventListener("load",()=>{loadData();setInterval(loadData,30000);});
+window.addEventListener("load",()=>{loadData();setInterval(loadData,15000);});
 </script>
 </body>
 </html>
