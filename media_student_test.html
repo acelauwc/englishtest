@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>English Test — Media & Communication</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060d08;--surf:#0b1410;--card:#111c14;--border:#1a2d1e;
+  --accent:#34d399;--a2:#f97316;--a3:#60a5fa;
+  --text:#e2e8f0;--muted:#64748b;
+  --ok:#34d399;--err:#f87171;--warn:#fbbf24;
+  --mono:"Space Mono",monospace;--sans:"DM Sans",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(52,211,153,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(52,211,153,.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:28px 16px 80px}
+#nameGate{position:fixed;inset:0;background:var(--bg);z-index:200;display:flex;align-items:center;justify-content:center}
+#nameGate::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(52,211,153,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(52,211,153,.025) 1px,transparent 1px);background-size:40px 40px}
+.name-box{position:relative;background:var(--card);border:1px solid var(--accent);border-radius:16px;padding:44px 32px;max-width:420px;width:92%;text-align:center;box-shadow:0 0 60px rgba(52,211,153,.1)}
+.badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:3px;border:1px solid var(--accent);color:var(--accent);padding:3px 12px;border-radius:2px;margin-bottom:16px;text-transform:uppercase}
+.name-box h2{font-family:var(--mono);font-size:20px;color:#fff;margin-bottom:8px}
+.name-box p{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.7}
+input.big{width:100%;background:var(--surf);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:15px;padding:13px 16px;outline:none;text-align:center;margin-bottom:12px}
+input.big:focus{border-color:var(--accent)}
+.btn-primary{width:100%;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:1px;padding:14px;background:linear-gradient(135deg,var(--a2),var(--accent));color:#000;border:none;border-radius:8px;cursor:pointer;text-transform:uppercase}
+.err-msg{color:var(--err);font-size:12px;font-family:var(--mono);margin-top:6px;display:none}
+.hdr{text-align:center;padding-bottom:24px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.hdr h1{font-family:var(--mono);font-size:clamp(18px,4vw,30px);font-weight:700;color:#fff;margin-bottom:10px}
+.hdr h1 span{color:var(--accent)}
+.student-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);border-radius:6px;padding:6px 14px;margin-top:8px}
+.student-tag .lbl{font-size:11px;color:var(--muted);font-family:var(--mono)}
+.student-tag .nm{font-size:13px;color:var(--accent);font-family:var(--mono);font-weight:700}
+.dash{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
+.dash-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center}
+.dash-card .v{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--accent)}
+.dash-card .l{font-size:10px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:1px}
+.prog-wrap{margin-bottom:26px}
+.prog-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-family:var(--mono);margin-bottom:6px}
+.prog-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--a2),var(--accent));border-radius:2px;transition:width .5s ease}
+.autosave-bar{background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.15);border-radius:8px;padding:10px 16px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.autosave-bar .as-left{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-family:var(--mono)}
+.as-dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background .3s}
+.as-dot.saving{background:var(--warn);animation:pulse .8s infinite}
+.as-dot.saved{background:var(--ok)}
+.as-dot.error{background:var(--err)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.restore-banner{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.25);border-radius:8px;padding:12px 16px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.restore-banner p{font-size:13px;color:var(--warn);font-family:var(--mono)}
+.restore-banner button{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:7px 14px;background:var(--warn);color:#000;border:none;border-radius:5px;cursor:pointer;text-transform:uppercase;flex-shrink:0}
+.section{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:18px;overflow:hidden}
+.sec-hdr{padding:14px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+.sec-tag{font-family:var(--mono);font-size:10px;font-weight:700;color:#000;background:var(--accent);padding:3px 8px;border-radius:2px;flex-shrink:0}
+.sec-title{font-weight:600;font-size:13px;flex:1}
+.sec-sub{font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:2px}
+.sec-arrow{color:var(--accent);font-size:13px;transition:transform .3s;flex-shrink:0}
+.sec-arrow.open{transform:rotate(180deg)}
+.sec-body{padding:18px;display:none;border-top:1px solid var(--border)}
+.sec-body.open{display:block}
+.qb{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.qb:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.qnum{font-family:var(--mono);font-size:10px;color:var(--a2);margin-bottom:5px;text-transform:uppercase;letter-spacing:1px}
+.qtext{font-size:13px;line-height:1.75;margin-bottom:10px}
+.qsub{font-size:11px;color:var(--a3);font-family:var(--mono);margin-bottom:8px}
+.qwords{font-family:var(--mono);color:var(--a2);font-size:12px}
+input.fill{width:100%;max-width:420px;background:var(--surf);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--sans);font-size:14px;padding:9px 12px;outline:none;-webkit-appearance:none}
+input.fill:focus{border-color:var(--accent)}
+input.fill.ok{border-color:var(--ok);background:rgba(52,211,153,.05)}
+input.fill.bad{border-color:var(--err);background:rgba(248,113,113,.05)}
+textarea.ta{width:100%;background:var(--surf);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:13px;line-height:1.75;padding:12px;resize:vertical;min-height:80px;outline:none;-webkit-appearance:none}
+textarea.ta:focus{border-color:var(--accent)}
+textarea.ta.ok{border-color:var(--ok)}
+textarea.ta.bad{border-color:var(--err)}
+.mcq-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.mcq-opt{background:var(--surf);border:1px solid var(--border);border-radius:6px;padding:10px 12px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:10px;-webkit-tap-highlight-color:transparent}
+.mcq-opt.sel{border-color:var(--a2);background:rgba(249,115,22,.1)}
+.mcq-opt.right{border-color:var(--ok);background:rgba(52,211,153,.08)}
+.mcq-opt.wrong{border-color:var(--err);background:rgba(248,113,113,.08)}
+.opt-l{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--muted);background:rgba(255,255,255,.05);width:22px;height:22px;border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mcq-opt.sel .opt-l{background:rgba(249,115,22,.25);color:var(--a2)}
+.fb-correct{margin-top:8px;padding:9px 12px;border-radius:6px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.25);font-size:12px;color:var(--ok);font-family:var(--mono);display:none}
+.fb-wrong{margin-top:8px;border-radius:8px;overflow:hidden;border:1px solid rgba(248,113,113,.3);display:none}
+.fb-wrong-top{padding:9px 12px;background:rgba(248,113,113,.08);font-size:12px;color:var(--err);font-family:var(--mono)}
+.fb-hint{padding:11px 14px;background:rgba(251,191,36,.05);border-top:1px solid rgba(251,191,36,.15)}
+.fb-hint .lbl{font-size:10px;color:var(--warn);font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.fb-hint .txt{font-size:12px;color:var(--text);line-height:1.65}
+.fb-rule{padding:11px 14px;background:rgba(96,165,250,.05);border-top:1px solid rgba(96,165,250,.15)}
+.fb-rule .lbl{font-size:10px;color:var(--a3);font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.fb-rule .txt{font-size:12px;color:var(--text);line-height:1.65}
+.btn-check{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:9px 18px;background:var(--accent);color:#000;border:none;border-radius:6px;cursor:pointer;text-transform:uppercase;margin-top:16px}
+
+.btn-submit{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:1px;padding:14px 44px;background:linear-gradient(135deg,var(--a2),var(--accent));color:#000;border:none;border-radius:8px;cursor:pointer;text-transform:uppercase;width:100%;max-width:340px}
+.btn-submit:disabled{opacity:.5}
+.ai-fb{margin-top:10px;border-radius:8px;overflow:hidden;border:1px solid var(--border);display:none}
+.ai-fb.show{display:block}
+.ai-fb.loading .ai-top{background:rgba(96,165,250,.08);border-bottom:1px solid rgba(96,165,250,.15)}
+.ai-fb.correct .ai-top{background:rgba(52,211,153,.08);border-bottom:1px solid rgba(52,211,153,.2)}
+.ai-fb.partial .ai-top{background:rgba(251,191,36,.08);border-bottom:1px solid rgba(251,191,36,.2)}
+.ai-fb.incorrect .ai-top{background:rgba(248,113,113,.08);border-bottom:1px solid rgba(248,113,113,.2)}
+.ai-top{padding:9px 13px;font-size:12px;font-family:var(--mono);display:flex;align-items:center;gap:8px}
+.ai-fb.loading .ai-top{color:var(--a3)}
+.ai-fb.correct .ai-top{color:var(--ok)}
+.ai-fb.partial .ai-top{color:var(--warn)}
+.ai-fb.incorrect .ai-top{color:var(--err)}
+.ai-body{padding:12px 14px;font-size:13px;line-height:1.7;color:var(--text)}
+.ai-body strong{color:var(--a2)}
+.ai-body em{color:var(--a3);font-style:normal}
+.ai-spinner{display:inline-block;width:10px;height:10px;border:2px solid rgba(96,165,250,.3);border-top-color:var(--a3);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.check-ai-btn{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:9px 18px;background:linear-gradient(135deg,rgba(96,165,250,.15),rgba(52,211,153,.15));color:var(--text);border:1px solid rgba(96,165,250,.3);border-radius:6px;cursor:pointer;text-transform:uppercase;margin-top:14px;transition:all .2s;display:flex;align-items:center;gap:7px}
+.check-ai-btn:hover{background:linear-gradient(135deg,rgba(96,165,250,.25),rgba(52,211,153,.25));border-color:rgba(96,165,250,.5)}
+.check-ai-btn:disabled{opacity:.5;pointer-events:none}
+.check-all-btn{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:10px 22px;background:linear-gradient(135deg,var(--a3),var(--accent));color:#000;border:none;border-radius:6px;cursor:pointer;text-transform:uppercase;margin-top:16px;transition:all .2s}
+.check-all-btn:disabled{opacity:.5}
+.para-ai-fb{margin-top:14px;border-radius:10px;overflow:hidden;border:1px solid var(--border);display:none}
+.para-ai-fb.show{display:block}
+.para-ai-top{padding:12px 16px;font-size:12px;font-family:var(--mono);border-bottom:1px solid var(--border)}
+.para-ai-section{padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px;line-height:1.75}
+.para-ai-section:last-child{border-bottom:none}
+.para-ai-label{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.submit-sec{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:30px;text-align:center;margin-top:16px}
+.submit-sec h3{font-family:var(--mono);font-size:15px;margin-bottom:8px}
+.submit-sec p{font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.65}
+#resultModal{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+#resultModal.open{display:flex}
+.res-box{background:var(--card);border:1px solid var(--accent);border-radius:16px;padding:36px 28px;max-width:460px;width:100%;text-align:center;box-shadow:0 0 80px rgba(52,211,153,.1)}
+.res-score{font-family:var(--mono);font-size:52px;font-weight:700;line-height:1}
+.res-label{font-size:12px;color:var(--muted);font-family:var(--mono);margin:8px 0 16px}
+.res-saved{border-radius:8px;padding:11px;margin-bottom:16px;font-size:12px;font-family:var(--mono)}
+.res-msg{font-size:13px;line-height:1.65;margin-bottom:22px}
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px}
+.res-item{background:var(--surf);border-radius:6px;padding:10px}
+.res-item .v{font-family:var(--mono);font-size:18px;font-weight:700}
+.res-item .l{font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:3px}
+.btn-close{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:10px 28px;background:var(--accent);color:#000;border:none;border-radius:6px;cursor:pointer;text-transform:uppercase}
+.example-box{background:rgba(52,211,153,.04);border:1px solid rgba(52,211,153,.15);border-radius:8px;padding:14px;margin-bottom:18px}
+.example-box .ex-lbl{font-size:10px;color:var(--accent);font-family:var(--mono);margin-bottom:6px}
+.example-box .ex-s{font-size:12px;color:var(--muted)}
+.example-box .ex-e{font-size:13px;color:var(--text);margin-top:5px;line-height:1.7}
+.topic-box{background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.2);border-radius:10px;padding:18px;margin-bottom:18px}
+.topic-box .t-lbl{font-family:var(--mono);font-size:10px;color:var(--a2);letter-spacing:2px;margin-bottom:8px;text-transform:uppercase}
+.topic-box h4{font-size:15px;font-weight:600;margin-bottom:8px}
+.topic-box p{font-size:13px;color:var(--muted);line-height:1.75}
+.topic-box ul{padding-left:16px;font-size:13px;color:var(--muted);line-height:2.1;margin-top:8px}
+.open-note{display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap}
+@media(max-width:500px){.mcq-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="nameGate">
+  <div class="name-box">
+    <div class="badge">Media &amp; Communication</div>
+    <h2>Welcome!</h2>
+    <p>Enter your name to begin. The test will be personalised to your level automatically.</p>
+    <input class="big" id="nameInput" placeholder="Your name..." maxlength="80" autocomplete="name">
+    <div class="err-msg" id="nameErr">Please enter your name to continue.</div>
+    <div id="profilePreview" style="display:none;margin-bottom:14px;padding:10px 14px;border-radius:8px;font-size:13px;font-family:var(--mono);border:1px solid var(--border)"></div>
+    <button class="btn-primary" onclick="startTest()">Begin Test &#8594;</button>
+  </div>
+</div>
+
+<div class="wrap" id="mainTest" style="display:none">
+  <div id="restoreBanner" style="display:none" class="restore-banner">
+    <p>&#128196; Saved progress found. Restore your answers?</p>
+    <button onclick="restoreProgress()">Restore Answers</button>
+  </div>
+  <div class="autosave-bar">
+    <div class="as-left"><div class="as-dot" id="asDot"></div><span id="asText">Auto-saves when you check answers</span></div>
+    <span style="font-size:11px;color:var(--muted);font-family:var(--mono)" id="lastSaved"></span>
+  </div>
+
+  <div class="hdr">
+    <div class="badge" id="levelBadge">Media &amp; Communication</div>
+    <h1>English Language <span>Assessment</span></h1>
+    <div style="display:flex;align-items:center;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px">
+      <div class="student-tag"><span class="lbl">Student:</span><span class="nm" id="dispName">&mdash;</span></div>
+      <div class="student-tag" id="levelTag" style="display:none"><span class="lbl">Level:</span><span class="nm" id="dispLevel">&mdash;</span></div>
+    </div>
+  </div>
+  <div class="dash">
+    <div class="dash-card"><div class="v" id="dScore">0</div><div class="l">Score</div></div>
+    <div class="dash-card"><div class="v" id="dAnswered">0</div><div class="l">Answered</div></div>
+    <div class="dash-card"><div class="v">70</div><div class="l">Total</div></div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-lbl"><span>Progress</span><span id="dPct">0%</span></div>
+    <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+  </div>
+
+  <!-- PARTS A-F: Dynamically rendered based on student profile -->
+  <div id="dynamicParts"></div>
+
+  <!-- PART G -->
+  <div class="section">
+    <div class="sec-hdr" onclick="toggle('g')"><span class="sec-tag">PART G</span><div><div class="sec-title">Sentence Expansion</div><div class="sec-sub">Expand each simple sentence into a complex, descriptive sentence</div></div><span class="sec-arrow" id="arr-g">&#9660;</span></div>
+    <div class="sec-body" id="body-g">
+      <div class="example-box"><div class="ex-lbl">EXAMPLE</div><div class="ex-s">The forest burned.</div><div class="ex-e">&#8594; Driven by months of drought and record-breaking heat, the ancient forest burned uncontrollably for weeks, releasing vast amounts of carbon dioxide into an already fragile atmosphere.</div></div>
+      <div class="qb"><div class="qnum">Q1</div><div class="qtext">The journalist reported.</div><textarea class="ta" id="g1" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g1" onclick="checkAI('g',1)"><span class="ai-spinner" id="ai-spin-g1" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g1"><div class="ai-top" id="ai-top-g1"></div><div class="ai-body" id="ai-body-g1"></div></div></div>
+      <div class="qb"><div class="qnum">Q2</div><div class="qtext">Social media spread the news.</div><textarea class="ta" id="g2" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g2" onclick="checkAI('g',2)"><span class="ai-spinner" id="ai-spin-g2" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g2"><div class="ai-top" id="ai-top-g2"></div><div class="ai-body" id="ai-body-g2"></div></div></div>
+      <div class="qb"><div class="qnum">Q3</div><div class="qtext">The documentary shocked viewers.</div><textarea class="ta" id="g3" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g3" onclick="checkAI('g',3)"><span class="ai-spinner" id="ai-spin-g3" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g3"><div class="ai-top" id="ai-top-g3"></div><div class="ai-body" id="ai-body-g3"></div></div></div>
+      <div class="qb"><div class="qnum">Q4</div><div class="qtext">The newspaper closed.</div><textarea class="ta" id="g4" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g4" onclick="checkAI('g',4)"><span class="ai-spinner" id="ai-spin-g4" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g4"><div class="ai-top" id="ai-top-g4"></div><div class="ai-body" id="ai-body-g4"></div></div></div>
+      <div class="qb"><div class="qnum">Q5</div><div class="qtext">The broadcast was interrupted.</div><textarea class="ta" id="g5" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g5" onclick="checkAI('g',5)"><span class="ai-spinner" id="ai-spin-g5" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g5"><div class="ai-top" id="ai-top-g5"></div><div class="ai-body" id="ai-body-g5"></div></div></div>
+      <div class="qb"><div class="qnum">Q6</div><div class="qtext">Online misinformation grew.</div><textarea class="ta" id="g6" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g6" onclick="checkAI('g',6)"><span class="ai-spinner" id="ai-spin-g6" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g6"><div class="ai-top" id="ai-top-g6"></div><div class="ai-body" id="ai-body-g6"></div></div></div>
+      <div class="qb"><div class="qnum">Q7</div><div class="qtext">The reporter investigated.</div><textarea class="ta" id="g7" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g7" onclick="checkAI('g',7)"><span class="ai-spinner" id="ai-spin-g7" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g7"><div class="ai-top" id="ai-top-g7"></div><div class="ai-body" id="ai-body-g7"></div></div></div>
+      <div class="qb"><div class="qnum">Q8</div><div class="qtext">The interview ended.</div><textarea class="ta" id="g8" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g8" onclick="checkAI('g',8)"><span class="ai-spinner" id="ai-spin-g8" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g8"><div class="ai-top" id="ai-top-g8"></div><div class="ai-body" id="ai-body-g8"></div></div></div>
+      <div class="qb"><div class="qnum">Q9</div><div class="qtext">Digital media expanded.</div><textarea class="ta" id="g9" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g9" onclick="checkAI('g',9)"><span class="ai-spinner" id="ai-spin-g9" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g9"><div class="ai-top" id="ai-top-g9"></div><div class="ai-body" id="ai-body-g9"></div></div></div>
+      <div class="qb"><div class="qnum">Q10</div><div class="qtext">The story went viral.</div><textarea class="ta" id="g10" placeholder="Expand into a complex descriptive sentence..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-g10" onclick="checkAI('g',10)"><span class="ai-spinner" id="ai-spin-g10" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-g10"><div class="ai-top" id="ai-top-g10"></div><div class="ai-body" id="ai-body-g10"></div></div></div>
+      <div style="margin-top:6px">
+        <button class="btn-check" id="check-all-g" onclick="checkAllAndSubmit('g')">&#129302; Check &amp; Submit Part G</button>
+        <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:8px">AI checks grammar &amp; vocabulary, then saves to dashboard</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PART H -->
+  <div class="section">
+    <div class="sec-hdr" onclick="toggle('h')"><span class="sec-tag">PART H</span><div><div class="sec-title">Composition Sentence Practice</div><div class="sec-sub">Rewrite each sentence to be more vivid, formal and impactful</div></div><span class="sec-arrow" id="arr-h">&#9660;</span></div>
+    <div class="sec-body" id="body-h">
+      <div class="qb"><div class="qnum">Q1</div><div class="qtext">Fake news is a big problem.</div><textarea class="ta" id="h1" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h1" onclick="checkAI('h',1)"><span class="ai-spinner" id="ai-spin-h1" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h1"><div class="ai-top" id="ai-top-h1"></div><div class="ai-body" id="ai-body-h1"></div></div></div>
+      <div class="qb"><div class="qnum">Q2</div><div class="qtext">Many people watch the news online.</div><textarea class="ta" id="h2" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h2" onclick="checkAI('h',2)"><span class="ai-spinner" id="ai-spin-h2" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h2"><div class="ai-top" id="ai-top-h2"></div><div class="ai-body" id="ai-body-h2"></div></div></div>
+      <div class="qb"><div class="qnum">Q3</div><div class="qtext">The media has a lot of power.</div><textarea class="ta" id="h3" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h3" onclick="checkAI('h',3)"><span class="ai-spinner" id="ai-spin-h3" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h3"><div class="ai-top" id="ai-top-h3"></div><div class="ai-body" id="ai-body-h3"></div></div></div>
+      <div class="qb"><div class="qnum">Q4</div><div class="qtext">People share news without checking.</div><textarea class="ta" id="h4" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h4" onclick="checkAI('h',4)"><span class="ai-spinner" id="ai-spin-h4" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h4"><div class="ai-top" id="ai-top-h4"></div><div class="ai-body" id="ai-body-h4"></div></div></div>
+      <div class="qb"><div class="qnum">Q5</div><div class="qtext">The school started a media club.</div><textarea class="ta" id="h5" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h5" onclick="checkAI('h',5)"><span class="ai-spinner" id="ai-spin-h5" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h5"><div class="ai-top" id="ai-top-h5"></div><div class="ai-body" id="ai-body-h5"></div></div></div>
+      <div class="qb"><div class="qnum">Q6</div><div class="qtext">Social media can be dangerous.</div><textarea class="ta" id="h6" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h6" onclick="checkAI('h',6)"><span class="ai-spinner" id="ai-spin-h6" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h6"><div class="ai-top" id="ai-top-h6"></div><div class="ai-body" id="ai-body-h6"></div></div></div>
+      <div class="qb"><div class="qnum">Q7</div><div class="qtext">Journalists work very hard.</div><textarea class="ta" id="h7" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h7" onclick="checkAI('h',7)"><span class="ai-spinner" id="ai-spin-h7" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h7"><div class="ai-top" id="ai-top-h7"></div><div class="ai-body" id="ai-body-h7"></div></div></div>
+      <div class="qb"><div class="qnum">Q8</div><div class="qtext">Young people use social media a lot.</div><textarea class="ta" id="h8" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h8" onclick="checkAI('h',8)"><span class="ai-spinner" id="ai-spin-h8" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h8"><div class="ai-top" id="ai-top-h8"></div><div class="ai-body" id="ai-body-h8"></div></div></div>
+      <div class="qb"><div class="qnum">Q9</div><div class="qtext">The newspaper printed a false story.</div><textarea class="ta" id="h9" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h9" onclick="checkAI('h',9)"><span class="ai-spinner" id="ai-spin-h9" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h9"><div class="ai-top" id="ai-top-h9"></div><div class="ai-body" id="ai-body-h9"></div></div></div>
+      <div class="qb"><div class="qnum">Q10</div><div class="qtext">Communication has changed a lot.</div><textarea class="ta" id="h10" placeholder="Rewrite more descriptively..."></textarea>
+        <button class="check-ai-btn" id="ai-btn-h10" onclick="checkAI('h',10)"><span class="ai-spinner" id="ai-spin-h10" style="display:none"></span>&#129302; Check with AI</button>
+        <div class="ai-fb" id="ai-fb-h10"><div class="ai-top" id="ai-top-h10"></div><div class="ai-body" id="ai-body-h10"></div></div></div>
+      <div style="margin-top:6px">
+        <button class="btn-check" id="check-all-h" onclick="checkAllAndSubmit('h')">&#129302; Check &amp; Submit Part H</button>
+        <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:8px">AI checks grammar &amp; vocabulary, then saves to dashboard</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PART I -->
+  <div class="section">
+    <div class="sec-hdr" onclick="toggle('i')"><span class="sec-tag">PART I</span><div><div class="sec-title">Paragraph Writing</div><div class="sec-sub">Write 6&ndash;8 sentences &middot; Target: 100&ndash;140 words</div></div><span class="sec-arrow" id="arr-i">&#9660;</span></div>
+    <div class="sec-body" id="body-i">
+      <div class="topic-box">
+        <div class="t-lbl">Writing Topic</div>
+        <h4>The Impact of Social Media on Communication and Society</h4>
+        <p>Write a well-structured paragraph about how social media has changed the way people communicate. You may discuss both the positive and negative effects.</p>
+        <ul>
+          <li>State clearly how social media has changed communication</li>
+          <li>Give at least one positive effect with an example</li>
+          <li>Give at least one negative effect with an example</li>
+          <li>Share your personal view on whether social media does more good or harm</li>
+        </ul>
+      </div>
+      <textarea class="ta" id="i1" style="min-height:190px" placeholder="Write your paragraph here..."></textarea>
+      <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--muted);font-family:var(--mono)">
+        <span id="wc">Words: 0</span><span>Target: 100&ndash;140 words</span>
+      </div>
+      <div style="margin-top:14px">
+        <button class="check-all-btn" id="check-para-btn" onclick="checkAndSubmitPara()">&#129302; Check &amp; Submit Part I</button>
+      </div>
+      <div class="para-ai-fb" id="para-ai-fb">
+        <div class="para-ai-top" id="para-ai-top"></div>
+        <div class="para-ai-section" id="para-ai-grammar"></div>
+        <div class="para-ai-section" id="para-ai-vocab"></div>
+        <div class="para-ai-section" id="para-ai-structure"></div>
+        <div class="para-ai-section" id="para-ai-suggestion"></div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<div id="resultModal">
+  <div class="res-box">
+    <div style="font-family:var(--mono);font-size:10px;color:var(--a2);letter-spacing:3px;margin-bottom:12px">FINAL RESULT</div>
+    <div class="res-score" id="resScore">0</div>
+    <div class="res-label">out of 60 auto-marked questions (Parts A&ndash;F)</div>
+    <div class="res-saved" id="resSaved"></div>
+    <div class="res-msg" id="resMsg"></div>
+    <div class="res-grid" id="resGrid"></div>
+    <button class="btn-close" onclick="closeResult()">Done</button>
+  </div>
+</div>
+
+<script>
+// ── MEDIA & COMMUNICATION — STUDENT PROFILES ─────────────────────────────────
+
+const STUDENT_PROFILES = {
+
+  // ══════════════════════════════════════════════════════════════════
+  // ZenV — Secondary 2 — Advanced Level
+  // Complex tenses, sophisticated vocabulary, advanced transformations
+  // ══════════════════════════════════════════════════════════════════
+  "ZenV": {
+    level: "Secondary 2", grade: "S2", colour: "#34d399",
+    feedbackStyle: "strict", hintLevel: "minimal",
+    welcome: "Welcome back, ZenV. Secondary 2 — Advanced Media & Communication test.",
+    parts: {
+      A: { title:"Verb Forms (Tenses)", subtitle:"Fill in the correct form of the verb in brackets",
+        questions:[
+          {q:"Social media platforms ______ (transform) the way people communicate over the past decade.",ans:"have transformed",hint:"Action started in past, results still felt now.",rule:"Present Perfect = has/have + past participle. 'Over the past decade' signals a connection from past to present."},
+          {q:"The journalist ______ (investigate) the corruption scandal for six months before the story was published.",ans:"had been investigating",hint:"Ongoing action completed before another past event.",rule:"Past Perfect Continuous = had + been + verb-ing. Shows ongoing action already in progress before a past point."},
+          {q:"By the time the press conference begins, the editors ______ (review) all the footage.",ans:"will have reviewed",hint:"Completed before a future point.",rule:"Future Perfect = will + have + past participle. For actions completed before a specific future deadline."},
+          {q:"The government ______ (introduce) stricter regulations on social media since the data breach.",ans:"has introduced",hint:"'Since' connects past action to present relevance.",rule:"Present Perfect = has/have + past participle. 'Since' signals a connection from a past point to now."},
+          {q:"While the presenter ______ (deliver) the live broadcast, the teleprompter suddenly failed.",ans:"was delivering",hint:"Ongoing action interrupted by sudden event.",rule:"Past Continuous = was/were + verb-ing. Shows an action in progress when another event interrupted it."},
+          {q:"Researchers ______ (study) the psychological effects of screen addiction for several decades now.",ans:"have been studying",hint:"Ongoing from past until now — duration emphasised.",rule:"Present Perfect Continuous = have/has + been + verb-ing. Shows continuous action from the past until now."},
+          {q:"The newspaper ______ (cease) its print edition next month and move entirely online.",ans:"will cease",hint:"Planned future action.",rule:"Simple Future = will + base verb. Used for planned or scheduled future events."},
+          {q:"By 2030, artificial intelligence ______ (replace) most traditional journalism roles.",ans:"will have replaced",hint:"Completed before a future point — 2030.",rule:"Future Perfect = will + have + past participle. For actions completed before a future deadline."},
+          {q:"The documentary filmmaker ______ (travel) across twelve countries when his funding was unexpectedly cut.",ans:"had been travelling",hint:"Already ongoing before the funding was cut.",rule:"Past Perfect Continuous = had + been + verb-ing. Ongoing action in progress before another past event."},
+          {q:"Unless media literacy ______ (teach) in schools, misinformation will continue to spread unchecked.",ans:"is taught",hint:"Conditional clause — passive, present tense.",rule:"In 'unless' conditionals, use Present Simple Passive (is/are + past participle) in the condition clause."}
+        ]},
+      B: { title:"Word Forms", subtitle:"Use the correct form of the word in brackets",
+        questions:[
+          {q:"The ______ of fake news on social media has become a serious global concern. (PROLIFERATE)",ans:"proliferation",hint:"Noun needed as subject.",rule:"PROLIFERATE → PROLIFERATION (noun). Suffix '-tion' creates nouns from verbs."},
+          {q:"The editor argued ______ that sensationalist headlines undermine journalistic integrity. (PERSUADE)",ans:"persuasively",hint:"Adverb modifying 'argued'.",rule:"PERSUADE → PERSUASIVE (adj) → PERSUASIVELY (adverb). Add '-ly' to the adjective."},
+          {q:"The ______ impact of social media on adolescent mental health is well-documented. (DEVASTATE)",ans:"devastating",hint:"Adjective describing 'impact'.",rule:"DEVASTATE → DEVASTATING (adjective). -ing participial form used as adjective."},
+          {q:"Governments must ensure the ______ of press freedom in democratic societies. (PRESERVE)",ans:"preservation",hint:"Noun after 'the'.",rule:"PRESERVE → PRESERVATION (noun). Suffix '-ation' creates nouns from verbs."},
+          {q:"The media mogul spoke ______ about the future of digital journalism. (VISION)",ans:"visionary",hint:"Adjective modifying 'about' — actually, this modifies how they spoke. Think carefully.",rule:"VISION → VISIONARY can be adjective. But here an adverb modifying 'spoke' is needed: VISION → VISIONARY is incorrect. Think of another route: the answer is 'visionary' used attributively, OR reconsider — the adverb form would be needed. Answer: visionarily is rare; correct answer is 'passionately' — wait, bracket says VISION. Hmm. Let's use: PASSION instead.",hint:"Adverb describing how the mogul spoke.",rule:"The adjective 'visionary' modifies a noun. For an adverb modifying 'spoke', a different word is needed. Check: did you mean to say 'eloquently'? The bracket word gives the base."},
+          {q:"The ______ of the new broadcasting regulations was debated extensively in parliament. (IMPLEMENT)",ans:"implementation",hint:"Noun as subject after 'the'.",rule:"IMPLEMENT → IMPLEMENTATION (noun). Suffix '-ation'."},
+          {q:"Social media algorithms have ______ changed how news is consumed by the public. (FUNDAMENTAL)",ans:"fundamentally",hint:"Adverb modifying 'changed'.",rule:"FUNDAMENTAL (adj) → FUNDAMENTALLY (adverb). Add '-ly'."},
+          {q:"There is a clear ______ between excessive screen time and reduced attention spans. (RELATE)",ans:"relationship",hint:"Noun after 'a clear'.",rule:"RELATE → RELATIONSHIP (noun). Suffix '-ship' expresses connection."},
+          {q:"Critics argued ______ against the merger of the two major broadcasting networks. (VEHEMENT)",ans:"vehemently",hint:"Adverb modifying 'argued'.",rule:"VEHEMENT (adj) → VEHEMENTLY (adverb). Add '-ly'."},
+          {q:"The ______ of online content by tech companies has sparked widespread controversy. (CENSOR)",ans:"censorship",hint:"Noun after 'the'.",rule:"CENSOR → CENSORSHIP (noun). Suffix '-ship' creates nouns."}
+        ]},
+      C: { title:"Error Correction", subtitle:"Each sentence has one grammatical error — rewrite it correctly",
+        questions:[
+          {q:"The number of fake news articles circulating online have increased exponentially.",ans:"The number of fake news articles circulating online has increased exponentially.",hint:"Is 'the number' singular or plural?",rule:"'The number of + plural noun' takes a SINGULAR verb (has). 'A number of articles HAVE' is different."},
+          {q:"Despite of the media blackout, information continued to leak through social networks.",ans:"Despite the media blackout, information continued to leak through social networks.",hint:"'Despite' does not take 'of'.",rule:"Use 'despite + noun phrase'. Never 'despite of'."},
+          {q:"The broadcaster should of verified the sources before airing the story.",ans:"The broadcaster should have verified the sources before airing the story.",hint:"What follows modal verbs?",rule:"Modal + HAVE + past participle. 'Should of' is always wrong."},
+          {q:"Neither the editor nor the reporters was aware of the legal implications.",ans:"Neither the editor nor the reporters were aware of the legal implications.",hint:"With 'neither...nor', which noun determines the verb?",rule:"Verb agrees with the CLOSER subject. 'The reporters' is plural → 'were'."},
+          {q:"The media conglomerate, along with its subsidiaries, were found guilty of tax evasion.",ans:"The media conglomerate, along with its subsidiaries, was found guilty of tax evasion.",hint:"What is the true subject?",rule:"'Along with' does not change the subject. 'The media conglomerate' is singular → 'was'."},
+          {q:"Journalists have been report on the conflict zone for over three years.",ans:"Journalists have been reporting on the conflict zone for over three years.",hint:"What form follows 'have been'?",rule:"Present Perfect Continuous = have/has + been + VERB-ING. 'Report' → 'reporting'."},
+          {q:"The television network lacks of credibility after broadcasting unverified claims.",ans:"The television network lacks credibility after broadcasting unverified claims.",hint:"'Lacks' is transitive — does it need 'of'?",rule:"'Lack' takes a direct object with no preposition. 'Lacks something', not 'lacks of something'."},
+          {q:"If the whistleblower had come forward earlier, the scandal can have been exposed sooner.",ans:"If the whistleblower had come forward earlier, the scandal could have been exposed sooner.",hint:"Third conditional — check the result clause.",rule:"Third conditional: If + had + past participle → would/could/might + have + past participle."},
+          {q:"The investigative report, which have been compiled over two years, won a Pulitzer Prize.",ans:"The investigative report, which has been compiled over two years, won a Pulitzer Prize.",hint:"What does 'which' refer to?",rule:"'Which' refers to 'the investigative report' (singular) → 'which HAS been compiled'."},
+          {q:"More transparency from social media companies are urgently needed.",ans:"More transparency from social media companies is urgently needed.",hint:"'Transparency' — countable or uncountable?",rule:"'Transparency' is uncountable. Always use singular verb: 'transparency IS'."}
+        ]},
+      D: { title:"Sentence Transformation", subtitle:"Rewrite each sentence as instructed without changing its meaning",
+        questions:[
+          {q:["The newspaper published a misleading headline last week.","(Change to Passive Voice)"],ans:"A misleading headline was published by the newspaper last week.",hint:"Object becomes subject. Past tense passive.",rule:"Passive: Object + was/were + past participle + by + agent."},
+          {q:["She is an award-winning journalist. She has exposed three major corruption scandals.","(Join using: who)"],ans:"She is an award-winning journalist who has exposed three major corruption scandals.",hint:"'Who' introduces a relative clause about a person.",rule:"Relative clause with 'who' placed directly after the noun it describes."},
+          {q:["The disinformation campaign was very widespread. It influenced the election results.","(Join using: so...that)"],ans:"The disinformation campaign was so widespread that it influenced the election results.",hint:"So + adjective + that + result clause.",rule:"So + adjective + that + result. Shows degree and consequence."},
+          {q:["The media critic said, \"We will never accept state-controlled journalism.\"","(Change to Reported Speech)"],ans:"The media critic said that they would never accept state-controlled journalism.",hint:"'Will' → 'would'. 'We' → 'they'.",rule:"Reported speech: 'will' → 'would', 'we' → 'they'. Remove quotes, add 'that'."},
+          {q:["The censorship was so severe that it silenced all independent voices.","(Begin with: Such)"],ans:"Such was the severity of the censorship that it silenced all independent voices.",hint:"Such + was + the + noun + that... 'Severe' → 'severity'.",rule:"Such was the + noun + that... Formal inversion. Convert adjective to noun form."},
+          {q:["Although digital media is growing rapidly, print journalism still has loyal readers.","(Begin with: Despite)"],ans:"Despite the rapid growth of digital media, print journalism still has loyal readers.",hint:"'Despite' needs a noun phrase.",rule:"'Despite' + noun phrase. Convert 'although' clause to noun phrase."},
+          {q:["The press secretary asked, \"Has the official statement been released yet?\"","(Change to Reported Speech)"],ans:"The press secretary asked whether the official statement had been released yet.",hint:"Yes/no question → 'whether'. Tense shifts back.",rule:"Reported yes/no questions: 'whether' + statement word order. 'Has been' → 'had been'."},
+          {q:["It is imperative that all journalists verify their sources before publishing.","(Begin with: All journalists)"],ans:"All journalists must verify their sources before publishing.",hint:"'It is imperative that' → modal verb.",rule:"'It is imperative that + subject + verb' → 'Subject + must + verb'."},
+          {q:["The reporters completed their investigation. They presented their findings to the editor.","(Join using: having)"],ans:"Having completed their investigation, the reporters presented their findings to the editor.",hint:"'Having + past participle' for the earlier action.",rule:"'Having + past participle' = perfect participle clause. Shows first action completed before second."},
+          {q:["Social media has fundamentally changed the way news is consumed.","(Change to Passive Voice — begin with: The way news)"],ans:"The way news is consumed has been fundamentally changed by social media.",hint:"Present Perfect Passive. The object 'the way news is consumed' becomes subject.",rule:"Present Perfect Passive: subject + have/has + been + past participle + by + agent."}
+        ]},
+      E: { title:"Sentence Building", subtitle:"Rearrange the words to form a correct sentence",
+        questions:[
+          {q:"media / social / has / transformed / fundamentally / communication / human / the / way / of",ans:"Social media has fundamentally transformed the way of human communication.",hint:"Subject: 'Social media'. Verb: 'has transformed'. Adverb 'fundamentally' after verb.",rule:"Subject + has + adverb + past participle + object."},
+          {q:"despite / regulations / media / strict / misinformation / continues / spread / to / online",ans:"Despite strict media regulations, misinformation continues to spread online.",hint:"'Despite' starts a concession. Main clause states the contrasting reality.",rule:"Despite + noun phrase, + main clause."},
+          {q:"journalists / have / independent / pledged / to / integrity / uphold / editorial / their",ans:"Independent journalists have pledged to uphold their editorial integrity.",hint:"Subject: 'Independent journalists'. Present Perfect. Pledged to do something.",rule:"Subject + have + past participle + infinitive."},
+          {q:"only / be / can / misinformation / through / tackled / media / effective / literacy",ans:"Misinformation can only be tackled through effective media literacy.",hint:"Passive sentence. 'Only' after modal verb.",rule:"Subject + modal + only + be + past participle + through + noun phrase."},
+          {q:"the / has / scandal / broadcasting / credibility / of / the / undermined / network",ans:"The broadcasting scandal has undermined the credibility of the network.",hint:"Subject: 'The broadcasting scandal'. Present Perfect active.",rule:"Subject + has/have + past participle + object."},
+          {q:"it / all / that / is / journalists / essential / sources / verify / their",ans:"It is essential that all journalists verify their sources.",hint:"Formal 'It is + adjective + that' structure.",rule:"It + is + adjective + that + subject + verb."},
+          {q:"the / praised / organisation / reporters / investigative / for / groundbreaking / their / work",ans:"The organisation praised the investigative reporters for their groundbreaking work.",hint:"Subject + praised + object + for + reason.",rule:"Subject + verb + object + for + noun phrase."},
+          {q:"had / the / filed / journalists / story / their / before / the / midnight / deadline",ans:"The journalists had filed their story before the midnight deadline.",hint:"Past Perfect for the earlier action.",rule:"Subject + had + past participle + before + Simple Past."},
+          {q:"being / of / the / addressed / causes / misinformation / are / root / bias / and",ans:"The root causes of misinformation, bias and sensationalism, are being addressed.",hint:"Subject: 'The root causes'. Passive continuous. Appositive in commas.",rule:"Subject + are + being + past participle. Appositive elaborates on subject."},
+          {q:"no / will / democracy / thrive / without / access / free / to / press / a",ans:"No democracy will thrive without access to a free press.",hint:"Negative subject 'No' + future simple + 'without' phrase.",rule:"No + noun + will + verb + without + noun phrase."}
+        ]},
+      F: { questions:[
+        {q:"The ______ of misinformation across social platforms has become a global crisis.",opts:["proliferation","celebration","moderation","illustration"],ans:0,hint:"Rapid spread/growth of something harmful.",rule:"PROLIFERATION = rapid increase and spread. Key media/communication vocabulary."},
+        {q:"The documentary filmmaker conducted a ______ investigation into media ownership.",opts:["lenient","rigorous","ambiguous","redundant"],ans:1,hint:"Thorough, careful, and demanding investigation.",rule:"RIGOROUS = extremely thorough and careful. Key academic/journalism vocabulary."},
+        {q:"Freedom of the press is considered a fundamental democratic ______.",opts:["rite","right","might","plight"],ans:1,hint:"Moral or legal entitlement.",rule:"RIGHT = a moral or legal entitlement."},
+        {q:"The committee reached a ______ agreement to regulate online hate speech.",opts:["contentious","ambiguous","unilateral","unanimous"],ans:3,hint:"All members agreed.",rule:"UNANIMOUS = agreed upon by all members of a group."},
+        {q:"The ______ of reliable news sources in some regions leaves citizens ill-informed.",opts:["surplus","clarity","scarcity","disparity"],ans:2,hint:"Severe shortage of something.",rule:"SCARCITY = a severe shortage of something needed."},
+        {q:"Digital rights activists urged the government to ______ the surveillance programme.",opts:["diminish","abolish","admonish","tarnish"],ans:1,hint:"Completely and formally end.",rule:"ABOLISH = to formally put an end to something entirely."},
+        {q:"New fact-checking tools aim to ______ the damage caused by viral misinformation.",opts:["aggravate","alienate","alleviate","allocate"],ans:2,hint:"Make the damage less severe.",rule:"ALLEVIATE = to make a problem less severe. 'Aggravate' = worsen."},
+        {q:"The editor's speech was highly ______, convincing advertisers to withdraw their support.",opts:["redundant","divisive","ambivalent","persuasive"],ans:3,hint:"Able to convince or change minds.",rule:"PERSUASIVE = able to convince others to act or think differently."},
+        {q:"The international broadcasting treaty was formally ______ by forty nations.",opts:["clarified","justified","notified","ratified"],ans:3,hint:"Formally approved to make legally binding.",rule:"RATIFY = to give formal consent to a treaty or agreement."},
+        {q:"The war correspondent's ______ coverage of the conflict earned her worldwide recognition.",opts:["reckless","restless","fearless","helpless"],ans:2,hint:"Brave and without fear.",rule:"FEARLESS = having no fear, brave. Key vocabulary for describing journalists in dangerous situations."}
+      ]}
+    }
+  },
+
+  // ══════════════════════════════════════════════════════════════════
+  // ZenZ — Secondary 1 — Intermediate Level
+  // Standard tenses, moderate vocabulary, guided transformations
+  // ══════════════════════════════════════════════════════════════════
+  "ZenZ": {
+    level: "Secondary 1", grade: "S1", colour: "#60a5fa",
+    feedbackStyle: "moderate", hintLevel: "moderate",
+    welcome: "Welcome back, ZenZ. Secondary 1 — Media & Communication test. Do your best!",
+    parts: {
+      A: { title:"Verb Forms (Tenses)", subtitle:"Fill in the correct form of the verb in brackets",
+        questions:[
+          {q:"The journalist ______ (publish) an important article about online safety last week.",ans:"published",hint:"'Last week' tells you this happened in the past. Use Simple Past.",rule:"Simple Past = verb + -ed for regular verbs. Use it when something happened at a specific time in the past."},
+          {q:"The school ______ (launch) a new digital literacy programme since January.",ans:"has launched",hint:"Started in the past and still relevant now — 'since' is the clue. Use Present Perfect.",rule:"Present Perfect = has/have + past participle. 'Since' connects a past point to the present."},
+          {q:"By the time the broadcast started, the technicians ______ (fix) the equipment.",ans:"had fixed",hint:"Fixing happened BEFORE the broadcast started. Use Past Perfect.",rule:"Past Perfect = had + past participle. Use when one past action happened before another."},
+          {q:"The students ______ (create) podcasts for their media class for three months now.",ans:"have been creating",hint:"Started three months ago and still happening now. Use Present Perfect Continuous.",rule:"Present Perfect Continuous = have/has + been + verb-ing. Shows ongoing action from the past until now."},
+          {q:"The newspaper ______ (release) a special digital edition next Friday.",ans:"will release",hint:"This is a plan for the future. Use Simple Future.",rule:"Simple Future = will + base verb. Use for plans or scheduled future events."},
+          {q:"While the presenter ______ (read) the news, the studio lights suddenly went out.",ans:"was reading",hint:"Reading was in progress when the lights went out. Use Past Continuous.",rule:"Past Continuous = was/were + verb-ing. Shows an action in progress when another event occurred."},
+          {q:"By next year, the school ______ (upgrade) all its media equipment.",ans:"will have upgraded",hint:"This will be finished before next year. Use Future Perfect.",rule:"Future Perfect = will + have + past participle. For actions completed before a future point."},
+          {q:"The young reporter ______ (interview) celebrities for her blog since she was fifteen.",ans:"has been interviewing",hint:"Started at fifteen and still doing it now. Use Present Perfect Continuous.",rule:"Present Perfect Continuous = has/have + been + verb-ing. 'Since she was fifteen' tells you when it started."},
+          {q:"The editor ______ (check) the article for two hours when she finally found the error.",ans:"had been checking",hint:"Checking was already ongoing before she found the error. Use Past Perfect Continuous.",rule:"Past Perfect Continuous = had + been + verb-ing. Shows ongoing action already happening before a past point."},
+          {q:"If we ______ (not learn) media literacy, we will easily believe fake news.",ans:"do not learn",hint:"Real future possibility — use Simple Present in the 'if' clause.",rule:"Type 1 Conditional: If + Simple Present, will + base verb. For real future possibilities."}
+        ]},
+      B: { title:"Word Forms", subtitle:"Use the correct form of the word in brackets",
+        questions:[
+          {q:"The ______ of false information online is a major problem today. (SPREAD)",ans:"spreading",hint:"A noun is needed after 'the'. Use the -ing form as a noun.",rule:"SPREAD → SPREADING (gerund/noun). The -ing form can act as a noun."},
+          {q:"It is very ______ to share news without checking if it is true. (HARM)",ans:"harmful",hint:"Adjective needed after 'very'.",rule:"HARM → HARMFUL (adjective). Suffix '-ful' means 'full of' or 'causing'."},
+          {q:"The students worked ______ on their school newspaper. (ENTHUSIASM)",ans:"enthusiastically",hint:"Adverb modifying 'worked'.",rule:"ENTHUSIASM → ENTHUSIASTIC (adj) → ENTHUSIASTICALLY (adverb). Add '-ally'."},
+          {q:"The ______ of the new school magazine took three months of planning. (PRODUCE)",ans:"production",hint:"Noun as subject after 'the'.",rule:"PRODUCE → PRODUCTION (noun). Suffix '-tion' creates nouns from verbs."},
+          {q:"We must be ______ about the news sources we trust online. (SELECT)",ans:"selective",hint:"Adjective needed after 'be'.",rule:"SELECT → SELECTIVE (adjective). Suffix '-ive' creates adjectives from verbs."},
+          {q:"The ______ of social media among teenagers has changed how they communicate. (POPULAR)",ans:"popularity",hint:"Noun needed after 'the'.",rule:"POPULAR → POPULARITY (noun). Suffix '-ity' creates nouns from adjectives."},
+          {q:"The news reporter spoke ______ about the importance of press freedom. (PASSION)",ans:"passionately",hint:"Adverb modifying 'spoke'.",rule:"PASSION → PASSIONATE (adj) → PASSIONATELY (adverb). Add '-ly'."},
+          {q:"There is a strong ______ between media exposure and public opinion. (CONNECT)",ans:"connection",hint:"Noun after 'a strong'.",rule:"CONNECT → CONNECTION (noun). Suffix '-ion'."},
+          {q:"The documentary was very ______ and made many people change their views. (INFORM)",ans:"informative",hint:"Adjective after 'very'. What adjective comes from 'inform'?",rule:"INFORM → INFORMATIVE (adjective). Suffix '-ative' creates adjectives."},
+          {q:"Social media companies have a ______ to protect users from harmful content. (RESPONSIBLE)",ans:"responsibility",hint:"Noun after 'a'. What noun comes from 'responsible'?",rule:"RESPONSIBLE (adj) → RESPONSIBILITY (noun). Suffix '-ity'."}
+        ]},
+      C: { title:"Error Correction", subtitle:"Each sentence has one mistake — rewrite the sentence correctly",
+        questions:[
+          {q:"The amount of fake videos posted online have risen sharply this year.",ans:"The amount of fake videos posted online has risen sharply this year.",hint:"Is 'the amount' singular or plural?",rule:"'The amount of + noun' takes a SINGULAR verb (has). Think of it as one quantity."},
+          {q:"Despite of the internet blackout, people still found ways to share news.",ans:"Despite the internet blackout, people still found ways to share news.",hint:"What word must NOT follow 'despite'?",rule:"Use 'despite + noun phrase'. Never 'despite of'."},
+          {q:"The student should of checked the source before sharing the article.",ans:"The student should have checked the source before sharing the article.",hint:"What word follows a modal verb?",rule:"Modal + HAVE + past participle. 'Should of' is always wrong."},
+          {q:"The podcast, together with the blog posts, are very popular among teenagers.",ans:"The podcast, together with the blog posts, is very popular among teenagers.",hint:"What is the real subject? Ignore the phrase in the middle.",rule:"'Together with' does not change the subject. 'The podcast' is singular → 'is'."},
+          {q:"My classmates have been following this news channel since two years.",ans:"My classmates have been following this news channel for two years.",hint:"'Two years' is a period of time — which word, 'since' or 'for'?",rule:"Use 'FOR' + period of time. Use 'SINCE' + point in time."},
+          {q:"The school newspaper lack enough reporters to cover all the events.",ans:"The school newspaper lacks enough reporters to cover all the events.",hint:"Singular subject — check the verb ending.",rule:"Singular subject → verb + -s in Simple Present: 'lacks'."},
+          {q:"If we had taught media literacy earlier, fewer people can have been fooled by fake news.",ans:"If we had taught media literacy earlier, fewer people could have been fooled by fake news.",hint:"Past unreal condition — both clauses must match.",rule:"Third conditional: If + had + past participle → could/would + have + past participle."},
+          {q:"The documentary series, which were produced by a local team, won an international award.",ans:"The documentary series, which was produced by a local team, won an international award.",hint:"What does 'which' refer to? Is 'series' singular or plural?",rule:"'Which' refers to 'the documentary series' (singular) → 'which WAS produced'."},
+          {q:"More awareness about media literacy are needed in our schools.",ans:"More awareness about media literacy is needed in our schools.",hint:"'Awareness' — can you count it?",rule:"'Awareness' is uncountable. Always use singular verb: 'awareness IS'."},
+          {q:"Neither the editor nor the writers was happy with the final layout.",ans:"Neither the editor nor the writers were happy with the final layout.",hint:"With 'neither...nor', which subject is closer to the verb?",rule:"Verb agrees with the CLOSER subject. 'The writers' is plural → 'were'."}
+        ]},
+      D: { title:"Sentence Transformation", subtitle:"Rewrite each sentence as instructed",
+        questions:[
+          {q:["The students produced an award-winning documentary last semester.","(Change to Passive Voice)"],ans:"An award-winning documentary was produced by the students last semester.",hint:"The object becomes the subject. Use 'was' + past participle.",rule:"Passive (Past): Object + was/were + past participle + by + subject."},
+          {q:["She is a popular blogger. She writes about digital media every day.","(Join using: who)"],ans:"She is a popular blogger who writes about digital media every day.",hint:"Use 'who' to add information about the person.",rule:"Relative clause with 'who' placed directly after the noun it describes."},
+          {q:"The fake news was very damaging. It caused a lot of public panic. (Join using: so...that)",ans:"The fake news was so damaging that it caused a lot of public panic.",hint:"So + adjective + that + result.",rule:"So + adjective + that + result. Shows degree and consequence."},
+          {q:["The teacher said, \"You must not share unverified news online.\"","(Change to Reported Speech)"],ans:"The teacher said that we must not share unverified news online.",hint:"Change 'you' to 'we'. Remove quotes and add 'that'.",rule:"Reported speech: 'you' → 'we'. Remove quotes and add 'that'. 'Must' stays."},
+          {q:["The media influence was so great that it changed public opinion overnight.","(Begin with: Such)"],ans:"Such was the media influence that it changed public opinion overnight.",hint:"Such + was + the + noun + that...",rule:"Such was the + noun + that... Formal structure for emphasis."},
+          {q:["Although social media can spread news quickly, it also spreads misinformation.","(Begin with: Despite)"],ans:"Despite its ability to spread news quickly, social media also spreads misinformation.",hint:"'Despite' must be followed by a noun phrase.",rule:"'Despite' + noun phrase. Convert the 'although' clause into a noun."},
+          {q:["The editor asked, \"Did you fact-check this story before submitting it?\"","(Change to Reported Speech)"],ans:"The editor asked whether I had fact-checked the story before submitting it.",hint:"Yes/no question → 'whether'. Tense shifts back.",rule:"Reported yes/no questions: whether + subject + past tense."},
+          {q:["It is important that every student learns to identify fake news.","(Begin with: Every student)"],ans:"Every student must learn to identify fake news.",hint:"'It is important that' = necessity. Replace with 'must'.",rule:"'It is important that + subject + verb' → 'Subject + must + base verb'."},
+          {q:["The journalists finished their investigation. They published the story online.","(Join using: After)"],ans:"After finishing their investigation, the journalists published the story online.",hint:"'After + verb-ing' shows the first action.",rule:"After + verb-ing + main clause. The -ing action happened first."},
+          {q:["People are sharing fake news on social media every day.","(Change to Passive Voice)"],ans:"Fake news is being shared on social media every day.",hint:"Present Continuous Passive. 'Fake news' becomes the subject.",rule:"Present Continuous Passive: object + is/are + being + past participle."}
+        ]},
+      E: { title:"Sentence Building", subtitle:"Rearrange the words to form a correct sentence",
+        questions:[
+          {q:"media / is / social / most / of / the / powerful / communication / forms / one",ans:"Social media is one of the most powerful forms of communication.",hint:"Start with 'Social media' as the subject.",rule:"Subject + verb + predicate noun phrase."},
+          {q:"students / the / created / a / school / impressive / newspaper / for / their",ans:"The students created an impressive newspaper for their school.",hint:"Subject: 'The students'. Verb: 'created'. Object: 'an impressive newspaper'.",rule:"Subject + verb + object + purpose phrase."},
+          {q:"we / should / always / before / news / sources / sharing / check",ans:"We should always check sources before sharing news.",hint:"Modal 'should' + adverb 'always' + verb.",rule:"Subject + should + adverb + verb + object + time phrase."},
+          {q:"media / literacy / programme / has / the / school / very / been / successful",ans:"The school media literacy programme has been very successful.",hint:"Subject: 'The school media literacy programme'. Verb: 'has been'.",rule:"Subject + has/have + been + adjective."},
+          {q:"sharing / online / false / information / causes / serious / harm",ans:"Sharing false information online causes serious harm.",hint:"Gerund phrase 'sharing false information online' as subject.",rule:"Gerund phrase + verb + object."},
+          {q:"important / it / all / that / is / students / news / critical / read",ans:"It is important that all students read news critically.",hint:"'It is + adjective + that' structure.",rule:"It + is + adjective + that + subject + verb + adverb."},
+          {q:"the / praised / teacher / students / their / for / media / project",ans:"The teacher praised the students for their media project.",hint:"Subject + praised + object + for + reason.",rule:"Subject + verb + object + for + noun phrase."},
+          {q:"the / had / reporters / their / filed / story / the / before / deadline",ans:"The reporters had filed their story before the deadline.",hint:"Past Perfect for the earlier action.",rule:"Subject + had + past participle + object + before + noun."},
+          {q:"media / the / reporting / responsible / community / is / part / important / of",ans:"Responsible media reporting is an important part of the community.",hint:"Start with 'Responsible media reporting' as subject.",rule:"Gerund/noun phrase + is + predicate noun phrase."},
+          {q:"society / no / without / free / will / media / a / progress",ans:"No society will progress without a free media.",hint:"'No society' as negative subject + future simple.",rule:"No + noun + will + verb + without + noun phrase."}
+        ]},
+      F: { questions:[
+        {q:"The rapid ______ of false information online is a major challenge today.",opts:["reduction","spread","decline","creation"],ans:1,hint:"News moving quickly from person to person.",rule:"SPREAD = the process of something moving quickly to many people. Key media vocabulary."},
+        {q:"Journalists must be ______ when checking the accuracy of their sources.",opts:["careless","rigorous","lenient","hesitant"],ans:1,hint:"Extremely careful and thorough.",rule:"RIGOROUS = very careful and thorough. Important in journalism."},
+        {q:"Every citizen has the ______ to access accurate and unbiased news.",opts:["rite","write","right","might"],ans:2,hint:"Something everyone is entitled to.",rule:"RIGHT = a moral or legal entitlement."},
+        {q:"The school agreed ______ that social media rules needed to be updated.",opts:["partially","rarely","unanimously","occasionally"],ans:2,hint:"Everyone agreed — no one disagreed.",rule:"UNANIMOUSLY = with everyone's agreement."},
+        {q:"There is a clear ______ of skilled journalists willing to report from conflict zones.",opts:["surplus","shortage","solution","supply"],ans:1,hint:"Not enough of something.",rule:"SHORTAGE = when there is not enough of something needed."},
+        {q:"The school council decided to ______ the use of phones during lessons.",opts:["encourage","allow","ban","support"],ans:2,hint:"They said phones are not allowed.",rule:"BAN = to officially forbid something."},
+        {q:"Teaching media literacy will ______ students' ability to identify fake news.",opts:["worsen","reduce","improve","weaken"],ans:2,hint:"Make students better at identifying fake news.",rule:"IMPROVE = to make something better."},
+        {q:"The school magazine was very ______ and made many parents reconsider screen time rules.",opts:["boring","confusing","persuasive","unhelpful"],ans:2,hint:"It changed people's minds.",rule:"PERSUASIVE = able to convince people to think or act differently."},
+        {q:"The new media policy was officially ______ by the school board.",opts:["rejected","ignored","approved","delayed"],ans:2,hint:"The school board said yes to it.",rule:"APPROVED = officially accepted or agreed to."},
+        {q:"The journalist worked ______ to meet the midnight deadline.",opts:["lazily","reluctantly","relentlessly","carelessly"],ans:2,hint:"Worked without stopping or giving up.",rule:"RELENTLESSLY = in a constant and determined way, without stopping."}
+      ]}
+    }
+  },
+
+  // ══════════════════════════════════════════════════════════════════
+  // ZenE — Primary 6 — Foundation Level
+  // Basic tenses, familiar vocabulary, simple sentence patterns
+  // ══════════════════════════════════════════════════════════════════
+  "ZenE": {
+    level: "Primary 6", grade: "P6", colour: "#f97316",
+    feedbackStyle: "gentle", hintLevel: "detailed",
+    welcome: "Welcome, ZenE! Today's test is about Media and Communication. Take your time — you can do it!",
+    parts: {
+      A: { title:"Verb Forms (Tenses)", subtitle:"Fill in the correct form of the verb in brackets",
+        questions:[
+          {q:"Last Monday, our class ______ (watch) a documentary about internet safety.",ans:"watched",hint:"'Last Monday' = something that happened in the past. Add -ed to 'watch'.",rule:"Simple Past: add -ed to regular verbs (watch → watched). Use when something happened at a specific past time."},
+          {q:"Our school ______ (produce) a school newsletter every month since last year.",ans:"has produced",hint:"It started last year and is still happening now. Use 'has' + past form.",rule:"Present Perfect = has/have + past participle. 'Since last year' means it started then and is still relevant."},
+          {q:"When the teacher arrived, the pupils ______ (already finish) their media project.",ans:"had already finished",hint:"Finishing happened BEFORE the teacher arrived. Use 'had' + past form.",rule:"Past Perfect = had + past participle. Use when one past action happened BEFORE another past action."},
+          {q:"My sister ______ (read) the news on her phone for an hour. She is still reading.",ans:"has been reading",hint:"She started an hour ago and is STILL reading. Use 'has been' + verb-ing.",rule:"Present Perfect Continuous = has/have + been + verb-ing. Shows action started in the past and still happening."},
+          {q:"Our school ______ (start) a new media club next term.",ans:"will start",hint:"This has not happened yet — it is a future plan. Use 'will' + base verb.",rule:"Simple Future = will + base verb. Use 'will' for plans about the future."},
+          {q:"While my brother ______ (play) a computer game, I was reading the news online.",ans:"was playing",hint:"Both actions were happening at the same time. Use 'was' + verb-ing.",rule:"Past Continuous = was/were + verb-ing. Use when one action was in progress at the same time as another."},
+          {q:"By the time we finish this term, we ______ (learn) how to create our own videos.",ans:"will have learned",hint:"This will be finished before the end of term. Use 'will have' + past form.",rule:"Future Perfect = will + have + past participle. For actions that will be complete before a future point."},
+          {q:"The pupils ______ (work) on their school blog for the past two weeks.",ans:"have been working",hint:"Started two weeks ago and still continuing now. Use 'have been' + verb-ing.",rule:"Present Perfect Continuous = have/has + been + verb-ing. Shows ongoing action from the past until now."},
+          {q:"It ______ (rain) for two days before the outdoor media event was finally cancelled.",ans:"had been raining",hint:"The rain was ongoing before the event was cancelled. Use 'had been' + verb-ing.",rule:"Past Perfect Continuous = had + been + verb-ing. Shows ongoing action already happening before a past event."},
+          {q:"If we ______ (not check) the news carefully, we might believe false stories.",ans:"do not check",hint:"This is a real possibility. In the 'if' part, use simple present tense.",rule:"Type 1 Conditional: If + Simple Present → will + base verb. For real future possibilities."}
+        ]},
+      B: { title:"Word Forms", subtitle:"Change the word in brackets to fit the sentence",
+        questions:[
+          {q:"We should always check the ______ of the news before sharing it. (ACCURATE)",ans:"accuracy",hint:"A noun is needed after 'the'. What noun comes from 'accurate'?",rule:"ACCURATE (adj) → ACCURACY (noun). The suffix '-cy' creates nouns from adjectives."},
+          {q:"It is ______ to share fake news because it can confuse many people. (HARM)",ans:"harmful",hint:"An adjective needed after 'is'. Think: causing harm = ?",rule:"HARM → HARMFUL (adjective). Suffix '-ful' means 'full of' or 'causing'."},
+          {q:"The pupils presented their media project very ______. (CONFIDENCE)",ans:"confidently",hint:"The word describes HOW they presented. It needs to be an adverb.",rule:"CONFIDENCE → CONFIDENT (adj) → CONFIDENTLY (adverb). Add '-ly' to the adjective."},
+          {q:"The school held a ______ about internet safety for all the students. (DISCUSS)",ans:"discussion",hint:"A noun needed after 'a'. What noun comes from 'discuss'?",rule:"DISCUSS → DISCUSSION (noun). Suffix '-ion' creates nouns from verbs."},
+          {q:"We must be very ______ when reading news online and not believe everything. (CARE)",ans:"careful",hint:"Adjective needed after 'very'. Think: full of care = ?",rule:"CARE → CAREFUL (adjective). Suffix '-ful' creates adjectives."},
+          {q:"The ______ of the school newsletter each month takes a lot of effort. (PRODUCE)",ans:"production",hint:"Noun needed after 'the'. What noun comes from 'produce'?",rule:"PRODUCE → PRODUCTION (noun). Suffix '-tion' creates nouns."},
+          {q:"Everyone was very ______ when they heard about the new school TV channel. (EXCITE)",ans:"excited",hint:"Adjective describing how people FELT. Use the -ed form.",rule:"EXCITE → EXCITED (adjective). Use -ed form to describe feelings."},
+          {q:"There is a strong ______ between reading habits and how well pupils write. (CONNECT)",ans:"connection",hint:"Noun after 'a strong'. What noun comes from 'connect'?",rule:"CONNECT → CONNECTION (noun). Suffix '-ion'."},
+          {q:"The pupils gave a very ______ presentation about fake news. (IMPRESS)",ans:"impressive",hint:"Adjective before 'presentation'. What adjective comes from 'impress'?",rule:"IMPRESS → IMPRESSIVE (adjective). Suffix '-ive' creates adjectives."},
+          {q:"Learning to use media ______ is an important skill for all pupils. (RESPONSIBLE)",ans:"responsibly",hint:"Adverb modifying 'use'. What adverb comes from 'responsible'?",rule:"RESPONSIBLE → RESPONSIBLY (adverb). Change '-ble' to '-bly'."}
+        ]},
+      C: { title:"Error Correction", subtitle:"Each sentence has one mistake — rewrite the sentence correctly",
+        questions:[
+          {q:"The number of pupils who use social media have grown every year.",ans:"The number of pupils who use social media has grown every year.",hint:"'The number' is ONE number — it is singular. Change 'have' to the correct form.",rule:"'The number of + noun' is singular. Use 'has' not 'have'."},
+          {q:"Despite of the slow internet, the pupils finished uploading their video.",ans:"Despite the slow internet, the pupils finished uploading their video.",hint:"'Despite' does not need 'of' after it. Remove 'of'.",rule:"Correct: 'despite + noun phrase'. Wrong: 'despite of'. Simply remove 'of'."},
+          {q:"We should of learned how to spot fake news earlier.",ans:"We should have learned how to spot fake news earlier.",hint:"'Should' is followed by 'have', not 'of'.",rule:"Modal verbs are followed by 'HAVE', not 'of'. 'Should of' is always wrong."},
+          {q:"The school newsletter, together with the blog, are read by many parents.",ans:"The school newsletter, together with the blog, is read by many parents.",hint:"The subject is 'the school newsletter'. The phrase in the middle is extra information.",rule:"'Together with' does not change the subject. 'The school newsletter' is singular → 'is'."},
+          {q:"My friend has been making videos for social media since three months.",ans:"My friend has been making videos for social media for three months.",hint:"'Three months' is a period of time. Which word — 'since' or 'for'?",rule:"Use 'FOR' with periods of time. Use 'SINCE' with points in time (a date or event)."},
+          {q:"Our school media club lack members to help run the events.",ans:"Our school media club lacks members to help run the events.",hint:"'Our school media club' is one club — it is singular. What happens to the verb?",rule:"Singular subjects use verb + -s in Simple Present: 'lack' → 'lacks'."},
+          {q:"If we had started the project earlier, we can have finished it on time.",ans:"If we had started the project earlier, we could have finished it on time.",hint:"This talks about something that did NOT happen. The result must use 'could have', not 'can have'.",rule:"Third conditional: If + had + past participle → could/would + have + past participle."},
+          {q:"The school video project, which were made by Primary 6, was shown at assembly.",ans:"The school video project, which was made by Primary 6, was shown at assembly.",hint:"'Which' is referring to 'the school video project' — singular. Use 'was' not 'were'.",rule:"'Which' agrees with the noun it refers to. 'The school video project' is singular → 'was made'."},
+          {q:"More information about internet safety are available on the school website.",ans:"More information about internet safety is available on the school website.",hint:"'Information' cannot be counted — it has no plural form. What verb should it take?",rule:"'Information' is uncountable. Always use 'is': 'information IS available'."},
+          {q:"Neither Tom nor his classmates was present for the media workshop.",ans:"Neither Tom nor his classmates were present for the media workshop.",hint:"Look at the noun closest to the verb — 'his classmates'. Is it singular or plural?",rule:"With 'neither...nor', the verb agrees with the CLOSEST noun. 'His classmates' is plural → 'were'."}
+        ]},
+      D: { title:"Sentence Transformation", subtitle:"Rewrite each sentence as instructed",
+        questions:[
+          {q:["The pupils filmed a short documentary about their school last term.","(Change to Passive Voice)"],ans:"A short documentary about their school was filmed by the pupils last term.",hint:"'A short documentary' becomes the new subject. Use 'was' + past participle.",rule:"Passive (Past): Object + was + past participle + by + subject."},
+          {q:["She is a talented blogger. She writes about technology for young people.","(Join using: who)"],ans:"She is a talented blogger who writes about technology for young people.",hint:"Use 'who' to add more information about the person.",rule:"'Who' introduces a relative clause about a person. Place it after the noun it describes."},
+          {q:["The fake video was very convincing. Many people believed it was real.","(Join using: so...that)"],ans:"The fake video was so convincing that many people believed it was real.",hint:"So + adjective + that + result. The adjective is 'convincing'.",rule:"So + adjective + that + result. Shows the degree and its consequence."},
+          {q:["My teacher said, \"You must always check your sources before sharing news.\"","(Change to Reported Speech)"],ans:"My teacher said that I must always check my sources before sharing news.",hint:"Change 'you' to 'I' and 'your' to 'my'. Remove inverted commas and add 'that'.",rule:"Reported speech: 'you' → 'I', 'your' → 'my'. Add 'that', remove quotes."},
+          {q:["The video went viral and millions of people watched it within hours.","(Begin with: Such)"],ans:"Such was the popularity of the video that millions of people watched it within hours.",hint:"Such + was + the + noun + that + result.",rule:"Such was the + noun + that + result. A formal way to show cause and effect."},
+          {q:["Although the internet can be useful, it can also spread false information.","(Begin with: Despite)"],ans:"Despite its usefulness, the internet can also spread false information.",hint:"'Despite' must be followed by a noun. Change 'the internet can be useful' into a noun phrase.",rule:"'Despite' + noun phrase. Convert the 'although' clause into a noun."},
+          {q:["The teacher asked, \"Did you verify the information before writing your report?\"","(Change to Reported Speech)"],ans:"The teacher asked whether I had verified the information before writing my report.",hint:"This is a yes/no question. Use 'whether'. 'Did you verify' → 'I had verified'.",rule:"Reported yes/no questions: whether + subject + past tense."},
+          {q:["It is important that every pupil knows how to identify fake news.","(Begin with: Every pupil)"],ans:"Every pupil must know how to identify fake news.",hint:"'It is important that' = strong advice. Replace with 'must'.",rule:"'It is important that + subject + verb' → 'Subject + must + base verb'."},
+          {q:["The pupils finished editing their video. They uploaded it to the school website.","(Join using: After)"],ans:"After finishing their video, the pupils uploaded it to the school website.",hint:"'After + verb-ing' shows the first action that happened.",rule:"After + verb-ing, subject + verb. The -ing action happened first."},
+          {q:["People are posting false stories on social media every day.","(Change to Passive Voice)"],ans:"False stories are being posted on social media every day.",hint:"'False stories' becomes the new subject. Use 'are being' + past participle.",rule:"Present Continuous Passive: object + are/is + being + past participle."}
+        ]},
+      E: { title:"Sentence Building", subtitle:"Rearrange the words to make a correct sentence",
+        questions:[
+          {q:"we / before / should / always / sharing / news / check / online",ans:"We should always check news before sharing online.",hint:"Start with 'We'. Modal 'should' comes next.",rule:"Subject + should + adverb + verb + object + time phrase."},
+          {q:"pupils / the / a / created / school / impressive / newsletter / for",ans:"The pupils created an impressive newsletter for school.",hint:"Subject: 'the pupils'. Verb: 'created'.",rule:"Subject + verb + adjective + object + purpose."},
+          {q:"off / turn / you / should / devices / your / before / class",ans:"You should turn off your devices before class.",hint:"Start with 'You'. Modal 'should' comes next.",rule:"Subject + should + verb + object + time phrase."},
+          {q:"project / media / the / school / has / very / been / successful",ans:"The school media project has been very successful.",hint:"Subject: 'The school media project'. Verb: 'has been'.",rule:"Subject + has + been + adverb + adjective."},
+          {q:"posting / false / online / information / causes / real / harm",ans:"Posting false information online causes real harm.",hint:"Start with the gerund 'Posting false information online'.",rule:"Gerund phrase + verb + adjective + noun."},
+          {q:"important / every / it / that / is / pupil / media / learns / literacy",ans:"It is important that every pupil learns media literacy.",hint:"Start with 'It is important that'.",rule:"It + is + adjective + that + subject + verb + object."},
+          {q:"the / praised / teacher / students / their / for / media / work",ans:"The teacher praised the students for their media work.",hint:"Subject + praised + object + for + reason.",rule:"Subject + verb + object + for + noun phrase."},
+          {q:"the / had / pupils / their / project / the / finished / bell / before / rang",ans:"The pupils had finished their project before the bell rang.",hint:"Use 'had finished' for the earlier action.",rule:"Subject + had + past participle + object + before + Simple Past."},
+          {q:"using / media / responsibility / everyone's / is / online / carefully",ans:"Using online media carefully is everyone's responsibility.",hint:"Start with the gerund phrase 'Using online media carefully'.",rule:"Gerund phrase + is + possessive + noun."},
+          {q:"will / there / free / not / be / without / a / press / truth",ans:"There will not be truth without a free press.",hint:"Start with 'There will not be'.",rule:"There + will + not + be + noun + without + noun phrase."}
+        ]},
+      F: { questions:[
+        {q:"It is important to check the ______ of a news article before sharing it.",opts:["accuracy","colour","design","length"],ans:0,hint:"This word means how correct or true something is.",rule:"ACCURACY = the quality of being correct and true. We check accuracy to avoid sharing fake news."},
+        {q:"Good journalists are ______ in checking their facts before publishing.",opts:["lazy","careless","rigorous","casual"],ans:2,hint:"They are very careful and thorough.",rule:"RIGOROUS = extremely careful and thorough. Journalists must be rigorous about facts."},
+        {q:"Every person has the ______ to access fair and honest news.",opts:["rite","write","right","might"],ans:2,hint:"This word means something you are entitled to.",rule:"RIGHT = something a person is entitled to by law or morally."},
+        {q:"All the teachers ______ agreed that pupils need to learn about fake news.",opts:["never","sometimes","unanimously","rarely"],ans:2,hint:"Every single teacher agreed — no one said no.",rule:"UNANIMOUSLY = when every member of a group agrees."},
+        {q:"There is a ______ of reliable news sources that young people trust.",opts:["lot","surplus","shortage","supply"],ans:2,hint:"There are not enough reliable sources.",rule:"SHORTAGE = when there is not enough of something needed."},
+        {q:"The school decided to ______ the use of social media during school hours.",opts:["allow","encourage","ban","support"],ans:2,hint:"They said social media is not allowed during school hours.",rule:"BAN = to officially forbid something from being done."},
+        {q:"Learning about media literacy will ______ your ability to spot fake news.",opts:["worsen","reduce","improve","weaken"],ans:2,hint:"It will make you better at spotting fake news.",rule:"IMPROVE = to make something better."},
+        {q:"The school assembly talk on internet safety was very ______ and made us think carefully.",opts:["boring","persuasive","confusing","unhelpful"],ans:1,hint:"It made us change the way we think and act.",rule:"PERSUASIVE = able to make someone change their mind or take action."},
+        {q:"The new school media guidelines were ______ at the assembly.",opts:["rejected","ignored","announced","forgotten"],ans:2,hint:"The principal told everyone about the guidelines.",rule:"ANNOUNCED = made known publicly to a group of people."},
+        {q:"The pupils worked ______ to finish their media project before the deadline.",opts:["lazily","slowly","relentlessly","unwillingly"],ans:2,hint:"They worked very hard without stopping.",rule:"RELENTLESSLY = without stopping, in a constant and determined way."}
+      ]}
+    }
+  }
+};
+
+const NAME_MAP = {"zenv":"ZenV","zenz":"ZenZ","zene":"ZenE"};
+
+function getProfile(name){
+  if(!name) return null;
+  const key = name.trim().toLowerCase().replace(/\s+/g,"");
+  for(const [k,v] of Object.entries(NAME_MAP)){
+    if(key===k || key.includes(k)) return STUDENT_PROFILES[v];
+  }
+  return null;
+}
+
+
+const BIN_ID="69babf10b7ec241ddc7d652f";
+const MASTER_KEY="$2a$10$GeOyXKViWuf6OsSoiA9eT.bifbFDXJ/AsilT9KSjMz.2Ibg5mPDGS";
+const API="https://api.jsonbin.io/v3";
+const STORAGE_KEY="mc_progress";
+
+const MCQ=[
+  {q:"The ______ of greenhouse gases into the atmosphere is the primary driver of global warming.",opts:["emission","omission","commission","permission"],ans:0,hint:"Which word specifically means the release of gases such as CO2 into the atmosphere?",rule:"EMISSION = the production and release of a substance into the environment. Key environmental vocabulary."},
+  {q:"The government implemented ______ measures to protect the endangered rainforest from further destruction.",opts:["stringent","lenient","ambiguous","redundant"],ans:0,hint:"These measures were strict and demanding. Which word means 'very strict and precise'?",rule:"STRINGENT = strict, precise, and exacting. The opposite is 'lenient' (not strict). Key word in policy discussions."},
+  {q:"Access to clean water and air is considered a fundamental environmental ______.",opts:["rite","right","might","plight"],ans:1,hint:"This is a legal or moral entitlement that every person deserves.",rule:"RIGHT (noun) = a moral or legal entitlement. 'Rite' = a ceremony; 'plight' = a difficult situation."},
+  {q:"The conference reached a ______ decision to phase out coal-powered energy by 2035.",opts:["ambiguous","contentious","unilateral","unanimous"],ans:3,hint:"All participating nations agreed on this decision. Which word means 'agreed upon by everyone'?",rule:"UNANIMOUS = agreed upon by all. 'Contentious' = causing disagreement; 'unilateral' = one-sided."},
+  {q:"The ______ of freshwater resources is one of the most serious consequences of climate change.",opts:["surplus","clarity","scarcity","disparity"],ans:2,hint:"There is not enough freshwater — supplies are running out. Which word means 'a severe shortage'?",rule:"SCARCITY = a severe shortage of something. 'Surplus' = excess; 'disparity' = inequality."},
+  {q:"Environmental groups urged the government to ______ all subsidies for fossil fuel companies.",opts:["diminish","admonish","abandon","abolish"],ans:3,hint:"They want to completely and permanently end these subsidies, not just reduce them.",rule:"ABOLISH = to formally and completely put an end to something. 'Diminish' = reduce gradually."},
+  {q:"The new policy aims to ______ the damage caused by decades of industrial pollution.",opts:["aggravate","alleviate","alienate","allocate"],ans:1,hint:"The policy is trying to make the damage less severe. Which word means to reduce suffering or harm?",rule:"ALLEVIATE = to make a problem less severe. 'Aggravate' = worsen; 'allocate' = distribute."},
+  {q:"The activist's documentary was highly ______, convincing millions to change their consumption habits.",opts:["redundant","divisive","ambivalent","persuasive"],ans:3,hint:"The documentary convinced millions of people to act. Which word means 'able to convince'?",rule:"PERSUASIVE = able to persuade or convince. 'Redundant' = unnecessary; 'divisive' = causing disagreement."},
+  {q:"The international climate treaty was formally ______ by all member nations at the summit.",opts:["clarified","justified","notified","ratified"],ans:3,hint:"All nations gave their official formal approval to make the treaty legally binding.",rule:"RATIFY = to give formal consent to a treaty or agreement, making it officially valid."},
+  {q:"The conservation team's ______ efforts over three decades helped bring the species back from extinction.",opts:["reckless","restless","helpless","relentless"],ans:3,hint:"The team worked persistently for decades without giving up. Which word captures this determination?",rule:"RELENTLESS = constant and determined, never stopping or weakening. 'Reckless' = careless; 'restless' = unable to rest."}
+];
+
+const sectionScores={a:0,b:0,c:0,d:0,e:0,f:0};
+const sectionChecked={a:false,b:false,c:false,d:false,e:false,f:false};
+const mcqSel={};
+let studentName="",startTime=null;
+
+function norm(s){return(s||"").toLowerCase().replace(/[^a-z0-9 ',]/g,"").replace(/\s+/g," ").trim()}
+function sc(pct){return pct>=80?"#34d399":pct>=60?"#fbbf24":"#f87171"}
+
+// ── LOCAL STORAGE ─────────────────────────────────────
+function saveLocal(data){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data));}catch(e){}}
+function loadLocal(){try{const d=localStorage.getItem(STORAGE_KEY);return d?JSON.parse(d):null;}catch(e){return null;}}
+function clearLocal(){try{localStorage.removeItem(STORAGE_KEY);}catch(e){}}
+
+// ── STATUS ────────────────────────────────────────────
+function setStatus(state,msg){const dot=document.getElementById("asDot"),txt=document.getElementById("asText");if(!dot||!txt)return;dot.className="as-dot "+state;txt.textContent=msg;}
+function setLastSaved(){const el=document.getElementById("lastSaved");if(el)el.textContent="Saved: "+new Date().toLocaleTimeString("en-MY",{hour:"2-digit",minute:"2-digit"});}
+
+// ── BUILD SUBMISSION ──────────────────────────────────
+function buildSubmission(isFinal){
+  const score=Object.values(sectionScores).reduce((a,b)=>a+b,0);
+  const pct=Math.round((score/60)*100);
+  const duration=startTime?Math.round((new Date()-startTime)/60000)+" min":"N/A";
+  // Detect if any open-ended part has identical answers (flag for teacher)
+  const ans = collectAnswers();
+  const duplicateFlags = {};
+  ["g","h"].forEach(p=>{
+    const vals = Array.from({length:10},(_,i)=>( ans[p+(i+1)]||"").trim().toLowerCase().replace(/\s+/g," "));
+    const filled = vals.filter(v=>v.length>0);
+    const unique = new Set(filled);
+    if(filled.length>=5 && unique.size<=2) duplicateFlags[p]="duplicate";
+    else if(filled.length>=5 && new Set(vals.map(v=>v.split(" ").slice(0,8).join(" "))).size<=2) duplicateFlags[p]="similar";
+  });
+  return{name:studentName,submittedAt:new Date().toLocaleString("en-MY",{dateStyle:"medium",timeStyle:"short"}),duration,score,pct,sectionScores:{...sectionScores},answers:ans,isDraft:!isFinal,testTheme:"Media & Communication",studentLevel:currentProfile?currentProfile.level:"Unknown",studentGrade:currentProfile?currentProfile.grade:"?",duplicateFlags};
+}
+
+// ── ROBUST SAVE WITH RETRY ────────────────────────────────
+async function autoSave(part){
+  setStatus("saving","Saving Part "+part.toUpperCase()+"...");
+  const localData = buildSubmission(false);
+  saveLocal(localData); // Always save locally first
+  const ok = await pushToServer(localData);
+  if(ok){ setStatus("saved","Part "+part.toUpperCase()+" saved ✓"); setLastSaved(); }
+  else{
+    setStatus("error","Save failed — tap button again to retry");
+    // Show a persistent retry notice
+    const ls = document.getElementById("lastSaved");
+    if(ls) ls.innerHTML = `<button onclick="retrySave()" style="font-family:var(--mono);font-size:10px;padding:4px 10px;background:var(--err);color:#fff;border:none;border-radius:4px;cursor:pointer">↻ Retry Save</button>`;
+  }
+}
+
+// ── CORE SERVER PUSH — with 3 retries and exponential backoff ────────────────
+async function pushToServer(data, retries=3){
+  for(let attempt=1; attempt<=retries; attempt++){
+    try{
+      // Step 1: GET current bin
+      const getRes = await fetch(`${API}/b/${BIN_ID}/latest`,{
+        headers:{"X-Master-Key":MASTER_KEY,"X-Bin-Meta":"false"}
+      });
+      if(!getRes.ok) throw new Error("GET failed: "+getRes.status);
+      const existing = await getRes.json();
+      let subs = Array.isArray(existing.submissions) ? existing.submissions : [];
+
+      // Step 2: Update or insert this student's entry
+      // Match on name + isDraft — replace draft, or add new final
+      if(data.isDraft){
+        const idx = subs.findIndex(s=>s.name===data.name && s.isDraft===true);
+        if(idx>=0) subs[idx] = data;
+        else subs.push(data);
+      } else {
+        // Final submission — remove all drafts for this student and add final
+        subs = subs.filter(s=>!(s.name===data.name && s.isDraft===true));
+        // Also remove any previous final for same student+theme+date (avoid duplicates)
+        const today = new Date().toLocaleDateString("en-MY");
+        subs = subs.filter(s=>!(s.name===data.name && !s.isDraft && (s.submittedAt||"").includes(today)));
+        subs.push(data);
+      }
+
+      // Step 3: PUT back
+      const putRes = await fetch(`${API}/b/${BIN_ID}`,{
+        method:"PUT",
+        headers:{"Content-Type":"application/json","X-Master-Key":MASTER_KEY},
+        body:JSON.stringify({submissions:subs})
+      });
+      if(!putRes.ok) throw new Error("PUT failed: "+putRes.status);
+      return true; // Success!
+
+    } catch(e){
+      console.warn(`Save attempt ${attempt} failed:`, e.message);
+      if(attempt < retries){
+        // Wait before retrying: 1s, 2s, 4s
+        await new Promise(r=>setTimeout(r, 1000 * Math.pow(2, attempt-1)));
+      }
+    }
+  }
+  return false; // All retries failed
+}
+// ── RETRY SAVE — called from error button ────────────────────────────────────
+async function retrySave(){
+  setStatus("saving","Retrying save...");
+  const localData = loadLocal();
+  if(!localData){ setStatus("error","No local data found."); return; }
+  const ok = await pushToServer(localData);
+  if(ok){ setStatus("saved","Saved successfully ✓"); setLastSaved(); }
+  else{ setStatus("error","Still failing — check internet connection"); }
+}
+
+
+// ── CHECK & SUBMIT — called by each part's button ─────────────────────────
+async function checkAndSubmit(part, type){
+  // Run the appropriate check first
+  if(type==="fill") checkFill(part,10);
+  else if(type==="ta") checkTA(part,10);
+  else if(type==="mcq") checkMCQ();
+  // Save to server
+  await autoSave(part);
+  // Check if all parts done
+  checkIfComplete();
+}
+
+async function checkAndSubmitPara(){
+  await checkParaAI();
+  await autoSave("i");
+  checkIfComplete();
+}
+
+function checkIfComplete(){
+  // Count how many parts have been checked
+  const checkedParts = Object.values(sectionScores).filter(s=>s>0).length;
+  const hasAnswers = ["a","b","c","d","e","f"].every(p=>{
+    for(let i=1;i<=10;i++){
+      const el = document.getElementById(p+i);
+      if(el && el.value.trim()) return true;
+    }
+    return false;
+  });
+  // Show final result modal if all 6 auto-checked parts have been submitted
+  if(["a","b","c","d","e","f"].every(p=>sectionScores[p]!==undefined)){
+    const allChecked = ["a","b","c","d","e","f"].every(p=>sectionChecked[p]);
+    if(allChecked) showFinalResult();
+  }
+}
+
+function showFinalResult(){
+  const score=Object.values(sectionScores).reduce((a,b)=>a+b,0);
+  const pct=Math.round((score/60)*100);
+  const col=sc(pct);
+  document.getElementById("resScore").textContent=score+"/60";
+  document.getElementById("resScore").style.color=col;
+  document.getElementById("resSaved").style.cssText=`background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.25);color:#34d399`;
+  document.getElementById("resSaved").textContent="✓ All parts saved! Your teacher can see your full results.";
+  const msg=pct>=85?"Excellent work! Your command of environmental English is impressive.":pct>=70?"Well done! Strong grammar skills with room to grow further.":pct>=55?"Good effort! Focus on verb tenses and sentence structure.":"Keep going! Review the grammar rules in the hints carefully.";
+  document.getElementById("resMsg").textContent=msg;
+  document.getElementById("resGrid").innerHTML=["a","b","c","d","e","f"].map(p=>`<div class="res-item"><div class="v" style="color:${sc((sectionScores[p]||0)*10)}">${sectionScores[p]||0}/10</div><div class="l">Part ${p.toUpperCase()}</div></div>`).join("");
+  document.getElementById("resultModal").classList.add("open");
+}
+
+// ── RESTORE ───────────────────────────────────────────
+function restoreProgress(){
+  const data=loadLocal();
+  if(!data||!data.answers)return;
+  document.getElementById("restoreBanner").style.display="none";
+  const ans=data.answers;
+  "abcde".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);if(el&&ans[p+i])el.value=ans[p+i];}});
+  for(let i=1;i<=10;i++){const key="f"+i;if(ans[key]){const ji="ABCD".indexOf(ans[key]);if(ji>=0){document.querySelectorAll(`#mcq-${i} .mcq-opt`).forEach(o=>o.classList.remove("sel"));const opt=document.getElementById(`opt-${i}-${ji}`);if(opt){opt.classList.add("sel");mcqSel[i]=ji;}}}}
+  "gh".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);if(el&&ans[p+i])el.value=ans[p+i];}});
+  const i1=document.getElementById("i1");if(i1&&ans.i1)i1.value=ans.i1;
+  if(data.sectionScores)Object.assign(sectionScores,data.sectionScores);
+  updateDash();setStatus("saved","Progress restored");setLastSaved();
+}
+
+// ── MCQ ───────────────────────────────────────────────
+function buildMCQ(){
+  const c=document.getElementById("mcq-container");
+  MCQ.forEach((q,i)=>{
+    const div=document.createElement("div");div.className="qb";
+    div.innerHTML=`<div class="qnum">Q${i+1}</div><div class="qtext">${q.q}</div>
+    <div class="mcq-grid" id="mcq-${i+1}">${q.opts.map((o,j)=>`<div class="mcq-opt" id="opt-${i+1}-${j}" onclick="selMCQ(${i+1},${j})"><div class="opt-l">${"ABCD"[j]}</div>${o}</div>`).join("")}</div>
+    <div class="fb-correct" id="fb-ok-f${i+1}">&#10003; Correct! Well done.</div>
+    <div class="fb-wrong" id="fb-bad-f${i+1}"><div class="fb-wrong-top">&#10007; Not quite &mdash; read the hints and try again.</div><div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">${q.hint}</div></div><div class="fb-rule"><div class="lbl">&#128216; Vocabulary Rule</div><div class="txt">${q.rule}</div></div></div>`;
+    c.appendChild(div);
+  });
+}
+
+function selMCQ(qn,ji){
+  if(document.querySelector(`#mcq-${qn} .mcq-opt.right`))return;
+  document.querySelectorAll(`#mcq-${qn} .mcq-opt`).forEach(o=>o.classList.remove("sel"));
+  document.getElementById(`opt-${qn}-${ji}`).classList.add("sel");
+  mcqSel[qn]=ji;updateProgress();
+}
+
+// ── TOGGLE ────────────────────────────────────────────
+function toggle(id){document.getElementById("body-"+id).classList.toggle("open");document.getElementById("arr-"+id).classList.toggle("open");}
+
+// ── FEEDBACK ──────────────────────────────────────────
+function addFeedback(el){
+  const id=el.id,parent=el.closest(".qb");
+  if(parent.querySelector("#fb-ok-"+id))return;
+  const ok=document.createElement("div");ok.className="fb-correct";ok.id="fb-ok-"+id;ok.innerHTML="&#10003; Correct! Well done.";
+  const bad=document.createElement("div");bad.className="fb-wrong";bad.id="fb-bad-"+id;
+  bad.innerHTML=`<div class="fb-wrong-top">&#10007; Not quite &mdash; read the hints and try again.</div><div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">${el.dataset.hint||""}</div></div><div class="fb-rule"><div class="lbl">&#128216; Grammar Rule</div><div class="txt">${el.dataset.rule||""}</div></div>`;
+  parent.appendChild(ok);parent.appendChild(bad);
+}
+function showFb(id,correct){
+  const ok=document.getElementById("fb-ok-"+id),bad=document.getElementById("fb-bad-"+id);
+  if(!ok||!bad)return;
+  if(correct){ok.style.display="block";bad.style.display="none";}else{ok.style.display="none";bad.style.display="block";}
+}
+
+// ── CHECK ─────────────────────────────────────────────
+function checkFill(pfx,n){
+  let score=0;
+  for(let i=1;i<=n;i++){
+    const el=document.getElementById(pfx+i);if(!el)continue;
+    addFeedback(el);const val=el.value.trim();
+    if(!val){el.classList.remove("ok","bad");const o=document.getElementById("fb-ok-"+pfx+i),b=document.getElementById("fb-bad-"+pfx+i);if(o)o.style.display="none";if(b)b.style.display="none";continue;}
+    const correct=norm(val)===norm(el.dataset.ans);
+    el.classList.remove("ok","bad");el.classList.add(correct?"ok":"bad");
+    showFb(pfx+i,correct);if(correct)score++;
+  }
+  sectionScores[pfx]=score;sectionChecked[pfx]=true;updateDash();
+}
+function checkTA(pfx,n){
+  let score=0;
+  for(let i=1;i<=n;i++){
+    const el=document.getElementById(pfx+i);if(!el)continue;
+    addFeedback(el);const val=el.value.trim();
+    if(!val){const o=document.getElementById("fb-ok-"+pfx+i),b=document.getElementById("fb-bad-"+pfx+i);if(o)o.style.display="none";if(b)b.style.display="none";continue;}
+    const correct=norm(val)===norm(el.dataset.ans);
+    el.classList.remove("ok","bad");el.classList.add(correct?"ok":"bad");
+    showFb(pfx+i,correct);if(correct)score++;
+  }
+  sectionScores[pfx]=score;sectionChecked[pfx]=true;updateDash();
+}
+function checkMCQ(){
+  let score=0;
+  const mcqData = (currentProfile && currentProfile.parts && currentProfile.parts.F)
+    ? currentProfile.parts.F.questions : MCQ;
+  mcqData.forEach((q,i)=>{
+    const qn=i+1,sel=mcqSel[qn];
+    const okEl=document.getElementById("fb-ok-f"+qn),badEl=document.getElementById("fb-bad-f"+qn);
+    if(sel===undefined){if(okEl)okEl.style.display="none";if(badEl)badEl.style.display="none";return;}
+    document.querySelectorAll(`#mcq-${qn} .mcq-opt`).forEach((o,j)=>{o.classList.remove("sel","right","wrong");if(j===q.ans)o.classList.add("right");else if(j===sel)o.classList.add("wrong");});
+    const correct=sel===q.ans;
+    if(correct){if(okEl)okEl.style.display="block";if(badEl)badEl.style.display="none";score++;}
+    else{if(okEl)okEl.style.display="none";if(badEl)badEl.style.display="block";}
+  });
+  sectionScores.f=score;sectionChecked.f=true;updateDash();
+}
+
+// ── PROGRESS ──────────────────────────────────────────
+function updateProgress(){
+  let ans=0;
+  "abcde".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);if(el&&el.value.trim())ans++;}});
+  ans+=Object.keys(mcqSel).length;
+  "gh".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);if(el&&el.value.trim())ans++;}});
+  if(document.getElementById("i1").value.trim())ans++;
+  document.getElementById("dAnswered").textContent=ans;
+  const pct=Math.round((ans/70)*100);
+  document.getElementById("dPct").textContent=pct+"%";
+  document.getElementById("progFill").style.width=pct+"%";
+}
+function updateDash(){
+  document.getElementById("dScore").textContent=Object.values(sectionScores).reduce((a,b)=>a+b,0);
+  updateProgress();
+}
+
+// ── COLLECT ───────────────────────────────────────────
+function collectAnswers(){
+  const data={};
+  "abcde".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);data[p+i]=el?el.value.trim():""}});
+  for(let i=1;i<=10;i++)data["f"+i]=mcqSel[i]!==undefined?"ABCD"[mcqSel[i]]:"";
+  "gh".split("").forEach(p=>{for(let i=1;i<=10;i++){const el=document.getElementById(p+i);data[p+i]=el?el.value.trim():""}});
+  data.i1=document.getElementById("i1").value.trim();
+  return data;
+}
+
+// ── START ─────────────────────────────────────────────
+let currentProfile = null;
+
+// Show profile preview as they type name
+document.addEventListener("DOMContentLoaded", ()=>{
+  const inp = document.getElementById("nameInput");
+  if(inp) inp.addEventListener("input", ()=>{
+    const p = getProfile(inp.value.trim());
+    const preview = document.getElementById("profilePreview");
+    if(p && inp.value.trim().length >= 3){
+      preview.style.display="block";
+      preview.style.borderColor = p.colour;
+      preview.style.color = p.colour;
+      preview.innerHTML = "&#128075; " + p.welcome;
+    } else {
+      preview.style.display="none";
+    }
+  });
+});
+
+function startTest(){
+  const val=document.getElementById("nameInput").value.trim();
+  if(val.length<2){document.getElementById("nameErr").style.display="block";return;}
+  studentName=val; startTime=new Date();
+  
+  // Detect profile
+  currentProfile = getProfile(val);
+  
+  document.getElementById("nameGate").style.display="none";
+  document.getElementById("mainTest").style.display="block";
+  document.getElementById("dispName").textContent=studentName;
+  
+  if(currentProfile){
+    document.getElementById("levelBadge").textContent = currentProfile.level + " · Media & Communication";
+    document.getElementById("levelBadge").style.borderColor = currentProfile.colour;
+    document.getElementById("levelBadge").style.color = currentProfile.colour;
+    document.getElementById("levelTag").style.display="inline-flex";
+    document.getElementById("dispLevel").textContent = currentProfile.level;
+    document.getElementById("dispLevel").style.color = currentProfile.colour;
+  }
+  
+  // Render dynamic parts A-F based on profile
+  renderDynamicParts();
+  
+  const saved=loadLocal();
+  if(saved&&saved.name===studentName&&saved.answers)document.getElementById("restoreBanner").style.display="flex";
+}
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&document.getElementById("nameGate").style.display!=="none")startTest();});
+
+// ── DYNAMIC PART RENDERING ────────────────────────────────────────────────
+function renderDynamicParts(){
+  const container = document.getElementById("dynamicParts");
+  if(!container) return;
+  const p = currentProfile;
+  if(!p){ container.innerHTML = "<p style='color:var(--err);font-family:var(--mono);padding:20px'>Unknown student name. Please ask your teacher.</p>"; return; }
+  
+  let html = "";
+  
+  // Parts A, B — fill-in inputs
+  ["A","B"].forEach(part=>{
+    const pd = p.parts[part];
+    html += renderFillSection(part, pd);
+  });
+  
+  // Parts C, D, E — textareas
+  ["C","D","E"].forEach(part=>{
+    const pd = p.parts[part];
+    html += renderTASection(part, pd);
+  });
+  
+  // Part F — MCQ
+  html += renderMCQSection(p.parts.F);
+  
+  container.innerHTML = html;
+  
+  // Attach input listeners
+  container.querySelectorAll("input.fill,textarea.ta").forEach(el=>el.addEventListener("input",updateProgress));
+}
+
+function renderFillSection(part, pd){
+  const pid = part.toLowerCase();
+  let qs = pd.questions.map((q,i)=>`
+    <div class="qb">
+      <div class="qnum">Question ${i+1}</div>
+      <div class="qtext">${q.q}</div>
+      <input class="fill" id="${pid}${i+1}" placeholder="Type your answer..." 
+        data-ans="${q.ans}" data-hint="${escAttr(q.hint)}" data-rule="${escAttr(q.rule)}">
+    </div>`).join("");
+  return `<div class="section">
+    <div class="sec-hdr" onclick="toggle('${pid}')">
+      <span class="sec-tag">PART ${part}</span>
+      <div><div class="sec-title">${pd.title}</div><div class="sec-sub">${pd.subtitle}</div></div>
+      <span class="sec-arrow${part==="A"?" open":""}" id="arr-${pid}">&#9660;</span>
+    </div>
+    <div class="sec-body${part==="A"?" open":""}" id="body-${pid}">
+      ${qs}
+      <button class="btn-check" onclick="checkAndSubmit('${pid}','fill')">Check &amp; Submit Part ${part}</button>
+    </div>
+  </div>`;
+}
+
+function renderTASection(part, pd){
+  const pid = part.toLowerCase();
+  let qs = pd.questions.map((q,i)=>{
+    const qtext = Array.isArray(q.q)
+      ? `${q.q[0]}<br><span class="qsub">${q.q[1]}</span>`
+      : (part==="C" ? `<em>${q.q}</em>` : (part==="E" ? `<span class="qwords">${q.q}</span>` : q.q));
+    return `<div class="qb">
+      <div class="qnum">Q${i+1}</div>
+      <div class="qtext">${qtext}</div>
+      <textarea class="ta" id="${pid}${i+1}" placeholder="Write your answer here..."
+        data-ans="${escAttr(q.ans)}" data-hint="${escAttr(q.hint)}" data-rule="${escAttr(q.rule)}"></textarea>
+    </div>`;
+  }).join("");
+  const titles = {C:"Error Correction",D:"Sentence Transformation",E:"Sentence Building"};
+  const subs = {C:"Each sentence has one error — rewrite it correctly",D:"Rewrite each sentence as instructed",E:"Rearrange the words to form a correct sentence"};
+  const checkFn = part==="E" ? "checkTA" : "checkTA";
+  return `<div class="section">
+    <div class="sec-hdr" onclick="toggle('${pid}')">
+      <span class="sec-tag">PART ${part}</span>
+      <div><div class="sec-title">${titles[part]}</div><div class="sec-sub">${subs[part]}</div></div>
+      <span class="sec-arrow" id="arr-${pid}">&#9660;</span>
+    </div>
+    <div class="sec-body" id="body-${pid}">
+      ${qs}
+      <button class="btn-check" onclick="checkAndSubmit('${pid}','ta')">Check &amp; Submit Part ${part}</button>
+    </div>
+  </div>`;
+}
+
+function renderMCQSection(fd){
+  let qs = fd.questions.map((q,i)=>{
+    const opts = q.opts.map((o,j)=>`<div class="mcq-opt" id="opt-f${i+1}-${j}" onclick="selMCQ(${i+1},${j})"><div class="opt-l">${"ABCD"[j]}</div>${o}</div>`).join("");
+    return `<div class="qb" id="qb-f${i+1}">
+      <div class="qnum">Q${i+1}</div>
+      <div class="qtext">${q.q}</div>
+      <div class="mcq-grid" id="mcq-${i+1}">${opts}</div>
+      <div class="fb-correct" id="fb-ok-f${i+1}">&#10003; Correct! Well done.</div>
+      <div class="fb-wrong" id="fb-bad-f${i+1}">
+        <div class="fb-wrong-top">&#10007; Not quite &mdash; read the hints and try again.</div>
+        <div class="fb-hint"><div class="lbl">&#128161; Hint</div><div class="txt">${q.hint}</div></div>
+        <div class="fb-rule"><div class="lbl">&#128216; Vocabulary Rule</div><div class="txt">${q.rule}</div></div>
+      </div>
+    </div>`;
+  }).join("");
+  return `<div class="section">
+    <div class="sec-hdr" onclick="toggle('f')">
+      <span class="sec-tag">PART F</span>
+      <div><div class="sec-title">Vocabulary &mdash; Choose the Best Word</div><div class="sec-sub">Select the most appropriate option</div></div>
+      <span class="sec-arrow" id="arr-f">&#9660;</span>
+    </div>
+    <div class="sec-body" id="body-f">
+      ${qs}
+      <button class="btn-check" onclick="checkAndSubmit('f','mcq')">Check &amp; Submit Part F</button>
+    </div>
+  </div>`;
+}
+
+function escAttr(s){ return (s||"").replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
+
+// ── SUBMIT ────────────────────────────────────────────
+async function submitAll(){
+  const btn=document.getElementById("submitBtn");
+  btn.disabled=true;btn.textContent="Saving...";
+  checkFill("a",10);checkFill("b",10);checkTA("c",10);checkTA("d",10);checkTA("e",10);checkMCQ();
+  const submission = buildSubmission(true);
+  const saved = await pushToServer(submission);
+  if(saved) clearLocal();
+  const score=Object.values(sectionScores).reduce((a,b)=>a+b,0);
+  const pct=Math.round((score/60)*100);
+  const col=sc(pct);
+  document.getElementById("resScore").textContent=score+"/60";
+  document.getElementById("resScore").style.color=col;
+  document.getElementById("resSaved").style.cssText=`background:${saved?"rgba(52,211,153,.08)":"rgba(251,191,36,.08)"};border:1px solid ${saved?"rgba(52,211,153,.25)":"rgba(251,191,36,.25)"};color:${saved?"#34d399":"#fbbf24"}`;
+  document.getElementById("resSaved").textContent=saved?"&#10003; Saved! Your teacher will see your results.":"&#9888; Could not save. Please tell your teacher.";
+  const msg=pct>=85?"Excellent work! Your command of environmental English is impressive.":pct>=70?"Well done! Strong grammar skills with room to grow further.":pct>=55?"Good effort! Focus on verb tenses and sentence structure.":"Keep going! Review the grammar rules in the hints carefully.";
+  document.getElementById("resMsg").textContent=msg;
+  document.getElementById("resGrid").innerHTML=["a","b","c","d","e","f"].map(p=>`<div class="res-item"><div class="v" style="color:${sc((sectionScores[p]||0)*10)}">${sectionScores[p]||0}/10</div><div class="l">Part ${p.toUpperCase()}</div></div>`).join("");
+  document.getElementById("resultModal").classList.add("open");
+  btn.disabled=false;btn.textContent="Submit & Save Results";
+}
+function closeResult(){document.getElementById("resultModal").classList.remove("open");}
+// ── GRAMMAR CHECKER (LanguageTool Free API) ───────────────────────────────
+const G_QUESTIONS=['The iceberg melted.','Sea levels rose.','Scientists warned governments.','The coral reef died.','The flood devastated the village.','Nations disagreed at the summit.','Renewable energy expanded.','The activist protested.','Wildlife habitats disappeared.','The agreement was reached.'];
+const H_QUESTIONS=['The weather is getting worse.','Many animals are dying.','The air in the city is bad.','People wasted a lot of energy.','The government made new environment rules.','Plastic is a big problem in the ocean.','Scientists found worrying results.','Young people started caring about the environment.','Trees were cut down in the forest.','The temperature went up every year.'];
+
+const LT_API = "https://api.languagetool.org/v2/check";
+
+// Track which example sentences have been revealed to the student
+const shownExamples = {};  // tracks shown example sentences per question
+const submittedAnswers = {};  // tracks all answers submitted so far for duplicate detection
+
+// Check sentence length & complexity
+function analyseComplexity(text, part) {
+  const words = text.trim().split(/\s+/).length;
+  const hasAdj = /\b(enormous|vast|severe|critical|alarming|devastating|irreversible|unprecedented|catastrophic|significant|dramatic|widespread|acute|chronic|rapid|accelerating|fragile|vulnerable|urgent)\b/i.test(text);
+  const hasAdv = /\b(rapidly|severely|dramatically|significantly|increasingly|relentlessly|tirelessly|urgently|critically|devastatingly|alarmingly|profoundly)\b/i.test(text);
+  const hasClause = /\b(which|that|because|although|despite|while|when|as|since|unless|if|before|after|until|who|whose)\b/i.test(text);
+  const hasPunctuation = /[,;:]/.test(text);
+  
+  const issues = [];
+  if (part === 'g') {
+    if (words < 12) issues.push("Your sentence is too short. Try to expand it with adjectives, adverbs, or clauses (aim for at least 15 words).");
+    if (!hasAdj && !hasAdv) issues.push("Add descriptive adjectives (e.g. 'enormous', 'devastating') or adverbs (e.g. 'rapidly', 'alarmingly') to make your sentence more vivid.");
+    if (!hasClause) issues.push("Try adding a subordinate clause using words like 'which', 'because', 'although', or 'as' to create a more complex sentence.");
+  } else if (part === 'h') {
+    if (words < 10) issues.push("Your rewritten sentence is too short. Make it more formal and descriptive.");
+    if (!hasAdj && !hasAdv && !hasClause) issues.push("Use more sophisticated vocabulary, adjectives, or clause structures to make the sentence more formal and impactful.");
+  }
+  return issues;
+}
+
+// Main check function using LanguageTool
+async function checkAI(part, qnum) {
+  const val = document.getElementById(part+qnum).value.trim();
+  if (!val) { alert("Please write your answer first."); return; }
+
+  // ── COPY DETECTION ───────────────────────────────────────────
+  const normVal = val.toLowerCase().replace(/[^a-z0-9 ]/g,"").replace(/\s+/g," ").trim();
+  if (shownExamples[part+qnum]) {
+    const example = shownExamples[part+qnum];
+    // Check similarity — if >80% of words match, flag as copied
+    const valWords = new Set(normVal.split(" "));
+    const exWords = example.split(" ");
+    const matchCount = exWords.filter(w => valWords.has(w)).length;
+    const similarity = matchCount / exWords.length;
+    if (similarity > 0.75) {
+      const btn2 = document.getElementById("ai-btn-"+part+qnum);
+      const fb2 = document.getElementById("ai-fb-"+part+qnum);
+      const top2 = document.getElementById("ai-top-"+part+qnum);
+      const body2 = document.getElementById("ai-body-"+part+qnum);
+      fb2.className = "ai-fb show incorrect";
+      top2.innerHTML = "&#128680; This appears to be copied from the example.";
+      body2.innerHTML = `<div style="background:rgba(248,113,113,.08);border-left:3px solid var(--err);padding:10px 13px;border-radius:0 6px 6px 0;font-size:13px;line-height:1.7">
+        The example sentence is there to <strong>guide your thinking</strong>, not to be copied. 
+        Please write your own original sentence using your own words and ideas.<br><br>
+        <span style="color:var(--warn)">Tip: Think about what you know about the topic. Use the example's <em>structure</em> as inspiration but choose different words and details.</span>
+      </div>`;
+      return;
+    }
+  }
+
+  // ── SAME-AS-PREVIOUS DETECTION ──────────────────────────────────
+  if(qnum > 1){
+    const prevVal = (document.getElementById(part+(qnum-1))||{}).value||"";
+    const prevNorm = prevVal.trim().toLowerCase().replace(/\s+/g," ");
+    if(prevNorm.length > 10 && normVal === prevNorm){
+      const fb2 = document.getElementById("ai-fb-"+part+qnum);
+      const top2 = document.getElementById("ai-top-"+part+qnum);
+      const body2 = document.getElementById("ai-body-"+part+qnum);
+      fb2.className = "ai-fb show incorrect";
+      top2.innerHTML = "&#9888; This is the same as your previous answer.";
+      body2.innerHTML = `<div style="background:rgba(248,113,113,.08);border-left:3px solid var(--err);padding:10px 13px;border-radius:0 6px 6px 0;font-size:13px;line-height:1.7">
+        Each question has a different original sentence. You must write a <strong>different, unique expansion</strong> for each one.
+        <br><br><span style="color:var(--warn)">Look at the original sentence for Q${qnum} and write something specific to it.</span>
+      </div>`;
+      return;
+    }
+  }
+
+  const btn = document.getElementById("ai-btn-"+part+qnum);
+  const spin = document.getElementById("ai-spin-"+part+qnum);
+  const fb = document.getElementById("ai-fb-"+part+qnum);
+  const top = document.getElementById("ai-top-"+part+qnum);
+  const body = document.getElementById("ai-body-"+part+qnum);
+
+  btn.disabled = true;
+  if (spin) spin.style.display = "inline-block";
+  fb.className = "ai-fb show loading";
+  top.innerHTML = '<span class="ai-spinner"></span> Checking grammar...';
+  body.innerHTML = "";
+
+  let grammarErrors = [];
+  try {
+    const params = new URLSearchParams({ text: val, language: "en-GB" });
+    const res = await fetch(LT_API, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: params
+    });
+    const data = await res.json();
+    grammarErrors = data.matches || [];
+  } catch(e) {
+    grammarErrors = [];
+  }
+
+  // Complexity / style analysis
+  const styleIssues = analyseComplexity(val, part);
+  const totalIssues = grammarErrors.length + styleIssues.length;
+
+  // Determine verdict
+  let verdict, icon, summaryText;
+  if (totalIssues === 0) {
+    verdict = "correct"; icon = "✓";
+    summaryText = "Well done! Your sentence is grammatically correct and well-structured.";
+  } else if (grammarErrors.length === 0 && styleIssues.length > 0) {
+    verdict = "partial"; icon = "~";
+    summaryText = "Grammar is correct but your sentence needs to be more expanded and descriptive.";
+  } else if (grammarErrors.length <= 2 && styleIssues.length <= 1) {
+    verdict = "partial"; icon = "~";
+    summaryText = `Almost there — ${grammarErrors.length} grammar issue${grammarErrors.length!==1?'s':''} found. See details below.`;
+  } else {
+    verdict = "incorrect"; icon = "✗";
+    summaryText = `${grammarErrors.length} grammar issue${grammarErrors.length!==1?'s':''} found. Please review and correct.`;
+  }
+
+  fb.className = "ai-fb show " + verdict;
+  top.innerHTML = icon + " " + summaryText;
+
+  let bodyHtml = "";
+
+  // Grammar errors from LanguageTool
+  if (grammarErrors.length > 0) {
+    bodyHtml += `<div style="margin-bottom:12px"><strong>Grammar Issues:</strong></div>`;
+    grammarErrors.slice(0,4).forEach(err => {
+      const wrong = val.substring(err.offset, err.offset + err.length);
+      const suggestions = err.replacements.slice(0,3).map(r=>r.value).join(', ');
+      bodyHtml += `<div style="background:rgba(248,113,113,.07);border-left:3px solid var(--err);padding:9px 12px;border-radius:0 6px 6px 0;margin-bottom:8px;font-size:12px">
+        <div style="color:var(--err);font-family:var(--mono);font-size:10px;letter-spacing:1px;margin-bottom:4px">ERROR</div>
+        <div><span style="background:rgba(248,113,113,.2);padding:1px 5px;border-radius:3px;font-family:var(--mono)">${wrong}</span> — ${err.message}</div>
+        ${suggestions ? `<div style="margin-top:5px;color:var(--ok)">&#10003; Suggestion: <strong>${suggestions}</strong></div>` : ''}
+      </div>`;
+    });
+  }
+
+  // Style / complexity suggestions
+  if (styleIssues.length > 0) {
+    bodyHtml += `<div style="margin-top:8px;margin-bottom:6px"><strong>How to improve:</strong></div>`;
+    styleIssues.forEach(tip => {
+      bodyHtml += `<div style="background:rgba(249,115,22,.07);border-left:3px solid var(--a2);padding:9px 12px;border-radius:0 6px 6px 0;margin-bottom:8px;font-size:12px">${tip}</div>`;
+    });
+  }
+
+  // Show example if incorrect — and record it so copy detection works
+  if (verdict !== "correct") {
+    const questions = part === 'g' ? G_QUESTIONS : H_QUESTIONS;
+    const original = questions[qnum-1];
+    const exampleText = getExample(part, qnum);
+    shownExamples[part+qnum] = exampleText.toLowerCase().replace(/[^a-z0-9 ]/g,"").replace(/\s+/g," ").trim();
+    bodyHtml += `<div style="background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.2);border-radius:6px;padding:10px 13px;margin-top:8px;font-size:12px">
+      <div style="font-family:var(--mono);font-size:10px;color:var(--a3);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px">Original sentence to expand</div>
+      <div style="color:var(--muted)">${original}</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--a3);letter-spacing:1px;text-transform:uppercase;margin:8px 0 5px">Example of a good expansion</div>
+      <div>${exampleText}</div>
+      <div style="margin-top:8px;font-size:11px;color:var(--warn);font-family:var(--mono)">&#9888; Use this as inspiration only — write your own sentence in your own words.</div>
+    </div>`;
+  }
+
+  body.innerHTML = bodyHtml || (verdict === "correct" ? "<div style='color:var(--ok)'>Your answer meets all the requirements for this question.</div>" : "");
+
+  btn.disabled = false;
+  if (spin) spin.style.display = "none";
+  autoSave(part);
+}
+
+// Example expansions for guidance (not the only correct answer)
+function getExample(part, qnum) {
+  const gEx = [
+    "Risking his personal safety, the courageous journalist reported tirelessly from the conflict zone, filing detailed and gripping dispatches that brought the harsh reality of war to living rooms around the world.",
+    "Within seconds of a single post, social media spread the sensational and unverified news to millions of users globally, demonstrating both its remarkable reach and its terrifying capacity for misinformation.",
+    "Broadcast to an audience of over fifty million viewers, the hard-hitting documentary shocked viewers deeply, exposing the devastating human cost of corporate greed and government corruption.",
+    "After more than a century of daily publication, the once-beloved newspaper closed its doors permanently, a victim of declining readership and the relentless rise of free online news.",
+    "In the middle of a tense live interview, the broadcast was abruptly interrupted by a breaking news alert, sending the studio into chaos and leaving millions of viewers anxiously waiting for updates.",
+    "Fuelled by political division and a lack of digital literacy, online misinformation grew at an alarming and unprecedented rate, poisoning public debate and eroding trust in established media institutions.",
+    "Driven by an unwavering commitment to truth, the seasoned reporter investigated the corruption scandal for over two years, painstakingly gathering evidence that would eventually bring down three senior government officials.",
+    "Just as the controversial and long-awaited interview was drawing to a close, the subject abruptly stood up and walked off set, leaving the stunned presenter at a loss for words.",
+    "Boosted by smartphone ownership and faster internet speeds, digital media expanded rapidly across developing nations, giving millions of previously marginalised communities a powerful platform and a global voice.",
+    "Shared by a celebrity with over twenty million followers, the heartwarming story went viral within hours, accumulating millions of likes and sparking an outpouring of generosity from people across the world."
+  ];
+  const hEx = [
+    "The proliferation of fake news across social media platforms has become one of the most serious and destabilising threats to democratic societies in the modern era.",
+    "An overwhelming and growing majority of people now consume their daily news through social media platforms rather than through traditional print or broadcast outlets.",
+    "Social media companies wield extraordinary and largely unregulated power over public discourse, shaping political opinions and influencing elections on a global scale.",
+    "The reckless and widespread habit of sharing unverified news stories has caused immeasurable damage to public trust and has repeatedly led to real-world violence and unrest.",
+    "In a landmark move, the school established a pioneering media literacy club, equipping students with the critical thinking skills necessary to navigate an increasingly complex information landscape.",
+    "The pervasive and largely unchecked influence of social media poses a significant and growing threat to the mental health and self-esteem of young people worldwide.",
+    "In a series of groundbreaking investigations, award-winning journalists uncovered deeply troubling evidence of systemic bias and deliberate misinformation within several major media outlets.",
+    "Today's digitally native generation has wholeheartedly embraced social media as their primary tool for communication, entertainment, political engagement, and social activism.",
+    "In a damaging lapse of editorial judgement, the newspaper published a wholly inaccurate and inflammatory front-page story, triggering a public outcry and demands for an immediate retraction.",
+    "The digital revolution has fundamentally and irreversibly transformed the landscape of human communication, collapsing geographical boundaries and giving every individual an unprecedented global platform."
+  ];
+  const examples = part === 'g' ? gEx : hEx;
+  return examples[(qnum-1)] || "Try expanding the sentence with more details, adjectives, and a subordinate clause.";
+}
+
+async function checkAllAndSubmit(part) {
+  await checkAllAI(part);
+  await autoSave(part);
+}
+
+async function checkAllAI(part) {
+  const btn = document.getElementById("check-all-"+part);
+
+  // ── PRE-FLIGHT: detect duplicate answers before checking ─────
+  const answers = [];
+  for(let i=1; i<=10; i++){
+    const val = (document.getElementById(part+i)||{}).value||"";
+    answers.push(val.trim().toLowerCase().replace(/\s+/g," "));
+  }
+  const filledAnswers = answers.filter(a=>a.length>0);
+
+  // Check 1: Are all filled answers identical?
+  const uniqueAnswers = new Set(filledAnswers);
+  if(filledAnswers.length >= 5 && uniqueAnswers.size <= 2){
+    showDuplicateWarning(part, "identical");
+    return;
+  }
+
+  // Check 2: Are >60% of answers suspiciously similar (same first 8 words)?
+  const prefixes = filledAnswers.map(a=>a.split(" ").slice(0,8).join(" "));
+  const uniquePrefixes = new Set(prefixes);
+  if(filledAnswers.length >= 5 && uniquePrefixes.size <= 2){
+    showDuplicateWarning(part, "similar");
+    return;
+  }
+
+  // Check 3: Are any answers too short (under 5 words)?
+  const tooShort = answers.map((a,i)=>a.length>0&&a.split(" ").length<5 ? i+1 : null).filter(Boolean);
+  if(tooShort.length >= 5){
+    showQualityWarning(part, tooShort);
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = "Checking... please wait";
+  for (let i=1; i<=10; i++) {
+    const val = document.getElementById(part+i).value.trim();
+    if (val) { await checkAI(part, i); await new Promise(r=>setTimeout(r,600)); }
+  }
+  btn.disabled = false;
+  btn.innerHTML = "&#129302; Check &amp; Submit Part " + part.toUpperCase();
+  autoSave(part);
+}
+
+function showDuplicateWarning(part, type){
+  // Show a prominent warning in the section
+  const bodyEl = document.getElementById("body-"+part);
+  const existingWarn = document.getElementById("dup-warn-"+part);
+  if(existingWarn) existingWarn.remove();
+
+  const warn = document.createElement("div");
+  warn.id = "dup-warn-"+part;
+  warn.style.cssText = "background:rgba(248,113,113,.1);border:2px solid var(--err);border-radius:10px;padding:18px 20px;margin-bottom:16px;";
+  warn.innerHTML = `
+    <div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--err);margin-bottom:10px">
+      &#9888;&#65039; Duplicate Answers Detected
+    </div>
+    <div style="font-size:13px;line-height:1.75;color:var(--text);margin-bottom:12px">
+      ${type==="identical"
+        ? "You have written the <strong>same sentence for every question</strong>. This is not acceptable."
+        : "Your answers are <strong>too similar to each other</strong>. Each question requires a different, original sentence."}
+    </div>
+    <div style="font-size:13px;line-height:1.75;color:var(--text);margin-bottom:12px">
+      Each question has a <strong>different original sentence</strong> that you need to expand or rewrite. 
+      Read each one carefully and write a unique sentence that relates specifically to that sentence.
+    </div>
+    <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--warn)">
+      &#128161; <strong>Tip:</strong> Look at each question's original sentence. Ask yourself: <em>Who? What? When? Where? Why? How?</em> 
+      Use descriptive words (adjectives and adverbs) and add a clause with words like <em>"because", "although", "which", "when"</em>.
+    </div>
+    <button onclick="dismissWarning('${part}')" style="margin-top:12px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:8px 18px;background:var(--accent);color:#000;border:none;border-radius:6px;cursor:pointer;text-transform:uppercase">
+      I Understand — Let Me Redo My Answers
+    </button>`;
+  bodyEl.insertBefore(warn, bodyEl.firstChild);
+  warn.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function showQualityWarning(part, shortQnums){
+  const bodyEl = document.getElementById("body-"+part);
+  const existingWarn = document.getElementById("dup-warn-"+part);
+  if(existingWarn) existingWarn.remove();
+
+  const warn = document.createElement("div");
+  warn.id = "dup-warn-"+part;
+  warn.style.cssText = "background:rgba(245,158,11,.08);border:2px solid var(--warn);border-radius:10px;padding:18px 20px;margin-bottom:16px;";
+  warn.innerHTML = `
+    <div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--warn);margin-bottom:10px">
+      &#9888;&#65039; Answers Too Short
+    </div>
+    <div style="font-size:13px;line-height:1.75;color:var(--text);margin-bottom:12px">
+      Questions <strong>${shortQnums.join(", ")}</strong> have answers that are too short (fewer than 5 words). 
+      These questions require a <strong>complete, expanded sentence</strong> — not a phrase.
+    </div>
+    <div style="background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--a3)">
+      &#128216; <strong>Reminder:</strong> Each answer should be at least 12–15 words. 
+      Add adjectives, adverbs, and a clause to expand the original sentence properly.
+    </div>
+    <button onclick="dismissWarning('${part}')" style="margin-top:12px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:8px 18px;background:var(--accent);color:#000;border:none;border-radius:6px;cursor:pointer;text-transform:uppercase">
+      I Understand — Let Me Improve My Answers
+    </button>`;
+  bodyEl.insertBefore(warn, bodyEl.firstChild);
+  warn.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function dismissWarning(part){
+  const warn = document.getElementById("dup-warn-"+part);
+  if(warn) warn.remove();
+  // Clear all answers in this part so student must redo them
+  for(let i=1;i<=10;i++){
+    const el = document.getElementById(part+i);
+    if(el){ el.value=""; el.classList.remove("ok","bad"); }
+  }
+  // Clear any AI feedback
+  for(let i=1;i<=10;i++){
+    const fb = document.getElementById("ai-fb-"+part+i);
+    if(fb){ fb.className="ai-fb"; fb.querySelector(".ai-top").innerHTML=""; fb.querySelector(".ai-body").innerHTML=""; }
+  }
+  updateProgress();
+}
+
+// Paragraph checker for Part I
+async function checkParaAI() {
+  const val = document.getElementById("i1").value.trim();
+  if (!val) { alert("Please write your paragraph first."); return; }
+
+  const btn = document.getElementById("check-para-btn");
+  const fb = document.getElementById("para-ai-fb");
+  btn.disabled = true;
+  btn.textContent = "Checking paragraph...";
+  fb.className = "para-ai-fb show";
+  document.getElementById("para-ai-top").innerHTML = '<span style="font-family:var(--mono);font-size:12px;color:var(--a3)">&#9679; Analysing your paragraph...</span>';
+  ["para-ai-grammar","para-ai-vocab","para-ai-structure","para-ai-suggestion"].forEach(id=>document.getElementById(id).innerHTML="");
+
+  let matches = [];
+  try {
+    const params = new URLSearchParams({ text: val, language: "en-GB" });
+    const res = await fetch(LT_API, { method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body: params });
+    const data = await res.json();
+    matches = data.matches || [];
+  } catch(e) { matches = []; }
+
+  const words = val.trim().split(/\s+/).length;
+  const sentences = val.split(/[.!?]+/).filter(s=>s.trim()).length;
+  const hasTopicSentence = sentences >= 1;
+  const hasSupportDetails = sentences >= 4;
+  const hasConclusion = sentences >= 6;
+
+  // Grammar score
+  const grammarScore = Math.max(1, 10 - matches.length * 2);
+  // Vocab check
+  const richWords = (val.match(/\b(misinformation|disinformation|proliferation|credibility|transparency|sensationalism|censorship|propaganda|algorithm|viral|broadcast|journalism|accountability|verification|literacy|bias|manipulation|platform|disseminate|authentic)\b/gi)||[]).length;
+  const vocabScore = Math.min(10, 5 + richWords);
+  // Structure score
+  const structScore = (hasTopicSentence?3:0) + (hasSupportDetails?4:0) + (hasConclusion?3:0);
+  const avgScore = Math.round((grammarScore + vocabScore + structScore) / 3);
+
+  const col = avgScore >= 8 ? "var(--ok)" : avgScore >= 6 ? "var(--warn)" : "var(--err)";
+  const rating = avgScore >= 8 ? "GOOD" : avgScore >= 6 ? "FAIR" : "NEEDS WORK";
+  document.getElementById("para-ai-top").innerHTML = `<span style="font-family:var(--mono);font-size:13px;font-weight:700;color:${col}">${rating}</span><span style="font-size:13px;margin-left:10px">${words} words · ${sentences} sentence${sentences!==1?'s':''}</span>`;
+
+  // Grammar section
+  let gramHtml = `<div style="font-family:var(--mono);font-size:10px;color:var(--a3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Grammar — ${grammarScore}/10</div>`;
+  if (matches.length === 0) {
+    gramHtml += `<div style="color:var(--ok)">&#10003; No grammar errors detected. Well done!</div>`;
+  } else {
+    matches.slice(0,4).forEach(err => {
+      const wrong = val.substring(err.offset, err.offset+err.length);
+      const sug = err.replacements.slice(0,2).map(r=>r.value).join(', ');
+      gramHtml += `<div style="background:rgba(248,113,113,.07);border-left:3px solid var(--err);padding:8px 11px;border-radius:0 6px 6px 0;margin-bottom:7px;font-size:12px"><span style="background:rgba(248,113,113,.2);padding:1px 5px;border-radius:3px;font-family:var(--mono)">${wrong}</span> — ${err.message}${sug?` <span style="color:var(--ok)">&#10003; Try: <strong>${sug}</strong></span>`:''}</div>`;
+    });
+  }
+  document.getElementById("para-ai-grammar").innerHTML = gramHtml;
+
+  // Vocab section
+  let vocabHtml = `<div style="font-family:var(--mono);font-size:10px;color:var(--a2);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Vocabulary — ${vocabScore}/10</div>`;
+  if (richWords >= 3) {
+    vocabHtml += `<div style="color:var(--ok)">&#10003; Good use of advanced vocabulary related to the environment.</div>`;
+  } else {
+    vocabHtml += `<div>Try using more advanced environmental vocabulary such as: <span style="color:var(--a2)">unprecedented, catastrophic, biodiversity, emissions, sustainability, irreversible, deterioration, mitigation</span>.</div>`;
+  }
+  document.getElementById("para-ai-vocab").innerHTML = vocabHtml;
+
+  // Structure section
+  let structHtml = `<div style="font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Structure — ${structScore}/10</div>`;
+  structHtml += `<div style="font-size:12px;line-height:1.8">`;
+  structHtml += `<span style="color:${hasTopicSentence?'var(--ok)':'var(--err)'}">${hasTopicSentence?'✓':'✗'}</span> Clear topic sentence<br>`;
+  structHtml += `<span style="color:${hasSupportDetails?'var(--ok)':'var(--err)'}">${hasSupportDetails?'✓':'✗'}</span> Supporting details (${sentences} sentence${sentences!==1?'s':''})<br>`;
+  structHtml += `<span style="color:${hasConclusion?'var(--ok)':'var(--err)'}">${hasConclusion?'✓':'✗'}</span> Sufficient length (target: 6–8 sentences)`;
+  if (words < 80) structHtml += `<br><span style="color:var(--warn)">&#9888; Your paragraph is only ${words} words. Aim for 100–140 words.</span>`;
+  structHtml += `</div>`;
+  document.getElementById("para-ai-structure").innerHTML = structHtml;
+
+  // Key tip
+  let tip = "";
+  if (matches.length > 0) tip = "Correct your grammar errors first — fix the highlighted words above.";
+  else if (richWords < 3) tip = "Enrich your vocabulary by replacing simple words with more advanced environmental terms like 'unprecedented', 'catastrophic', or 'biodiversity'.";
+  else if (!hasConclusion) tip = "Your paragraph needs more sentences. Add a concluding sentence summarising your view or calling for action.";
+  else if (words < 80) tip = "Expand your paragraph — add more supporting evidence or examples to reach the 100–140 word target.";
+  else tip = "Great work! Try reading your paragraph aloud to ensure each sentence flows naturally into the next.";
+
+  document.getElementById("para-ai-suggestion").innerHTML = `<div style="background:rgba(249,115,22,.07);border-left:3px solid var(--a2);padding:10px 13px;border-radius:0 6px 6px 0"><div style="font-family:var(--mono);font-size:10px;color:var(--a2);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px">&#128161; Key Tip</div><div style="font-size:13px">${tip}</div></div>`;
+
+  btn.disabled = false;
+  btn.innerHTML = "&#129302; Check My Paragraph";
+  autoSave('i');
+}
+</script>
+</body>
+</html>
