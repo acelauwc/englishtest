@@ -215,12 +215,12 @@ function sectionHtml(part,title,builder){
 function renderAllSections(){
   const el=document.getElementById('sections');
   el.innerHTML =
-    sectionHtml('a','Verb Forms',()=>questionSet.a.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div>${x.q}</div><input id='a${i+1}'/></div>`).join(''))+
-    sectionHtml('b','Word Forms',()=>questionSet.b.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div>${x.q}</div><input id='b${i+1}'/></div>`).join(''))+
-    sectionHtml('c','Error Correction',()=>questionSet.c.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div><em>${x.q}</em></div><textarea id='c${i+1}'></textarea></div>`).join(''))+
-    sectionHtml('d','Sentence Transformation',()=>questionSet.d.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div>${x.q}</div><textarea id='d${i+1}'></textarea></div>`).join(''))+
-    sectionHtml('e','Sentence Building',()=>questionSet.e.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div>${x.q}</div><textarea id='e${i+1}'></textarea></div>`).join(''))+
-    sectionHtml('f','Vocabulary MCQ',()=>questionSet.f.map((x,i)=>`<div class='q' id='fq${i+1}'><div class='qnum'>Q${i+1}</div><div>${x.q}</div><div class='mcqOpts'>${x.opts.map((o,j)=>`<div class='opt' id='f${i+1}_${j}' onclick='pickMcq(${i+1},${j})'>${String.fromCharCode(65+j)}. ${o}</div>`).join('')}</div></div>`).join(''))+
+    sectionHtml('a','Verb Forms',()=>questionSet.a.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div>${x.q}</div><input id='a${i+1}'/><div id='afb${i+1}' class='fb'></div></div>`).join(''))+
+    sectionHtml('b','Word Forms',()=>questionSet.b.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div>${x.q}</div><input id='b${i+1}'/><div id='bfb${i+1}' class='fb'></div></div>`).join(''))+
+    sectionHtml('c','Error Correction',()=>questionSet.c.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div><em>${x.q}</em></div><textarea id='c${i+1}'></textarea><div id='cfb${i+1}' class='fb'></div></div>`).join(''))+
+    sectionHtml('d','Sentence Transformation',()=>questionSet.d.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div>${x.q}</div><textarea id='d${i+1}'></textarea><div id='dfb${i+1}' class='fb'></div></div>`).join(''))+
+    sectionHtml('e','Sentence Building',()=>questionSet.e.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div>${x.q}</div><textarea id='e${i+1}'></textarea><div id='efb${i+1}' class='fb'></div></div>`).join(''))+
+    sectionHtml('f','Vocabulary MCQ',()=>questionSet.f.map((x,i)=>`<div class='q' id='fq${i+1}'><div class='qnum'>Q${i+1}</div><div>${x.q}</div><div class='mcqOpts'>${x.opts.map((o,j)=>`<div class='opt' id='f${i+1}_${j}' onclick='pickMcq(${i+1},${j})'>${String.fromCharCode(65+j)}. ${o}</div>`).join('')}</div><div id='ffb${i+1}' class='fb'></div></div>`).join(''))+
     sectionHtml('g','Sentence Expansion (smart check)',()=>questionSet.g.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div>${x}</div><textarea id='g${i+1}'></textarea><div id='gfb${i+1}' class='fb'></div></div>`).join(''))+
     sectionHtml('h','Composition Sentence Practice (smart check)',()=>questionSet.h.map((x,i)=>`<div class='q'><div class='qnum'>Q${i+1}</div><div>${x}</div><textarea id='h${i+1}'></textarea><div id='hfb${i+1}' class='fb'></div></div>`).join(''))+
     sectionHtml('i','Paragraph Writing (target 200–250 words)',()=>`<div class='q'><div>${questionSet.i}</div><textarea id='i1' style='min-height:180px'></textarea><div class='fb' id='iWord'>Words: 0 / Target 200–250</div><div id='ifb1' class='fb'></div></div>`);
@@ -233,6 +233,40 @@ function pickMcq(q,idx){
   for(let j=0;j<4;j++)document.getElementById(`f${q}_${j}`).classList.remove('sel');
   document.getElementById(`f${q}_${idx}`).classList.add('sel');
   updateProgress();
+}
+
+function setFb(id,msg){const el=document.getElementById(id);if(el)el.textContent=msg||'';}
+function overlapRatio(a,b){
+  const A=new Set((a||'').split(/\s+/).map(w=>w.toLowerCase().replace(/[^a-z']/g,'')).filter(Boolean));
+  const B=new Set((b||'').split(/\s+/).map(w=>w.toLowerCase().replace(/[^a-z']/g,'')).filter(Boolean));
+  if(!A.size||!B.size) return 0;
+  let inter=0; A.forEach(w=>{if(B.has(w))inter++;});
+  return inter/Math.max(A.size,B.size);
+}
+function duplicateFlagsForPart(part){
+  const flags={};
+  for(let i=1;i<=10;i++){
+    const a=(document.getElementById(part+i)?.value||'').trim();
+    if(!a) continue;
+    for(let j=i+1;j<=10;j++){
+      const b=(document.getElementById(part+j)?.value||'').trim();
+      if(!b) continue;
+      if(norm(a)===norm(b) || overlapRatio(a,b)>=0.92){flags[i]=true;flags[j]=true;}
+    }
+  }
+  return flags;
+}
+
+function hintFor(part, qObj, value){
+  const v=(value||'').trim();
+  if(!v) return 'Hint: attempt this question first before submitting.';
+  if(part==='a') return 'Hint: check tense/time clue words and subject-verb agreement.';
+  if(part==='b') return 'Hint: convert the root word to the correct form (noun/verb/adjective/adverb).';
+  if(part==='c') return 'Hint: check subject-verb agreement, tense, and modal verb structure.';
+  if(part==='d') return 'Hint: keep meaning same, but follow the target grammar pattern exactly.';
+  if(part==='e') return 'Hint: arrange words in clear S-V-O order and add missing grammar words.';
+  if(part==='f') return 'Hint: pick the option that best matches sentence meaning and collocation.';
+  return 'Hint: revise grammar and clarity.';
 }
 
 function smartScoreSentence(text,level='sec'){
@@ -255,13 +289,20 @@ function smartScoreParagraph(text){
   if(!t) return {score:0,fb:'No paragraph provided.'};
   const words=t.split(/\s+/).filter(Boolean);
   const wc=words.length;
-  const sentences=t.split(/[.!?]+/).map(s=>s.trim()).filter(Boolean).length;
+  const sentenceList=t.split(/[.!?]+/).map(s=>s.trim()).filter(Boolean);
+  const sentences=sentenceList.length;
   const unique=new Set(words.map(w=>w.toLowerCase().replace(/[^a-z']/g,''))).size;
   let score=0,notes=[];
   if(wc>=200 && wc<=250){score+=4;notes.push(`✔ word count in target (${wc})`);} else notes.push(`• target 200–250 words (now ${wc})`);
   if(sentences>=8){score+=2;notes.push(`✔ sentence count good (${sentences})`);} else notes.push(`• add more complete sentences (now ${sentences})`);
   if(/\b(firstly|however|therefore|moreover|for example|in conclusion|on the other hand|because)\b/i.test(t)){score+=2;notes.push('✔ uses linking/organisation words');} else notes.push('• include linking words for flow');
   if((unique/(wc||1))>=0.45){score+=2;notes.push('✔ vocabulary variety is solid');} else notes.push('• vary vocabulary more');
+
+  const seen=new Set();
+  let repeats=0;
+  sentenceList.forEach(s=>{const n=norm(s); if(!n) return; if(seen.has(n)) repeats++; else seen.add(n);});
+  if(repeats>0){score=Math.max(0,score-2); notes.push('• avoid repeating the same sentence in the paragraph');}
+
   return {score:Math.min(10,score),fb:notes.join('\n')};
 }
 
@@ -270,24 +311,45 @@ function markInput(id,ok){const el=document.getElementById(id);if(!el)return;el.
 function submitPart(part){
   if(part==='a'||part==='b'||part==='c'||part==='d'||part==='e'){
     let score=0;
-    questionSet[part].forEach((q,i)=>{const id=part+(i+1),v=(document.getElementById(id).value||'').trim();answers[id]=v;const ok=norm(v)===norm(q.a);markInput(id,ok);if(ok)score++;});
+    questionSet[part].forEach((q,i)=>{
+      const id=part+(i+1),v=(document.getElementById(id).value||'').trim();
+      answers[id]=v;
+      const ok=norm(v)===norm(q.a);
+      markInput(id,ok);
+      setFb(part+'fb'+(i+1), ok ? '✔ Correct.' : hintFor(part,q,v));
+      if(ok) score++;
+    });
     sectionScores[part]=score;
   }
   if(part==='f'){
     let score=0;
-    questionSet.f.forEach((q,i)=>{const k='f'+(i+1);const sel=answers[k];if(sel===q.ans)score++;for(let j=0;j<4;j++){const e=document.getElementById(`f${i+1}_${j}`);e.classList.remove('right','wrong');if(sel!==undefined){if(j===q.ans)e.classList.add('right');else if(j===sel)e.classList.add('wrong');}}});
+    questionSet.f.forEach((q,i)=>{
+      const qn=i+1, k='f'+qn, sel=answers[k];
+      if(sel===q.ans) score++;
+      for(let j=0;j<4;j++){
+        const e=document.getElementById(`f${qn}_${j}`);
+        e.classList.remove('right','wrong');
+        if(sel!==undefined){ if(j===q.ans)e.classList.add('right'); else if(j===sel)e.classList.add('wrong'); }
+      }
+      setFb('ffb'+qn, sel===undefined ? 'Hint: choose one option first.' : (sel===q.ans ? '✔ Correct.' : hintFor('f',q,'x')));
+    });
     sectionScores.f=score;
   }
   if(part==='g'||part==='h'){
     let total=0;
     const lvl=currentProfile.grade==='P6'?'p6':'sec';
+    const dups=duplicateFlagsForPart(part);
     for(let i=1;i<=10;i++){
       const id=part+i,v=(document.getElementById(id).value||'').trim();answers[id]=v;
-      const res=smartScoreSentence(v,lvl); total+=res.score;
-      document.getElementById(part+'fb'+i).textContent=`Score: ${res.score}/10\n${res.fb}`;
-      markInput(id,res.score>=6);
+      const res=smartScoreSentence(v,lvl);
+      let s=res.score;
+      let extra='';
+      if(dups[i]){ s=Math.max(0,s-3); extra='\n• Avoid copying the same sentence for multiple questions.'; }
+      total+=s;
+      document.getElementById(part+'fb'+i).textContent=`Score: ${s}/10\n${res.fb}${extra}`;
+      markInput(id,s>=6);
     }
-    sectionScores[part]=Math.round(total/10); // convert to /10 section score
+    sectionScores[part]=Math.round(total/10);
   }
   if(part==='i'){
     const v=(document.getElementById('i1').value||'').trim();answers.i1=v;
