@@ -488,8 +488,23 @@ async function pushToServer(data){
       const existing=await getRes.json();
       const subs=Array.isArray(existing.submissions)?existing.submissions:[];
       const idx=subs.findIndex(s=>s.name===data.name&&s.studentGrade===data.studentGrade&&s.testTheme===data.testTheme);
-      if(idx>=0) subs[idx]=data; else subs.push(data);
-      const putRes=await fetch(`${API}/b/${BIN_ID}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':MKEY},body:JSON.stringify({submissions:subs})});
+
+      if(idx>=0){
+        const old=subs[idx]||{};
+        const mergedAnswers={...(old.answers||{})};
+        Object.entries(data.answers||{}).forEach(([k,v])=>{
+          const val=typeof v==='string'?v.trim():v;
+          if(val!=='' && val!==undefined && val!==null) mergedAnswers[k]=v;
+        });
+        // Keep old generated question set if present to avoid accidental remap/wipe
+        const merged={...old,...data,answers:mergedAnswers,generatedQuestions:data.generatedQuestions||old.generatedQuestions};
+        subs[idx]=merged;
+      } else {
+        subs.push(data);
+      }
+
+      const payload={...existing, submissions:subs};
+      const putRes=await fetch(`${API}/b/${BIN_ID}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':MKEY},body:JSON.stringify(payload)});
       if(!putRes.ok) throw new Error('PUT '+putRes.status);
       return true;
     }catch(e){if(attempt<3) await new Promise(r=>setTimeout(r,900*attempt));}
