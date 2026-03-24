@@ -224,12 +224,22 @@ async function startTest(){
   const today = sgDate();
   const assigned = remoteData && remoteData.dailyAssignments && remoteData.dailyAssignments[today] ? remoteData.dailyAssignments[today][p.key] : null;
 
-  questionSet = assigned || generateSet(p.key, remoteQB || BANK);
+  const localSaved = loadLocal();
+  const sameStudentLocal = localSaved && localSaved.name && norm(localSaved.name)===norm(studentName) && localSaved.studentGrade===p.grade;
+  const localSet = sameStudentLocal && localSaved.generatedQuestions ? localSaved.generatedQuestions : null;
+
+  let serverSet = null;
+  if (remoteData && Array.isArray(remoteData.submissions)) {
+    const mine = remoteData.submissions.find(s => norm(s.name||'')===norm(studentName) && (s.studentGrade||'')===p.grade);
+    if (mine && mine.generatedQuestions) serverSet = mine.generatedQuestions;
+  }
+
+  questionSet = localSet || serverSet || assigned || generateSet(p.key, remoteQB || BANK);
 
   document.getElementById('gate').style.display='none';
   document.getElementById('main').style.display='block';
   document.getElementById('studentTag').textContent='Student: '+studentName;
-  const srcTag = assigned ? 'Assigned set (no repeat)' : (remoteQB ? 'Bank: JSONBin' : 'Bank: Local fallback');
+  const srcTag = localSet ? 'Restored same question set (local)' : (serverSet ? 'Restored same question set (server)' : (assigned ? 'Assigned set (no repeat)' : (remoteQB ? 'Bank: JSONBin' : 'Bank: Local fallback')));
   document.getElementById('levelTag').textContent='Level: '+p.level + ' · ' + srcTag;
   renderAllSections();
   restoreLocal();
@@ -442,7 +452,8 @@ function saveDraftLocalOnly(){
     name:studentName,
     studentGrade:currentProfile.grade,
     answers:collectCurrentAnswers(),
-    sectionScores
+    sectionScores,
+    generatedQuestions:questionSet
   };
   saveLocal(draft);
 }
