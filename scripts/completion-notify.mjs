@@ -5,6 +5,7 @@ const BIN_ID = '69babf10b7ec241ddc7d652f';
 const MKEY = '$2a$10$GeOyXKViWuf6OsSoiA9eT.bifbFDXJ/AsilT9KSjMz.2Ibg5mPDGS';
 const API = 'https://api.jsonbin.io/v3';
 const OWNER_TARGET = '-1003810705263';
+const OPENCLAW_BIN = '/home/claw/.npm-global/bin/openclaw';
 const DRY_RUN = process.argv.includes('--dry-run');
 
 const STUDENT_KEYS = ['zenv', 'zenz', 'zene'];
@@ -34,13 +35,19 @@ function isCompleteSubmission(sub){
   if (!para) return false;
   const wc = para.split(/\s+/).filter(Boolean).length;
   if (wc < 200 || wc > 250) return false;
+  
+  const ss = sub.sectionScores || {};
+  for (const p of ['a','b','c','d','e','f']) {
+    if (!ss[p] && ss[p] !== 0) return false;
+  }
+  
   return true;
 }
 
 function send(msg){
   if (DRY_RUN) { console.log('[DRY_RUN] '+msg); return; }
   const safe = msg.replace(/"/g,'\\"');
-  execSync(`openclaw message send --channel telegram --target "${OWNER_TARGET}" --message "${safe}"`,{stdio:'pipe'});
+  execSync(`${OPENCLAW_BIN} message send --channel telegram --target "${OWNER_TARGET}" --message "${safe}"`,{stdio:'pipe'});
 }
 
 (async()=>{
