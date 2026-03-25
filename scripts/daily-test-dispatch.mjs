@@ -6,11 +6,12 @@ const MKEY = '$2a$10$GeOyXKViWuf6OsSoiA9eT.bifbFDXJ/AsilT9KSjMz.2Ibg5mPDGS';
 const API = 'https://api.jsonbin.io/v3';
 const TEST_LINK = 'https://englishtest-smoky.vercel.app/test.html';
 const OWNER_NOTIFY_TARGET = '-1003810705263';
+const OPENCLAW_BIN = '/home/claw/.npm-global/bin/openclaw';
 
 const STUDENTS = {
-  zenv: { tg: '@ZenVv0323' },
-  zenz: { tg: '@TioZenz' },
-  zene: { tg: '@zenetio' }
+  zenv: { tg: '8666119688' },
+  zenz: { tg: '7200952299' },
+  zene: { tg: '8225160376' }
 };
 
 const PARTS_10 = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
@@ -56,7 +57,7 @@ function sendTelegram(target, message) {
     return;
   }
   const safe = message.replace(/"/g, '\\"');
-  run(`openclaw message send --channel telegram --target "${target}" --message "${safe}"`);
+  run(`${OPENCLAW_BIN} message send --channel telegram --target "${target}" --message "${safe}"`);
 }
 
 (async () => {
@@ -146,6 +147,14 @@ function sendTelegram(target, message) {
   const allCompleted = !canAssignAny;
 
   dailyAssignments[today] = todayAssignments;
+
+  // Cleanup: keep only last 7 days of assignments to prevent bin bloat
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - 7);
+  const cutoffStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Singapore' }).format(cutoff);
+  Object.keys(dailyAssignments).forEach(date => {
+    if (date < cutoffStr) delete dailyAssignments[date];
+  });
 
   const payload = {
     ...bin,
