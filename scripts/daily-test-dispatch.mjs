@@ -90,6 +90,10 @@ function sendTelegram(target, message) {
   let completedNow = [];
   let canAssignAny = false;
 
+  // For same-day assignments with limited bank: rotate starting position per student
+  const studentOrder = ['zenv', 'zenz', 'zene'];
+  const rotationOffset = { zenv: 0, zenz: 4, zene: 8 }; // stagger picks
+
   for (const level of Object.keys(STUDENTS)) {
     // prevent duplicate same-day sends
     if (state.lastSentDate[level] === today && todayAssignments[level]) {
@@ -107,11 +111,12 @@ function sendTelegram(target, message) {
     let canAssign = true;
 
     for (const p of PARTS_10) {
-      const picked = pickByUnused(p, levelBank[p] || [], usedSet[p], 10);
-      if (!picked) {
-        canAssign = false;
-        break;
-      }
+      const pool = levelBank[p] || [];
+      if (pool.length < 10) { canAssign = false; break; }
+      const offset = rotationOffset[level] || 0;
+      const rotated = [...pool.slice(offset), ...pool.slice(0, offset)];
+      const picked = pickByUnused(p, rotated, usedSet[p], 10);
+      if (!picked) { canAssign = false; break; }
       assignment[p] = picked.values;
       picked.keys.forEach(k => usedSet[p].add(k));
     }
