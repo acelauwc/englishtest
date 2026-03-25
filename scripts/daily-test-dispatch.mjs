@@ -100,9 +100,9 @@ function sendTelegram(target, message) {
       continue;
     }
 
-    const used = state.used[level] || { a: [], b: [], c: [], d: [], e: [], f: [], g: [], h: [], i: [] };
+    // Don't track used questions across days - allow mixing old/new
     const usedSet = {};
-    [...PARTS_10, 'i'].forEach(p => usedSet[p] = new Set(used[p] || []));
+    [...PARTS_10, 'i'].forEach(p => usedSet[p] = new Set());
 
     const levelBank = qb[level];
     if (!levelBank) continue;
@@ -133,12 +133,6 @@ function sendTelegram(target, message) {
     if (!canAssign) {
       completedNow.push(level);
     } else {
-      // persist used ids
-      [...PARTS_10, 'i'].forEach(p => {
-        used[p] = Array.from(usedSet[p]);
-      });
-      state.used[level] = used;
-
       todayAssignments[level] = assignment;
       state.lastSentDate[level] = today;
 
