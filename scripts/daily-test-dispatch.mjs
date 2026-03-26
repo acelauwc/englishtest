@@ -143,7 +143,9 @@ function sendTelegram(target, message) {
     }
   }
 
-  const allCompleted = !canAssignAny;
+  // Only mark as allCompleted if we actually sent something but couldn't assign to anyone
+  // (not if we just skipped because they were already sent today)
+  const allCompleted = sentCount === 0 && completedNow.length === Object.keys(STUDENTS).length;
 
   dailyAssignments[today] = todayAssignments;
 
@@ -171,7 +173,8 @@ function sendTelegram(target, message) {
     if (!putRes.ok) throw new Error(`PUT ${putRes.status}`);
   }
 
-  if (allCompleted && !state.allCompletedNotified) {
+  // Only notify if we genuinely ran out of questions (not just skipped already-sent students)
+  if (allCompleted && !state.allCompletedNotified && sentCount === 0) {
     sendTelegram(OWNER_NOTIFY_TARGET, 'All current question-bank items have been tested. Time to refresh/add new questions.');
     state.allCompletedNotified = true;
     if (!DRY_RUN) {
