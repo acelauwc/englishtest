@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { execSync } from 'node:child_process';
 
-const BIN_ID = '69babf10b7ec241ddc7d652f';
+const BIN_ID = '69c38175c3097a1dd5598fdd'; // Updated to new bin with expanded questions
 const MKEY = '$2a$10$GeOyXKViWuf6OsSoiA9eT.bifbFDXJ/AsilT9KSjMz.2Ibg5mPDGS';
 const API = 'https://api.jsonbin.io/v3';
 const OWNER_TARGET = '-1003810705263';
